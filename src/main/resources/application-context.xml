@@ -7,5 +7,16 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+    <bean id="employeeDao" class="ua.timonov.aplib.dao.hibernate.HibernateEmployeeDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="schoolbookDao" class="ua.timonov.aplib.dao.hibernate.HibernateSchoolbookDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="schoolClassDao" class="ua.timonov.aplib.dao.hibernate.HibernateSchoolClassDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 
 </beans>

@@ -5,7 +5,7 @@ import ua.timonov.aplib.model.Employee;
 import java.util.List;
 
 /**
- * Created by Alex on 23.12.2016.
+ * DAO interface for Employee
  */
 public interface EmployeeDao {
     void add(Employee employee);
