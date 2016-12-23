@@ -23,7 +23,11 @@ public class Schoolbook {
     private int course;
 
     @Column
-    private int amount;
+    private int amountTotal;
+
+    @Column
+    private int amountRest;
+
 
     public Schoolbook() {
     }
@@ -44,12 +48,20 @@ public class Schoolbook {
         this.course = course;
     }
 
-    public int getAmount() {
-        return amount;
+    public int getAmountTotal() {
+        return amountTotal;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setAmountTotal(int amountTotal) {
+        this.amountTotal = amountTotal;
+    }
+
+    public int getAmountRest() {
+        return amountRest;
+    }
+
+    public void setAmountRest(int amountRest) {
+        this.amountRest = amountRest;
     }
 
     @Override
@@ -58,7 +70,8 @@ public class Schoolbook {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", course=" + course +
-                ", amount=" + amount +
+                ", amountTotal=" + amountTotal +
+                ", amountRest=" + amountRest +
                 '}';
     }
 
@@ -70,7 +83,8 @@ public class Schoolbook {
         Schoolbook that = (Schoolbook) o;
 
         if (course != that.course) return false;
-        if (amount != that.amount) return false;
+        if (amountTotal != that.amountTotal) return false;
+        if (amountRest != that.amountRest) return false;
         return name != null ? name.equals(that.name) : that.name == null;
 
     }
@@ -79,7 +93,8 @@ public class Schoolbook {
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + course;
-        result = 31 * result + amount;
+        result = 31 * result + amountTotal;
+        result = 31 * result + amountRest;
         return result;
     }
 }

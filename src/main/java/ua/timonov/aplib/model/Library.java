@@ -1,20 +1,14 @@
 package ua.timonov.aplib.model;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import java.util.List;
 
 /**
  * Created by Alex on 22.12.2016.
  */
-@Entity
-@Table(name = "library")
-public class Library extends Employee {
+@Deprecated
+public class Library {
 
-    @OneToOne
-    @Column
     private Employee librarian;
 
     @Column
