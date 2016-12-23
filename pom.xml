@@ -1,25 +1,84 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>ua.timonov</groupId>
-    <artifactId>school-library</artifactId>
+    <groupId>ua.timonov.aplib</groupId>
+    <artifactId>School-library</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>school-library</name>
+    <name>School-library</name>
 
     <properties>
         <junitVersion>4.12</junitVersion>
         <javaVersion>1.8</javaVersion>
         <mavenPluginVersion>2.5</mavenPluginVersion>
+        <hibernateJpaApiVersion>1.0.0.Final</hibernateJpaApiVersion>
+        <springVersion>4.3.1.RELEASE</springVersion>
+        <hibernateVersion>5.2.1.Final</hibernateVersion>
+        <comMchangeC3p0Version>0.9.5.2</comMchangeC3p0Version>
+        <postgresqlVersion>9.1-901-1.jdbc4</postgresqlVersion>
+        <tomcatJdbcVersion>9.0.0.M9</tomcatJdbcVersion>
     </properties>
 
     <dependencies>
+
+        <!--JUnit, Tests-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junitVersion}</version>
             <scope>test</scope>
         </dependency>
+
+        <!--JPA-->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>${hibernateJpaApiVersion}</version>
+        </dependency>
+
+        <!--Hibernate-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernateVersion}</version>
+        </dependency>
+
+        <!--Databases, data sources-->
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresqlVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${comMchangeC3p0Version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+            <version>${tomcatJdbcVersion}</version>
+        </dependency>
+
+        <!--Spring-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>school-library</finalName>
