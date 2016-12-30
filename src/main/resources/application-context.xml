@@ -11,12 +11,24 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="employeeService" class="ua.timonov.aplib.service.EmployeeService">
+        <property name="employeeDao" ref="employeeDao"/>
+    </bean>
+
     <bean id="schoolbookDao" class="ua.timonov.aplib.dao.hibernate.HibernateSchoolbookDao">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="schoolbookService" class="ua.timonov.aplib.service.SchoolbookService">
+        <property name="schoolbookDao" ref="schoolbookDao"/>
+    </bean>
+
     <bean id="schoolClassDao" class="ua.timonov.aplib.dao.hibernate.HibernateSchoolClassDao">
         <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="schoolClassService" class="ua.timonov.aplib.service.SchoolClassService">
+        <property name="schoolClassDao" ref="schoolClassDao"/>
     </bean>
 
 </beans>

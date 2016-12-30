@@ -21,10 +21,12 @@ public class EmployeeService {
 
     void update(Employee employee) {
         employeeDao.update(employee);
+
     }
 
     void delete(int id) {
         employeeDao.delete(id);
+
     }
 
     List<Employee> getAll() {
