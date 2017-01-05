@@ -1,5 +1,7 @@
 package ua.timonov.aplib.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,7 +12,8 @@ import java.util.List;
 public class SchoolClass {
 
     @Id
-    @GeneratedValue(generator = "increment", strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "increment")  //, strategy = GenerationType.IDENTITY
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column
     private int id;
 

@@ -1,5 +1,7 @@
 package ua.timonov.aplib.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 /**
@@ -8,10 +10,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "employee")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Employee {
+public class Employee
 
     @Id
-    @GeneratedValue(generator = "increment", strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "increment")    // , strategy = GenerationType.IDENTITY
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "employee_id")
     private int id;
 
