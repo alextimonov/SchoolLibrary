@@ -18,6 +18,7 @@
         <postgresqlVersion>9.1-901-1.jdbc4</postgresqlVersion>
         <tomcatJdbcVersion>9.0.0.M9</tomcatJdbcVersion>
         <servletApiVersion>3.1.0</servletApiVersion>
+        <jstlVersion>1.2</jstlVersion>
     </properties>
 
     <dependencies>
@@ -105,17 +106,18 @@
             <version>${springVersion}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${springVersion}</version>
-        </dependency>
-
         <!--Servlet API-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${servletApiVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstlVersion}</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

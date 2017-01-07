@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "employee")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Employee
+public class Employee {
 
     @Id
     @GeneratedValue(generator = "increment")    // , strategy = GenerationType.IDENTITY
