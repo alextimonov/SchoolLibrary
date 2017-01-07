@@ -17,6 +17,8 @@
         <comMchangeC3p0Version>0.9.5.2</comMchangeC3p0Version>
         <postgresqlVersion>9.1-901-1.jdbc4</postgresqlVersion>
         <tomcatJdbcVersion>9.0.0.M9</tomcatJdbcVersion>
+        <servletApiVersion>3.1.0</servletApiVersion>
+        <jstlVersion>1.2</jstlVersion>
         <jerseyVersion>2.16</jerseyVersion>
     </properties>
 
