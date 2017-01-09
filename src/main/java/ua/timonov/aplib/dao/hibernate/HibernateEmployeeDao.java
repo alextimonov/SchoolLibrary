@@ -20,22 +20,25 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
-    public void add(Employee employee) {
+    public Employee add(Employee employee) {
         Session session = sessionFactory.getCurrentSession();
         session.save(employee);
+        return employee;
     }
 
     @Override
-    public void update(Employee employee) {
+    public Employee update(Employee employee) {
         Session session = sessionFactory.getCurrentSession();
         session.update(employee);
+        return employee;
     }
 
     @Override
-    public void delete(int id) {
+    public Employee delete(int id) {
         Employee employee = getById(id);
         Session session = sessionFactory.getCurrentSession();
         session.delete(employee);
+        return employee;
     }
 
     @Override

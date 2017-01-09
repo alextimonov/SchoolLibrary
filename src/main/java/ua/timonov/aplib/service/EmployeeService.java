@@ -29,19 +29,19 @@ public class EmployeeService {
 
     }
 
-    List<Employee> getAll() {
+    public List<Employee> getAll() {
         return employeeDao.getAll();
     }
 
-    Employee getById(int id) {
+    public Employee getById(int id) {
         return employeeDao.getById(id);
     }
 
-    Employee getByName(String name) {
+    public Employee getByName(String name) {
         return employeeDao.getByName(name);
     }
 
-    Employee getBySurname(String surname) {
+    public Employee getBySurname(String surname) {
         return employeeDao.getByName(surname);
     }
 }

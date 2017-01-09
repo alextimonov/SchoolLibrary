@@ -8,11 +8,11 @@ import java.util.List;
  * DAO interface for Employee
  */
 public interface EmployeeDao {
-    void add(Employee employee);
+    Employee add(Employee employee);
 
-    void update(Employee employee);
+    Employee update(Employee employee);
 
-    void delete(int id);
+    Employee delete(int id);
 
     List<Employee> getAll();
 

@@ -98,11 +98,11 @@
             <version>${jerseyVersion}</version>
         </dependency>
 
-        <!-- uncomment this to get JSON support
-       <dependency>
-           <groupId>org.glassfish.jersey.media</groupId>
-           <artifactId>jersey-media-moxy</artifactId>
-       </dependency> -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-moxy</artifactId>
+            <version>${jerseyVersion}</version>
+        </dependency>
 
    </dependencies>
    <build>

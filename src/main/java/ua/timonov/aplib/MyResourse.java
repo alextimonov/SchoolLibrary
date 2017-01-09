@@ -6,9 +6,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- * Root resourse (exposed at "myresourse" path)
+ * Root resource (exposed at "myresource" path)
  */
-@Path("myresourse")
+@Path("myresource")
 public class MyResourse {
 
     @GET

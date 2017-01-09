@@ -1,10 +1,12 @@
 package ua.timonov.aplib.model;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Provides employee's data
  */
+@XmlRootElement
 @Entity
 @Table(name = "employee")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -13,7 +15,7 @@ public class Employee {
     @Id
     @GeneratedValue(generator = "increment", strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id")
-    private int id;
+    private long id;
 
     @Column
     private String name;
@@ -22,6 +24,12 @@ public class Employee {
     private String surname;
 
     public Employee() {
+    }
+
+    public Employee(long id, String name, String surname) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
     }
 
     public String getName() {
@@ -38,6 +46,14 @@ public class Employee {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
