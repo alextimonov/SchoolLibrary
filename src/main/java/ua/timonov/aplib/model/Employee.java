@@ -26,6 +26,10 @@ public class Employee {
     @Column
     private String surname;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "position_id")
+    protected Job job;
+
     public Employee() {
     }
 
@@ -59,12 +63,21 @@ public class Employee {
         this.id = id;
     }
 
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
+                ", job=" + job +
                 '}';
     }
 
@@ -76,7 +89,8 @@ public class Employee {
         Employee employee = (Employee) o;
 
         if (name != null ? !name.equals(employee.name) : employee.name != null) return false;
-        return surname != null ? surname.equals(employee.surname) : employee.surname == null;
+        if (surname != null ? !surname.equals(employee.surname) : employee.surname != null) return false;
+        return job != null ? job.equals(employee.job) : employee.job == null;
 
     }
 
@@ -84,6 +98,7 @@ public class Employee {
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (job != null ? job.hashCode() : 0);
         return result;
     }
 }

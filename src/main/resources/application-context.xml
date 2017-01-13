@@ -11,7 +11,11 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>-->
 
-    <bean id="employeeDao" class="ua.timonov.aplib.dao.dbStub.DbStubEmployeeDao" init-method="initialize">
+    <bean id="employeesHashMap" class="java.util.HashMap">
+    </bean>
+
+    <bean id="employeeDao" class="ua.timonov.aplib.dao.dbStub.DbStubEmployeeDao" init-method="initialize()">
+        <property name="employees" ref="employeesHashMap"/>
     </bean>
 
     <bean id="employeeService" class="ua.timonov.aplib.service.EmployeeService">

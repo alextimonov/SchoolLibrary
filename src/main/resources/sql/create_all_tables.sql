@@ -1,0 +1,36 @@
+
+CREATE SEQUENCE job_id;
+CREATE SEQUENCE employee_id;
+CREATE SEQUENCE book_id;
+CREATE SEQUENCE class_id;
+
+CREATE TABLE IF NOT EXISTS JOBS(
+  id INT PRIMARY KEY NOT NULL DEFAULT nextval('job_id'),
+  position VARCHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS EMPLOYEE(
+  id INT PRIMARY KEY NOT NULL DEFAULT nextval('employee_id'),
+  surname VARCHAR(20) NOT NULL,
+  name VARCHAR(20) NOT NULL,
+  position_id INT REFERENCES JOBS(id)
+);
+
+CREATE TABLE IF NOT EXISTS BOOK(
+  id INT PRIMARY KEY NOT NULL DEFAULT nextval('book_id'),
+  name VARCHAR(40) NOT NULL,
+  course INT,
+  amountTotal INT
+);
+
+CREATE TABLE IF NOT EXISTS CLASS(
+  id INT PRIMARY KEY NOT NULL DEFAULT nextval('class_id'),
+  name VARCHAR(20) NOT NULL,
+  employee_id INT NOT NULL REFERENCES EMPLOYEE(id)
+);
+
+CREATE TABLE IF NOT EXISTS BOOK_TO_CLASS(
+  book_id INT NOT NULL REFERENCES BOOK(id),
+  class_id INT NOT NULL REFERENCES CLASS(id),
+  CONSTRAINT book_to_class_pkey PRIMARY KEY (book_id, class_id)
+);

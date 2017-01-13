@@ -28,8 +28,9 @@ public class Schoolbook {
     private int amountTotal;
 
     @Column
-    private int amountRest;
-
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee librarian;
 
     public Schoolbook() {
     }
@@ -58,12 +59,12 @@ public class Schoolbook {
         this.amountTotal = amountTotal;
     }
 
-    public int getAmountRest() {
-        return amountRest;
+    public Employee getLibrarian() {
+        return librarian;
     }
 
-    public void setAmountRest(int amountRest) {
-        this.amountRest = amountRest;
+    public void setLibrarian(Employee librarian) {
+        this.librarian = librarian;
     }
 
     @Override
@@ -73,7 +74,6 @@ public class Schoolbook {
                 ", name='" + name + '\'' +
                 ", course=" + course +
                 ", amountTotal=" + amountTotal +
-                ", amountRest=" + amountRest +
                 '}';
     }
 
@@ -86,7 +86,6 @@ public class Schoolbook {
 
         if (course != that.course) return false;
         if (amountTotal != that.amountTotal) return false;
-        if (amountRest != that.amountRest) return false;
         return name != null ? name.equals(that.name) : that.name == null;
 
     }
@@ -96,7 +95,6 @@ public class Schoolbook {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + course;
         result = 31 * result + amountTotal;
-        result = 31 * result + amountRest;
         return result;
     }
 }
