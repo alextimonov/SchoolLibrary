@@ -1,22 +1,17 @@
 package ua.timonov.aplib.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Provides employee's data
  */
-@XmlRootElement
+//@XmlRootElement
 @Entity
 @Table(name = "employee")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Employee {
 
     @Id
-    @GeneratedValue(generator = "increment")    // , strategy = GenerationType.IDENTITY
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id")
     private long id;
 

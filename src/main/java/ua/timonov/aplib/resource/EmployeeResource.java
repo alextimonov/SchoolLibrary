@@ -38,10 +38,10 @@ public class EmployeeResource {
         return employeeService.getByName(name);
     }*/
 
-    @GET
+    /*@GET
     @Path("/{surname}")
     @Produces(MediaType.APPLICATION_JSON)
     public Employee getEmployeeBySurname(String surname) {
         return employeeService.getBySurname(surname);
-    }
+    }*/
 }

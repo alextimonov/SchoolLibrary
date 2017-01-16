@@ -1,20 +1,17 @@
 package ua.timonov.aplib.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 /**
  * Provides schoolbook's data
  */
 @Entity
-@Table(name = "schoolbook")
+@Table(name = "book")
 public class Schoolbook {
 
     /* unique id in DB table */
     @Id
-    @GeneratedValue(generator = "increment")    //, strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
     private int id;
 
@@ -27,7 +24,6 @@ public class Schoolbook {
     @Column
     private int amountTotal;
 
-    @Column
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee librarian;

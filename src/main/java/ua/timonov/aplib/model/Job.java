@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Job {
 
     @Id
-    @GeneratedValue(generator = "increment", strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 

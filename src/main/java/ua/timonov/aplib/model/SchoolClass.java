@@ -9,16 +9,20 @@ import java.util.List;
 /**
  * Provides curator's data
  */
-@Table
+@Entity
+@Table(name = "class")
 public class SchoolClass {
 
     @Id
-    @GeneratedValue(generator = "increment", strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
 
     @Column
-    private String name;
+    private int course;
+
+    @Column
+    private char letter;
 
     @OneToOne
     @JoinColumn(name = "employee_id")
@@ -34,12 +38,20 @@ public class SchoolClass {
     public SchoolClass() {
     }
 
-    public String getName() {
-        return name;
+    public int getCourse() {
+        return course;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCourse(int course) {
+        this.course = course;
+    }
+
+    public char getLetter() {
+        return letter;
+    }
+
+    public void setLetter(char letter) {
+        this.letter = letter;
     }
 
     public Employee getTeacher() {
@@ -61,10 +73,10 @@ public class SchoolClass {
     @Override
     public String toString() {
         return "SchoolClass{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "schoolbooks=" + schoolbooks +
                 ", teacher=" + teacher +
-                ", bookList=" + schoolbooks +
+                ", letter=" + letter +
+                ", course=" + course +
                 '}';
     }
 
@@ -75,7 +87,8 @@ public class SchoolClass {
 
         SchoolClass that = (SchoolClass) o;
 
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (course != that.course) return false;
+        if (letter != that.letter) return false;
         if (teacher != null ? !teacher.equals(that.teacher) : that.teacher != null) return false;
         return schoolbooks != null ? schoolbooks.equals(that.schoolbooks) : that.schoolbooks == null;
 
@@ -83,7 +96,8 @@ public class SchoolClass {
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = course;
+        result = 31 * result + (int) letter;
         result = 31 * result + (teacher != null ? teacher.hashCode() : 0);
         result = 31 * result + (schoolbooks != null ? schoolbooks.hashCode() : 0);
         return result;
