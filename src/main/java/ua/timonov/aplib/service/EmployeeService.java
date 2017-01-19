@@ -1,5 +1,6 @@
 package ua.timonov.aplib.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.model.Employee;
 
@@ -29,6 +30,7 @@ public class EmployeeService {
 
     }
 
+    @Transactional
     public List<Employee> getAll() {
         return employeeDao.getAll();
     }

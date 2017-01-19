@@ -1,5 +1,6 @@
-package ua.timonov.aplib.resource;
+package ua.timonov.aplib.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.service.EmployeeService;
 
@@ -17,6 +18,11 @@ public class EmployeeResource {
     public static final String EMPLOYEES = "/employees";
 
     private EmployeeService employeeService = new EmployeeService();
+
+    @Autowired
+    public void setEmployeeService(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
