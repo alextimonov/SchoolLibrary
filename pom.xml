@@ -20,20 +20,19 @@
         <servletApiVersion>3.1.0</servletApiVersion>
         <jstlVersion>1.2</jstlVersion>
         <jerseyVersion>2.25.1</jerseyVersion>
-        <comSunJerseyVersion>1.8</comSunJerseyVersion>
     </properties>
 
-    <!--<dependencyManagement>
+    <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.glassfish.jersey</groupId>
                 <artifactId>jersey-bom</artifactId>
-                <version>${jersey.version}</version>
+                <version>${jerseyVersion}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
-    </dependencyManagement>-->
+    </dependencyManagement>
 
     <dependencies>
         <!--JUnit, Tests-->
@@ -151,43 +150,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-
-
-        <!-- Jersey + Spring -->
-        <!--<dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-server</artifactId>
-            <version>${comSunJerseyVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.jersey.contribs</groupId>
-            <artifactId>jersey-spring</artifactId>
-            <version>${comSunJerseyVersion}</version>-->
-            <!--<exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-web</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-beans</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context</artifactId>
-                </exclusion>
-            </exclusions>-->
-        <!--</dependency>-->
 
         <!--JSTL-->
         <dependency>

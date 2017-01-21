@@ -27,7 +27,6 @@ public class EmployeeService {
 
     void delete(int id) {
         employeeDao.delete(id);
-
     }
 
     @Transactional
@@ -35,6 +34,7 @@ public class EmployeeService {
         return employeeDao.getAll();
     }
 
+    @Transactional
     public Employee getById(int id) {
         return employeeDao.getById(id);
     }

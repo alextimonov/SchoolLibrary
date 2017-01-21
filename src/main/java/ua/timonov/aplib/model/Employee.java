@@ -12,8 +12,8 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
-    private long id;
+    @Column
+    private int id;
 
     @Column
     private String name;
@@ -28,7 +28,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(long id, String name, String surname) {
+    public Employee(int id, String name, String surname) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -54,7 +54,7 @@ public class Employee {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

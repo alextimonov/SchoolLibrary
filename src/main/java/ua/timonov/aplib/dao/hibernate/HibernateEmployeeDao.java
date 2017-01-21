@@ -46,15 +46,18 @@ public class HibernateEmployeeDao implements EmployeeDao {
     @Transactional
     public List<Employee> getAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select employee from Employee employee").list();
+        List<Employee> employees = session.createQuery("select employee from Employee employee").list();
+        return employees;
     }
 
     @Override
+    @Transactional
     public Employee getById(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select employee from Employee employee where employee.id = :param");
         query.setParameter("param", id);
-        return (Employee) query.uniqueResult();
+        Employee employee = (Employee) query.uniqueResult();
+        return employee;
     }
 
     @Override

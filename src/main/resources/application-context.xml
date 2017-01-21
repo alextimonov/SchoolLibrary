@@ -1,35 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
        default-autowire="byName">
 
-    <bean id="employeeDao" class="ua.timonov.aplib.dao.hibernate.HibernateEmployeeDao">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+    <bean id="employeeDao" class="ua.timonov.aplib.dao.hibernate.HibernateEmployeeDao"/>
+    <bean id="employeeService" class="ua.timonov.aplib.service.EmployeeService"/>
+    <bean id="employeeResource" class="ua.timonov.aplib.web.EmployeeResource"/>
 
-    <bean id="employeeService" class="ua.timonov.aplib.service.EmployeeService">
-        <property name="employeeDao" ref="employeeDao"/>
-    </bean>
+    <bean id="schoolbookDao" class="ua.timonov.aplib.dao.hibernate.HibernateSchoolbookDao"/>
+    <bean id="schoolbookService" class="ua.timonov.aplib.service.SchoolbookService"/>
 
-    <bean id="schoolbookDao" class="ua.timonov.aplib.dao.hibernate.HibernateSchoolbookDao">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+    <bean id="schoolClassDao" class="ua.timonov.aplib.dao.hibernate.HibernateSchoolClassDao"/>
+    <bean id="schoolClassService" class="ua.timonov.aplib.service.SchoolClassService"/>
 
-    <bean id="schoolbookService" class="ua.timonov.aplib.service.SchoolbookService">
-        <property name="schoolbookDao" ref="schoolbookDao"/>
-    </bean>
-
-    <bean id="schoolClassDao" class="ua.timonov.aplib.dao.hibernate.HibernateSchoolClassDao">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
-    <bean id="schoolClassService" class="ua.timonov.aplib.service.SchoolClassService">
-        <property name="schoolClassDao" ref="schoolClassDao"/>
-    </bean>
-
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"/>
 
 </beans>
