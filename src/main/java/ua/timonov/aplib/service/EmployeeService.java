@@ -16,17 +16,22 @@ public class EmployeeService {
         this.employeeDao = employeeDao;
     }
 
-    void add(Employee employee) {
+    @Transactional
+    public Employee add(Employee employee) {
         employeeDao.add(employee);
+        return employee;
     }
 
-    void update(Employee employee) {
+    @Transactional
+    public Employee update(int id, Employee employee) {
+        employee.setId(id);
         employeeDao.update(employee);
-
+        return employee;
     }
 
-    void delete(int id) {
-        employeeDao.delete(id);
+    @Transactional
+    public Employee delete(int id) {
+        return employeeDao.delete(id);
     }
 
     @Transactional
@@ -39,11 +44,8 @@ public class EmployeeService {
         return employeeDao.getById(id);
     }
 
-    public Employee getByName(String name) {
-        return employeeDao.getByName(name);
-    }
-
+    @Transactional
     public Employee getBySurname(String surname) {
-        return employeeDao.getByName(surname);
+        return employeeDao.getBySurname(surname);
     }
 }

@@ -5,10 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.service.EmployeeService;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -16,6 +13,8 @@ import java.util.List;
  * REST resource class for Employee
  */
 @Path("/employees")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class EmployeeResource {
     private EmployeeService employeeService = new EmployeeService();
 
@@ -25,7 +24,6 @@ public class EmployeeResource {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public List<Employee> getEmployees() {
         return employeeService.getAll();
@@ -33,23 +31,34 @@ public class EmployeeResource {
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public Employee getEmployeeById(@PathParam("id") int id) {
         return employeeService.getById(id);
     }
 
     /*@GET
-    @Path("/{name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Employee getEmployeeByName(String name) {
-        return employeeService.getByName(name);
-    }*/
-
-    /*@GET
     @Path("/{surname}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Employee getEmployeeBySurname(String surname) {
+    public Employee getEmployeeBySurname(@PathParam("surname") String surname) {
         return employeeService.getBySurname(surname);
     }*/
+
+    @POST
+    @Transactional
+    public Employee addEmployee(Employee employee) {
+        return employeeService.add(employee);
+    }
+
+    @PUT
+    @Path("/{id}")
+    @Transactional
+    public Employee updateEmployee(@PathParam("id") int id, Employee employee) {
+        return employeeService.update(id, employee);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @Transactional
+    public Employee deleteEmployee(@PathParam("id") int id) {
+        return employeeService.delete(id);
+    }
 }
