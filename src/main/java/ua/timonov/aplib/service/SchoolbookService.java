@@ -1,5 +1,6 @@
 package ua.timonov.aplib.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.SchoolbookDao;
 import ua.timonov.aplib.model.Schoolbook;
 
@@ -15,27 +16,36 @@ public class SchoolbookService {
         this.schoolbookDao = schoolbookDao;
     }
 
-    void add(Schoolbook schoolbook) {
+    @Transactional
+    public Schoolbook add(Schoolbook schoolbook) {
         schoolbookDao.add(schoolbook);
+        return schoolbook;
     }
 
-    void update(Schoolbook schoolbook) {
+    @Transactional
+    public Schoolbook update(int id, Schoolbook schoolbook) {
+        schoolbook.setId(id);
         schoolbookDao.update(schoolbook);
+        return schoolbook;
     }
 
-    void delete(int id) {
-        schoolbookDao.delete(id);
+    @Transactional
+    public Schoolbook delete(int id) {
+        return schoolbookDao.delete(id);
     }
 
-    List<Schoolbook> getAll() {
+    @Transactional
+    public List<Schoolbook> getAll() {
         return schoolbookDao.getAll();
     }
 
-    Schoolbook getById(int id) {
+    @Transactional
+    public Schoolbook getById(int id) {
         return schoolbookDao.getById(id);
     }
 
-    Schoolbook getByName(String name) {
+    @Transactional
+    public Schoolbook getByName(String name) {
         return schoolbookDao.getByName(name);
     }
 }
