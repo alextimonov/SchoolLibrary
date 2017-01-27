@@ -19,40 +19,45 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
     }
 
     @Override
-    public void add(SchoolClassDao schoolClass) {
+    public SchoolClass add(SchoolClass schoolClass) {
         sessionFactory.getCurrentSession().save(schoolClass);
+        return schoolClass;
     }
 
     @Override
-    public void update(SchoolClassDao schoolClass) {
+    public SchoolClass update(SchoolClass schoolClass) {
         sessionFactory.getCurrentSession().update(schoolClass);
+        return schoolClass;
     }
 
     @Override
-    public void delete(int id) {
+    public SchoolClass delete(int id) {
         SchoolClass schoolClass = getById(id);
         sessionFactory.getCurrentSession().delete(schoolClass);
+        return schoolClass;
     }
 
     @Override
-    public List<SchoolClassDao> getAll() {
+    public List<SchoolClass> getAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select class from SchoolClass class").list();
+        return session.createQuery("select schoolClass from SchoolClass schoolClass").list();
     }
 
     @Override
     public SchoolClass getById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select class from SchoolClass class where class.id = :param");
+        Query query = session.createQuery("select schoolClass from SchoolClass schoolClass where schoolClass.id = :param");
         query.setParameter("param", id);
         return (SchoolClass) query.uniqueResult();
     }
 
     @Override
-    public SchoolClass getByName(String name) {
+    public SchoolClass getByName(int course, char letter) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select class from SchoolClass class where class.name = :param");
-        query.setParameter("param", name);
+        Query query = session.createQuery("select schoolClass from SchoolClass schoolClass where " +
+                "schoolClass.course = :paramCourse and schoolClass.letter = :paramLetter");
+        query.setParameter("paramCourse", course);
+        query.setParameter("paramLetter", letter);
         return (SchoolClass) query.uniqueResult();
     }
 }

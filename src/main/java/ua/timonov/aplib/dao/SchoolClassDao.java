@@ -8,15 +8,15 @@ import java.util.List;
  * Created by Alex on 23.12.2016.
  */
 public interface SchoolClassDao {
-    void add(SchoolClassDao schoolClass);
+    SchoolClass add(SchoolClass schoolClass);
 
-    void update(SchoolClassDao schoolClass);
+    SchoolClass update(SchoolClass schoolClass);
 
-    void delete(int id);
+    SchoolClass delete(int id);
 
-    List<SchoolClassDao> getAll();
+    List<SchoolClass> getAll();
 
     SchoolClass getById(int id);
 
-    SchoolClass getByName(String name);
+    SchoolClass getByName(int course, char letter);
 }

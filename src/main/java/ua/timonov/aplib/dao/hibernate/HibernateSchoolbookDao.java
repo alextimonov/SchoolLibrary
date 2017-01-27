@@ -20,13 +20,15 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
     }
 
     @Override
-    public void add(Schoolbook schoolbook) {
+    public Schoolbook add(Schoolbook schoolbook) {
         sessionFactory.getCurrentSession().save(schoolbook);
+        return schoolbook;
     }
 
     @Override
-    public void update(Schoolbook schoolbook) {
+    public Schoolbook update(Schoolbook schoolbook) {
         sessionFactory.getCurrentSession().update(schoolbook);
+        return schoolbook;
     }
 
     @Override
