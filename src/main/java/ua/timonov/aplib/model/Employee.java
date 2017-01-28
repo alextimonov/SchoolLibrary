@@ -3,12 +3,11 @@ package ua.timonov.aplib.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Provides employee's data
  */
-@XmlRootElement
+//@XmlRootElement
 @Entity
 @Table(name = "employee")
 public class Employee {

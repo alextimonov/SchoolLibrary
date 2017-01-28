@@ -24,7 +24,6 @@ public class SchoolClassResource {
     }
     
     @GET
-    @Transactional
     public List<SchoolClass> getAllSchoolClasses() {
         return schoolClassService.getAll();
     }

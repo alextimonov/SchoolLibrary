@@ -120,14 +120,26 @@
 
         <!--Jersey-->
         <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>${jerseyVersion}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet-core</artifactId>
+            <artifactId>jersey-container-servlet</artifactId>
             <version>${jerseyVersion}</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
+            <version>${jerseyVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-mvc-jsp</artifactId>
             <version>${jerseyVersion}</version>
         </dependency>
 
@@ -157,8 +169,8 @@
             <artifactId>jstl</artifactId>
             <version>${jstlVersion}</version>
         </dependency>
-
    </dependencies>
+
    <build>
        <finalName>school_library</finalName>
 
