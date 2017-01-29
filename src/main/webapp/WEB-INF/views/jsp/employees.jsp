@@ -11,11 +11,10 @@
 
 <h2>Employees</h2>
 <h3>${pageContext.request.contextPath}</h3>
-<h3>Welcome!</h3>
+<h3>${it.message}</h3>
 <p>
-    Employees:<br />
-    <c:forEach var="item" items="${it}">
-        ${item}<br />
+    <c:forEach var="employee" items="${it.employees}">
+        ${employee}<br />
     </c:forEach>
 </p>
 

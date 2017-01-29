@@ -9,6 +9,8 @@
 <body>
 <h2>Employee by ID:</h2>
 <h3>${path}</h3>
-<h3>${it}</h3>
+<h3>${it.message}</h3>
+<p>${it.employee}</p>
+
 </body>
 </html>
