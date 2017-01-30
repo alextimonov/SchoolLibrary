@@ -39,6 +39,7 @@ public class EmployeeResource {
     @GET
     @Path("/{id}")
     @Template(name = "/employee.jsp")
+    @ErrorTemplate(name = "/error.jsp")
     public Response getEmployeeById(@PathParam("id") int id) {
         Map<String, Object> map = new HashMap<>();
         map.put("message", "Found employee by ID:");
@@ -61,6 +62,8 @@ public class EmployeeResource {
     }*/
 
     @POST
+    @Template(name = "/employee.jsp")
+    @ErrorTemplate(name = "/error.jsp")
     public Response addEmployee(Employee employee) {
         Map<String, Object> map = new HashMap<>();
         map.put("message", "Added employee:");
@@ -70,6 +73,8 @@ public class EmployeeResource {
 
     @PUT
     @Path("/{id}")
+    @Template(name = "/employee.jsp")
+    @ErrorTemplate(name = "/error.jsp")
     public Response updateEmployee(@PathParam("id") int id, Employee employee) {
         Map<String, Object> map = new HashMap<>();
         map.put("message", "Updated employee:");
@@ -79,6 +84,8 @@ public class EmployeeResource {
 
     @DELETE
     @Path("/{id}")
+    @Template(name = "/employee.jsp")
+    @ErrorTemplate(name = "/error.jsp")
     public Response deleteEmployee(@PathParam("id") int id) {
         Map<String, Object> map = new HashMap<>();
         map.put("message", "Deleted employee:");

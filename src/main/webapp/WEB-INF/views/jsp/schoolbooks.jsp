@@ -5,16 +5,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>School library. Employees</title>
+    <title>School library. Schoolbooks</title>
 </head>
 <body>
 
-<h2>Employees</h2>
+<h2>Schoolbooks</h2>
 <h3>${pageContext.request.contextPath}</h3>
 <h3>${it.message}</h3>
 <p>
-    <c:forEach var="employee" items="${it.employees}">
-        ${employee}<br />
+    <c:forEach var="schoolbook" items="${it.schoolbooks}">
+        ${schoolbook}<br />
     </c:forEach>
 </p>
 
