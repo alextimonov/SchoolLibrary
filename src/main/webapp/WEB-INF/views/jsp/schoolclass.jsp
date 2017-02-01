@@ -4,13 +4,13 @@
 
 <html>
 <head>
-    <title>School library. Schoolbook</title>
+    <title>School library. Class</title>
 </head>
 <body>
-<h2>Schoolbook by ID:</h2>
+<h2>Class by ID:</h2>
 <h3>${path}</h3>
 <h3>${it.message}</h3>
-<p>${it.schoolbook}</p>
+<p>${it.schoolClass}</p>
 
 </body>
 </html>
