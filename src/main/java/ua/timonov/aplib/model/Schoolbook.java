@@ -31,7 +31,7 @@ public class Schoolbook {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    private Employee librarian;
+    private EmployeeDb librarian;
 
     public Schoolbook() {
     }
@@ -68,11 +68,11 @@ public class Schoolbook {
         this.amountTotal = amountTotal;
     }
 
-    public Employee getLibrarian() {
+    public EmployeeDb getLibrarian() {
         return librarian;
     }
 
-    public void setLibrarian(Employee librarian) {
+    public void setLibrarian(EmployeeDb librarian) {
         this.librarian = librarian;
     }
 

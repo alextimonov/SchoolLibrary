@@ -20,6 +20,9 @@
         <servletApiVersion>3.1.0</servletApiVersion>
         <jstlVersion>1.2</jstlVersion>
         <jerseyVersion>2.25.1</jerseyVersion>
+        <commonsIOVersion>2.5</commonsIOVersion>
+        <gsonVersion>2.8.0</gsonVersion>
+        <version.mvn.war.plugin>2.6</version.mvn.war.plugin>
     </properties>
 
     <dependencyManagement>
@@ -132,12 +135,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-moxy</artifactId>
-            <version>${jerseyVersion}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
             <artifactId>jersey-mvc-jsp</artifactId>
             <version>${jerseyVersion}</version>
@@ -163,13 +160,56 @@
             </exclusions>
         </dependency>
 
+        <!--Jersey Moxy-->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-moxy</artifactId>
+            <version>${jerseyVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-processing</artifactId>
+            <version>${jerseyVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>${jerseyVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-sse</artifactId>
+            <version>${jerseyVersion}</version>
+        </dependency>
+        <!-- if you are using Jersey client specific features -->
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jerseyVersion}</version>
+        </dependency>
+
         <!--JSTL-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>${jstlVersion}</version>
         </dependency>
-   </dependencies>
+
+        <!--Commons IO-->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
+
+        <!--Gson-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+
+    </dependencies>
 
    <build>
        <finalName>school_library</finalName>
@@ -183,6 +223,18 @@
                    <target>${javaVersion}</target>
                </configuration>
                <version>${mavenPluginVersion}</version>
+           </plugin>
+
+           <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-war-plugin</artifactId>
+               <version>${version.mvn.war.plugin}</version>
+               <configuration>
+                   <failOnMissingWebXml>true</failOnMissingWebXml>
+                   <archive>
+                       <addMavenDescriptor>false</addMavenDescriptor>
+                   </archive>
+               </configuration>
            </plugin>
        </plugins>
    </build>

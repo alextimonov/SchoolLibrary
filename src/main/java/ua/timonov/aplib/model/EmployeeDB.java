@@ -1,31 +1,32 @@
 package ua.timonov.aplib.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+
 /**
- * Provides employee's data for web resources
+ * Provides employee's data for database
  */
-//@XmlRootElement
-public class Employee {
+@Entity
+@Table(name = "employee")
+public class EmployeeDb {
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @Column
     private int id;
+
+    @Column
     private String name;
+
+    @Column
     private String surname;
-    private String position;
 
-    public Employee() {
-    }
+    @ManyToOne  //(cascade = CascadeType.ALL)
+    @JoinColumn(name = "position_id")
+    private Job job;
 
-    public Employee(EmployeeDb employeeDb) {
-        this.id = employeeDb.getId();
-        this.name = employeeDb.getName();
-        this.surname = employeeDb.getSurname();
-        this.position = employeeDb.getJob().getPosition().toString().toLowerCase();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public EmployeeDb() {
     }
 
     public String getName() {
@@ -44,12 +45,20 @@ public class Employee {
         this.surname = surname;
     }
 
-    public String getPosition() {
-        return position;
+    public int getId() {
+        return id;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
     }
 
     @Override
@@ -58,20 +67,20 @@ public class Employee {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", position=" + position +
+                ", job=" + job +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Employee)) return false;
+        if (!(o instanceof EmployeeDb)) return false;
 
-        Employee employee = (Employee) o;
+        EmployeeDb employee = (EmployeeDb) o;
 
         if (name != null ? !name.equals(employee.name) : employee.name != null) return false;
         if (surname != null ? !surname.equals(employee.surname) : employee.surname != null) return false;
-        return position == employee.position;
+        return job != null ? job.equals(employee.job) : employee.job == null;
 
     }
 
@@ -79,7 +88,7 @@ public class Employee {
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
-        result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + (job != null ? job.hashCode() : 0);
         return result;
     }
 }

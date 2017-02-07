@@ -9,7 +9,7 @@ import java.util.List;
 @Deprecated
 public class Library {
 
-    private Employee librarian;
+    private EmployeeDb librarian;
 
     @Column
     private List<Schoolbook> bookList;
@@ -17,11 +17,11 @@ public class Library {
     public Library() {
     }
 
-    public Employee getLibrarian() {
+    public EmployeeDb getLibrarian() {
         return librarian;
     }
 
-    public void setLibrarian(Employee librarian) {
+    public void setLibrarian(EmployeeDb librarian) {
         this.librarian = librarian;
     }
 
