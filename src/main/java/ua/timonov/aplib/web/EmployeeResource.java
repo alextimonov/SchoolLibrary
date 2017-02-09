@@ -37,7 +37,7 @@ public class EmployeeResource {
         return Response.status(200)
                 .contentLocation(new URI("http://localhost:8080/library/employees"))
                 .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS") //CAN BE ENHANCED WITH OTHER HTTP CALL METHODS
+                .header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
                 .header("Access-Control-Allow-Headers", "Content-Type")
                 .build();
     }
@@ -69,30 +69,19 @@ public class EmployeeResource {
     }*/
 
     @POST
-//    @Template(name = "/employee.jsp")
     public Employee addEmployee(Employee employee) {
         return employeeService.add(employee);
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("message", "Added employee:");
-//        map.put("employee", );
-//        Viewable view = new Viewable("/employee.jsp", map);
-//        Response build = Response.ok(map).build();
-//        return build;
-
-//        Employee employeeAdded = employeeService.add(employee);
-//        URI employeeId = UriBuilder.fromResource(EmployeeResource.class).build(employee.getId());
-//        return Response.created(employeeId).build();
-
     }
 
     @PUT
     @Path("/{id}")
     @Template(name = "/employee.jsp")
-    public Response updateEmployee(@PathParam("id") int id, Employee employee) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", "Updated employee:");
-        map.put("employee", employeeService.update(id, employee));
-        return Response.ok(map).build();
+    public Employee updateEmployee(@PathParam("id") int id, Employee employee) {
+        return employeeService.update(id, employee);
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("message", "Updated employee:");
+//        map.put("employee", employeeService.update(id, employee));
+//        return Response.ok(map).build();
     }
 
     @DELETE
@@ -108,7 +97,7 @@ public class EmployeeResource {
     @GET
     @Path("/addForm")
     @Template(name = "/formAddEmployee.jsp")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response formAddEmployee() {
         Map<String, Object> map = new HashMap<>();
         map.put("employee", new Employee());
@@ -118,17 +107,9 @@ public class EmployeeResource {
     @GET
     @Path("/editForm")
     @Template(name = "/formEditEmployee.jsp")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response formEditEmployee(@PathParam("id") int id) {
+//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response formEditEmployee(@QueryParam("id") int id) {
         Employee employee = employeeService.getById(id);
         return Response.ok(employee).build();
     }
 }
-
-/*return Response
-            .status(Response.Status.CREATED)
-            // 201
-            .entity("A new podcast has been created AT THE LOCATION you specified")
-    .header("Location",
-                    "http://localhost:8888/demo-rest-jersey-spring/podcasts/"
-                    + String.valueOf(createPodcastId)).build();*/

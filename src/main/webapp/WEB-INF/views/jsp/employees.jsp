@@ -50,7 +50,6 @@
                         <div class="col-sm-5">
                             <label class="control-label">Add new employee:</label>
                         </div>
-                        <%--<div class="col-sm-5"></div>--%>
                         <div class="col-sm-4">
                             <button class="btn btn-primary" type="submit">
                                 <span class="glyphicon glyphicon-plus-sign"></span>Add new employee</button>
@@ -60,10 +59,10 @@
 
                 <form class="form-horizontal" action="/library/employees/editForm" method="GET">
                     <div class="form-group">
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <label class="control-label">Edit employee. Input ID:</label>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <input class="form-control" type="number" name="id" title="id">
                         </div>
                         <div class="col-sm-2">

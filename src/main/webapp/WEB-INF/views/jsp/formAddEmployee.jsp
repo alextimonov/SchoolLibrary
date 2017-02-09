@@ -41,118 +41,6 @@
                 });
             });
         });
-
-        /*
-        $(document).ready(function() {
-            $("#submit").click(function(){
-                var formData = {"name": $("#name").val(), "surname": $("#surname").val(), "position": $("#position").val()};
-                $.ajax({
-                    url: ctxPath + "/library/employees",
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-//                    mimeType: "application/json",
-
-                    // data: JSON.stringify({"name":"Michael", "surname":"Jordan", "position":"security"}),
-                    // dataType: "json",
-                    contentType: "application/json",
-                    crossDomain: true,
-                    jsonp: false,
-                    success: function(data, textStatus, jqXHR) {
-                        window.location.replace(ctxPath + "/library/employees");
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        if(jqXHR.status == 415) {
-                            var messages = JSON.parse(jqXHR.responseText);
-                            $('#messages').empty();
-                            $.each(messages, function(i, v) {
-                                var item = $('<li>').append(v);
-                                $('#messages').append(item);
-                            });
-                        } else {
-                            alert('Unexpected server error.');
-                        }
-                    }
-
-                    success: function(data) {
-                     console.log(data);
-                     wait = false;
-                     },
-                     error : function(data) {
-                     console.log("error:", data);
-                     }
-                });
-            });
-        });*/
-
-        /*$('#form').submit(function(e) {
-            // reference to form object
-            var form = this;
-            var formData = {"name": $("#name").val(), "surname": $("#surname").val(), "position": $("#position").val()};
-            // for stopping the default action of element
-            e.preventDefault();
-            // map that will hold form data
-            /!*var formData = {}
-            //iterate over form elements
-            $.each(this, function(i, v){
-                var input = $(v);
-                // populate form data as key-value pairs
-                // with the name of input as key and its value as value
-                formData[input.attr("name")] = input.val();
-            });*!/
-            $.ajax({
-                type: form.attr('method'), // method attribute of form
-                url: form.attr('action'),  // action attribute of form
-                dataType : "json",
-                contentType: "application/json; charset=utf-8",
-                mimeType: "application/json",
-                processData: false,
-                cached: false,
-                // convert form data to json format
-                data: JSON.parse(formData),
-                success: function (formData) {
-                    alert(formData);
-                },
-                error: function (xhr) {
-                    alert(xhr.responseText);
-                }
-            });
-
-        });*/
-
-
-        /*$.ajax({
-            url:url,
-            type:"POST",
-            data:data,
-            contentType:"application/json; charset=utf-8",
-            dataType:"json",
-            success: function(){
-                ...
-            }
-        })
-
-        jQuery["postJSON"] = function( url, data, callback ) {
-            // shift arguments if data argument was omitted
-            if ( jQuery.isFunction( data ) ) {
-                callback = data;
-                data = undefined;
-            }
-
-            return jQuery.ajax({
-                url: url,
-                type: "POST",
-                contentType:"application/json; charset=utf-8",
-                dataType: "json",
-                data: data,
-                success: callback
-            });
-        };
-
-        $.postJSON('http://url', {data: 'goes', here: 'yey'}, function (data, status, xhr) {
-            alert('Nailed it!')
-        });*/
-
     </script>
 </head>
 <body>
@@ -173,17 +61,7 @@
 
     <article>
         <div class="container">
-            <%--<form id="form" class="form-horizontal" method="POST" action="/library/employees">--%>
             <form id="form" class="form-horizontal" method="POST" action="/library/employees">
-                <%--<div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="id">ID:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="id" name="id" value="0" type="text"/>
-                    </div>
-                </div>--%>
-
                 <div class="form-group">
                     <div class="col-sm-2">
                         <label class="control-label" for="name">Name:</label>
@@ -213,8 +91,7 @@
                         <label class="control-label" for="position">Position:</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control" id="position" name="position" type="text"/>
-                        <%--<select id="position" name="position" class="form-control">
+                        <select id="position" name="position" class="form-control">
                             <option selected disabled hidden>Choose from available positions</option>
                             <option value="director">director</option>
                             <option value="deputy_director">deputy director</option>
@@ -223,7 +100,7 @@
                             <option value="tutor">tutor</option>
                             <option value="security">security</option>
                             <option value="cleaner">cleaner</option>
-                        </select>--%>
+                        </select>
                     </div>
                     <%--<div class="col-sm-4">
                         <label class="label-info">${employeeValidate.positionLabel}</label>
@@ -231,7 +108,8 @@
                 </div>
 
                 <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span>Save new employee</button>
+                    <span class="glyphicon glyphicon-floppy-disk"></span>Save new employee
+                </button>
             </form>
 
             <form class="form-inline" action="/library/employees" method="GET">
@@ -246,33 +124,5 @@
 </div>
 </body>
 </html>
-
-<%--
-/*//    $(document).ready(function() {
-    $(function() {
-        $("#submit").on('click', function() {
-            $.ajax({
-                cache: false,
-                url: "/library/employees",
-                type: "POST",
-                dataType: "json",
-//                accept: "application/json",
-                contentType: "application/json; charset=utf-8",
-//                data: $('form').serialize(),
-//                data: $('#form').serialize(),
-                data: JSON.stringify( { "name": $('#name').val(), "surname": $('#surname').val(), "position": $('#position').val() } ),
-//                data: '{"name": $("#name").val(), "surname": $("#surname").val(), "position": $("#position").val()}'
-                /!*success: function(result) {
-                    console.log(result);
-                },
-                error: function(xhr, resp, text) {
-                    console.log(xhr, resp, text);
-                }*!/
-            });
-//            console.log(data);
-        });
-    });*/
---%>
-
 
 
