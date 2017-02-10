@@ -17,7 +17,7 @@
                 var formData = {"id": id, "name": $("#name").val(), "surname": $("#surname").val(), "position": $("#position").val()};
                 $.ajax({
                     url: ctxPath + "/library/employees/" + id,
-                    type: "PUT",
+                    method: "PUT",
                     data: JSON.stringify(formData),
                     contentType: "application/json",
                     cache: false,
@@ -28,16 +28,22 @@
                         window.location = ctxPath + "/library/employees";
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        if(jqXHR.status == 400) {
-                            var messages = JSON.parse(jqXHR.responseText);
-                            $('#messages').empty();
-                            $.each(messages, function(i, v) {
-                                var item = $('<li>').append(v);
-                                $('#messages').append(item);
-                            });
+                        if (jqXHR.status == 405) { // Method POST not allowed in JSP
+                            alert("Employee's data successfully changed");
+                            window.location = ctxPath + "/library/employees";
                         }
                         else {
-                            alert('Server error. HTTP status: ' + jqXHR.status);
+                            if (jqXHR.status == 400) {
+                                var messages = JSON.parse(jqXHR.responseText);
+                                $('#messages').empty();
+                                $.each(messages, function (i, v) {
+                                    var item = $('<li>').append(v);
+                                    $('#messages').append(item);
+                                });
+                            }
+                            else {
+                                alert('Server error. HTTP status: ' + jqXHR.status);
+                            }
                         }
                     }
                 });

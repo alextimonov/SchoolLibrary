@@ -32,12 +32,11 @@ public class EmployeeResource {
 
     @OPTIONS
     @Produces(MediaType.TEXT_PLAIN)
-//    @Produces(MediaType.TEXT_PLAIN + "; charset=utf-8")
     public Response checkOptions() throws URISyntaxException {
         return Response.status(200)
                 .contentLocation(new URI("http://localhost:8080/library/employees"))
                 .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
+                .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
                 .header("Access-Control-Allow-Headers", "Content-Type")
                 .build();
     }
@@ -78,10 +77,7 @@ public class EmployeeResource {
     @Template(name = "/employee.jsp")
     public Employee updateEmployee(@PathParam("id") int id, Employee employee) {
         return employeeService.update(id, employee);
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("message", "Updated employee:");
-//        map.put("employee", employeeService.update(id, employee));
-//        return Response.ok(map).build();
+//        return "redirect:/control/membership/list";
     }
 
     @DELETE
@@ -97,7 +93,6 @@ public class EmployeeResource {
     @GET
     @Path("/addForm")
     @Template(name = "/formAddEmployee.jsp")
-//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response formAddEmployee() {
         Map<String, Object> map = new HashMap<>();
         map.put("employee", new Employee());
@@ -107,7 +102,6 @@ public class EmployeeResource {
     @GET
     @Path("/editForm")
     @Template(name = "/formEditEmployee.jsp")
-//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response formEditEmployee(@QueryParam("id") int id) {
         Employee employee = employeeService.getById(id);
         return Response.ok(employee).build();
