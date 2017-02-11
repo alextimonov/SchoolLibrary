@@ -18,8 +18,8 @@ import java.util.Map;
  */
 @Path("/employees")
 
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
+@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class EmployeeResource {
     private EmployeeService employeeService = new EmployeeService();
 
@@ -75,17 +75,13 @@ public class EmployeeResource {
     @Template(name = "/employee.jsp")
     public Employee updateEmployee(@PathParam("id") int id, Employee employee) {
         return employeeService.update(id, employee);
-//        return "redirect:/control/membership/list";
     }
 
     @DELETE
     @Path("/{id}")
     @Template(name = "/employee.jsp")
-    public Response deleteEmployee(@PathParam("id") int id) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", "Deleted employee:");
-        map.put("employee", employeeService.delete(id));
-        return Response.ok(map).build();
+    public Employee deleteEmployee(@PathParam("id") int id) {
+        return employeeService.delete(id);
     }
 
     @GET

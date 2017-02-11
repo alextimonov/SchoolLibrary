@@ -3,14 +3,16 @@
 
 <html>
 <head>
-    <title>School library. Employee</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>School library. Employee</title>
 </head>
 <body>
 <div class="container">
     <header>
         <h1>School library Web application</h1>
-        <h2>${it.message}</h2>
+        <h2>Found employee by ID:</h2>
     </header>
 
     <nav>
@@ -23,8 +25,6 @@
     </nav>
 
     <article>
-        <p>${it.employee}</p>
-        <c:set var="employee" value="${it.employee}"/>
         <div class="container">
             <table class="table table-striped">
                 <tr>
@@ -34,10 +34,10 @@
                     <th>Position</th>
                 </tr>
                 <tr>
-                    <td>${employee.id}</td>
-                    <td>${employee.name}</td>
-                    <td>${employee.surname}</td>
-                    <td>${employee.position}</td>
+                    <td>${it.id}</td>
+                    <td>${it.name}</td>
+                    <td>${it.surname}</td>
+                    <td>${it.position}</td>
                 </tr>
             </table>
         </div>

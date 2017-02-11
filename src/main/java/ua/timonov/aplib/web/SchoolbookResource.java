@@ -16,7 +16,7 @@ import java.util.Map;
  * REST resource class for Schoolbook
  */
 @Path("/books")
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class SchoolbookResource {
     private SchoolbookService schoolbookService;
