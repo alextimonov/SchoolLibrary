@@ -21,6 +21,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @Transactional
     public EmployeeDb add(EmployeeDb employee) {
         Session session = sessionFactory.getCurrentSession();
         session.save(employee);
@@ -28,6 +29,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @Transactional
     public EmployeeDb update(EmployeeDb employee) {
         Session session = sessionFactory.getCurrentSession();
         session.update(employee);
@@ -35,6 +37,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @Transactional
     public EmployeeDb delete(int id) {
         EmployeeDb employee = getById(id);
         Session session = sessionFactory.getCurrentSession();
@@ -59,6 +62,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @Transactional
     public EmployeeDb getBySurname(String surname) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select employee from EmployeeDb employee where employee.surname like :param");

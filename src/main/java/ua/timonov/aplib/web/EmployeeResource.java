@@ -8,8 +8,6 @@ import ua.timonov.aplib.service.EmployeeService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,16 +26,16 @@ public class EmployeeResource {
         this.employeeService = employeeService;
     }
 
-    @OPTIONS
+    /*@OPTIONS
     @Produces(MediaType.TEXT_PLAIN)
     public Response checkOptions() throws URISyntaxException {
         return Response.status(200)
                 .contentLocation(new URI("http://localhost:8080/library/employees"))
                 .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+                .header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
                 .header("Access-Control-Allow-Headers", "Content-Type")
                 .build();
-    }
+    }*/
 
     @GET
     @Template(name = "/employees.jsp")
@@ -72,14 +70,12 @@ public class EmployeeResource {
 
     @PUT
     @Path("/{id}")
-    @Template(name = "/employee.jsp")
     public Employee updateEmployee(@PathParam("id") int id, Employee employee) {
         return employeeService.update(id, employee);
     }
 
     @DELETE
     @Path("/{id}")
-    @Template(name = "/employee.jsp")
     public Employee deleteEmployee(@PathParam("id") int id) {
         return employeeService.delete(id);
     }

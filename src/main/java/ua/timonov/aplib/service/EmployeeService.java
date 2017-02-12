@@ -38,7 +38,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    private EmployeeDb getEmployeeDb(Employee employee) {
+    public EmployeeDb getEmployeeDb(Employee employee) {
         EmployeeDb employeeDb = new EmployeeDb();
         employeeDb.setId(employee.getId());
         employeeDb.setName(employee.getName());
@@ -59,6 +59,13 @@ public class EmployeeService {
             employees.add(new Employee(employeeDb));
         }
         return employees;
+    }
+
+    @Transactional
+    public List<Employee> getLibrarians() {
+        List<Employee> librarians = getAll();
+        // TODO
+        return librarians;
     }
 
     @Transactional

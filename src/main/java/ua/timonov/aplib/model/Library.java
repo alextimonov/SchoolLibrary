@@ -12,7 +12,7 @@ public class Library {
     private EmployeeDb librarian;
 
     @Column
-    private List<Schoolbook> bookList;
+    private List<SchoolbookDb> bookList;
 
     public Library() {
     }
@@ -25,11 +25,11 @@ public class Library {
         this.librarian = librarian;
     }
 
-    public List<Schoolbook> getBookList() {
+    public List<SchoolbookDb> getBookList() {
         return bookList;
     }
 
-    public void setBookList(List<Schoolbook> bookList) {
+    public void setBookList(List<SchoolbookDb> bookList) {
         this.bookList = bookList;
     }
 

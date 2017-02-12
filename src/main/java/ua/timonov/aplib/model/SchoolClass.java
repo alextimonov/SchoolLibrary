@@ -37,7 +37,7 @@ public class SchoolClass {
     @JoinTable(name = "book_to_class",
             joinColumns = @JoinColumn(name = "class_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private List<Schoolbook> schoolbooks;
+    private List<SchoolbookDb> schoolbooks;
 
     public SchoolClass() {
     }
@@ -74,11 +74,11 @@ public class SchoolClass {
         this.teacher = teacher;
     }
 
-    public List<Schoolbook> getBookList() {
+    public List<SchoolbookDb> getBookList() {
         return schoolbooks;
     }
 
-    public void setBookList(List<Schoolbook> schoolbooks) {
+    public void setBookList(List<SchoolbookDb> schoolbooks) {
         this.schoolbooks = schoolbooks;
     }
 
