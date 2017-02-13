@@ -14,8 +14,8 @@
         $(document).ready(function() {
             $('#form').submit(function(e) {
                 e.preventDefault();
-                var formData = {"name": $("#name").val(), "course": $("#course").val(), "amountTotal": $("#amount").val(),
-                    "librarian": $("#librarian").val()};
+                var formData = {"name": $("#name").val(), "course": $("#course").val(),
+                    "amountTotal": $("#amount").val(), "librarian": { "id": $("#librarian").val() } };
                 $.ajax({
                     url: ctxPath + "/library/books",
                     type: "POST",

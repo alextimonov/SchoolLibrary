@@ -45,11 +45,8 @@ public class SchoolbookResource {
     @GET
     @Path("/{id}")
     @Template(name = "/schoolbook.jsp")
-    public Response getSchoolbookById(@PathParam("id") int id) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", "Found schoolbook by ID:");
-        map.put("schoolbook", schoolbookService.getById(id));
-        return Response.ok(map).build();
+    public Schoolbook getSchoolbookById(@PathParam("id") int id) {
+        return schoolbookService.getById(id);
     }
 
     /*@GET

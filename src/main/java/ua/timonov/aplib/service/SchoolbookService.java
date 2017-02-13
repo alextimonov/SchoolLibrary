@@ -2,6 +2,7 @@ package ua.timonov.aplib.service;
 
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.SchoolbookDao;
+import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.Schoolbook;
 import ua.timonov.aplib.model.SchoolbookDb;
 
@@ -37,7 +38,9 @@ public class SchoolbookService {
         schoolbookDb.setName(schoolbook.getName());
         schoolbookDb.setCourse(schoolbook.getCourse());
         schoolbookDb.setAmountTotal(schoolbook.getCourse());
-        schoolbookDb.setLibrarian(employeeService.getEmployeeDb(schoolbook.getLibrarian()));
+        int librarianId = schoolbook.getLibrarian().getId();
+        Employee librarian = employeeService.getById(librarianId);
+        schoolbookDb.setLibrarian(employeeService.getEmployeeDb(librarian));
         return schoolbookDb;
     }
 
