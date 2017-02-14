@@ -50,11 +50,8 @@ public class EmployeeResource {
     @GET
     @Path("/{id}")
     @Template(name = "/employee.jsp")
-    public Response getEmployeeById(@PathParam("id") int id) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", "Found employee by ID:");
-        map.put("employee", employeeService.getById(id));
-        return Response.ok(map).build();
+    public Employee getEmployeeById(@PathParam("id") int id) {
+        return employeeService.getById(id);
     }
 
     /*@GET
@@ -94,7 +91,10 @@ public class EmployeeResource {
     @Template(name = "/formEditEmployee.jsp")
     public Response formEditEmployee(@QueryParam("id") int id) {
         Employee employee = employeeService.getById(id);
-        return Response.ok(employee).build();
+        Map<String, Object> map = new HashMap<>();
+        map.put("employee", employee);
+        map.put("positions", employeeService.getAllPositions());
+        return Response.ok(map).build();
     }
 
     @GET

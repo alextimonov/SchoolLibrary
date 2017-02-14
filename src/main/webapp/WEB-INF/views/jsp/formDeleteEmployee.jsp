@@ -56,7 +56,7 @@
 <div class="container">
     <header>
         <h1>School library Web application</h1>
-        <h3>Are  you sure to delete this employee:</h3>
+        <h3>Are you sure to delete this employee:</h3>
     </header>
 
     <nav>

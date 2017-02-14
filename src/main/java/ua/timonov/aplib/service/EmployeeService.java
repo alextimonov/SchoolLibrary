@@ -5,6 +5,7 @@ import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.dao.JobDao;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.EmployeeDb;
+import ua.timonov.aplib.model.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,5 +77,10 @@ public class EmployeeService {
     @Transactional
     public Employee getBySurname(String surname) {
         return new Employee(employeeDao.getBySurname(surname));
+    }
+
+    @Transactional
+    public List<String> getAllPositions() {
+        return jobDao.getAllPositions();
     }
 }

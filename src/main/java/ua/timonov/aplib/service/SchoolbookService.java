@@ -37,7 +37,7 @@ public class SchoolbookService {
         schoolbookDb.setId(schoolbook.getId());
         schoolbookDb.setName(schoolbook.getName());
         schoolbookDb.setCourse(schoolbook.getCourse());
-        schoolbookDb.setAmountTotal(schoolbook.getCourse());
+        schoolbookDb.setAmountTotal(schoolbook.getAmountTotal());
         int librarianId = schoolbook.getLibrarian().getId();
         Employee librarian = employeeService.getById(librarianId);
         schoolbookDb.setLibrarian(employeeService.getEmployeeDb(librarian));

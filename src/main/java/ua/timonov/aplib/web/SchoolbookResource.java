@@ -3,7 +3,6 @@ package ua.timonov.aplib.web;
 import org.glassfish.jersey.server.mvc.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.timonov.aplib.model.Schoolbook;
-import ua.timonov.aplib.model.SchoolbookDb;
 import ua.timonov.aplib.service.EmployeeService;
 import ua.timonov.aplib.service.SchoolbookService;
 
@@ -78,22 +77,25 @@ public class SchoolbookResource {
     @Template(name = "/schoolbookAddForm.jsp")
     public Response formAddSchoolbook() {
         Map<String, Object> map = new HashMap<>();
-        map.put("schoolbook", new SchoolbookDb());
+        map.put("schoolbook", new Schoolbook());
         map.put("librarians", employeeService.getLibrarians());
         return Response.ok(map).build();
     }
 
     @GET
     @Path("/editForm")
-    @Template(name = "/formEditSchoolbook.jsp")
+    @Template(name = "/schoolbookEditForm.jsp")
     public Response formEditEmployee(@QueryParam("id") int id) {
         Schoolbook schoolbook = schoolbookService.getById(id);
-        return Response.ok(schoolbook).build();
+        Map<String, Object> map = new HashMap<>();
+        map.put("schoolbook", schoolbook);
+        map.put("librarians", employeeService.getLibrarians());
+        return Response.ok(map).build();
     }
 
     @GET
     @Path("/deleteForm")
-    @Template(name = "/formDeleteSchoolbook.jsp")
+    @Template(name = "/schoolbookDeleteForm.jsp")
     public Response formDeleteEmployee(@QueryParam("id") int id) {
         Schoolbook schoolbook = schoolbookService.delete(id);
         return Response.ok(schoolbook).build();

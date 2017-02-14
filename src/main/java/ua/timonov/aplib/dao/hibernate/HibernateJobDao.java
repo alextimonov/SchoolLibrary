@@ -8,6 +8,9 @@ import ua.timonov.aplib.dao.JobDao;
 import ua.timonov.aplib.model.Job;
 import ua.timonov.aplib.model.Position;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Hibernate implementation of JobDao
  */
@@ -35,5 +38,17 @@ public class HibernateJobDao implements JobDao {
         query.setParameter("param", id);
         Job job = (Job) query.uniqueResult();
         return job.getPosition();
+    }
+
+    @Override
+    @Transactional
+    public List<String> getAllPositions() {
+        Session session = sessionFactory.getCurrentSession();
+        List<Job> jobs = session.createQuery("select job from Job job").list();
+        List<String> positions = new ArrayList<>();
+        for (Job job : jobs) {
+            positions.add(job.getPosition().toString().toLowerCase());
+        }
+        return positions;
     }
 }

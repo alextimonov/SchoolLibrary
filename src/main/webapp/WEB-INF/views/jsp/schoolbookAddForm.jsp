@@ -95,15 +95,6 @@
                     </div>
                 </div>
 
-                <%--<div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="libr">Librarian:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="libr" name="libr" type="text"/>
-                    </div>
-                </div>--%>
-
                 <div class="form-group">
                     <div class="col-sm-2">
                         <label class="control-label" for="librarian">Librarian:</label>
