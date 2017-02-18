@@ -1,29 +1,45 @@
 package ua.timonov.aplib.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
- * Provides school class's data
+ * Provides curator's data
  */
-public class SchoolClass {
+@XmlRootElement
+@Entity
+@Table(name = "class")
+public class SchoolClassDb {
+
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @Column
     private int id;
+
+    @Column
     private int course;
+
+    @Column
     private char letter;
-    private Employee teacher;
-    private List<Schoolbook> schoolbooks;
 
-    public SchoolClass() {
-    }
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    private EmployeeDb teacher;
 
-    public SchoolClass(SchoolClassDb schoolClassDb) {
-        this.id = schoolClassDb.getId();
-        this.course = schoolClassDb.getCourse();
-        this.letter = schoolClassDb.getLetter();
-        this.teacher = new Employee(schoolClassDb.getTeacher());
-        List<SchoolbookDb> schoolbookDbs = schoolClassDb.getBookList();
-        for (SchoolbookDb schoolbookDb : schoolbookDbs) {
-            this.schoolbooks.add(new Schoolbook(schoolbookDb));
-        }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
+    @JoinTable(name = "book_to_class",
+            joinColumns = @JoinColumn(name = "class_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private List<SchoolbookDb> schoolbooks;
+
+    public SchoolClassDb() {
     }
 
     public int getId() {
@@ -50,39 +66,38 @@ public class SchoolClass {
         this.letter = letter;
     }
 
-    public Employee getTeacher() {
+    public EmployeeDb getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(Employee teacher) {
+    public void setTeacher(EmployeeDb teacher) {
         this.teacher = teacher;
     }
 
-    public List<Schoolbook> getSchoolbooks() {
+    public List<SchoolbookDb> getBookList() {
         return schoolbooks;
     }
 
-    public void setSchoolbooks(List<Schoolbook> schoolbooks) {
+    public void setBookList(List<SchoolbookDb> schoolbooks) {
         this.schoolbooks = schoolbooks;
     }
 
     @Override
     public String toString() {
         return "SchoolClass{" +
-                "id=" + id +
-                ", course=" + course +
-                ", letter=" + letter +
+                "schoolbooks=" + schoolbooks +
                 ", teacher=" + teacher +
-                ", schoolbooks=" + schoolbooks +
+                ", letter=" + letter +
+                ", course=" + course +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SchoolClass)) return false;
+        if (!(o instanceof SchoolClassDb)) return false;
 
-        SchoolClass that = (SchoolClass) o;
+        SchoolClassDb that = (SchoolClassDb) o;
 
         if (course != that.course) return false;
         if (letter != that.letter) return false;

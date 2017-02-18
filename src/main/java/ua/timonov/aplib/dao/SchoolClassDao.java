@@ -1,6 +1,6 @@
 package ua.timonov.aplib.dao;
 
-import ua.timonov.aplib.model.SchoolClass;
+import ua.timonov.aplib.model.SchoolClassDb;
 
 import java.util.List;
 
@@ -8,15 +8,15 @@ import java.util.List;
  * Created by Alex on 23.12.2016.
  */
 public interface SchoolClassDao {
-    SchoolClass add(SchoolClass schoolClass);
+    SchoolClassDb add(SchoolClassDb schoolClass);
 
-    SchoolClass update(SchoolClass schoolClass);
+    SchoolClassDb update(SchoolClassDb schoolClass);
 
-    SchoolClass delete(int id);
+    SchoolClassDb delete(int id);
 
-    List<SchoolClass> getAll();
+    List<SchoolClassDb> getAll();
 
-    SchoolClass getById(int id);
+    SchoolClassDb getById(int id);
 
-    SchoolClass getByName(int course, char letter);
+    SchoolClassDb getByName(int course, char letter);
 }

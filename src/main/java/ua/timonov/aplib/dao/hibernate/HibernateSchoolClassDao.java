@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import ua.timonov.aplib.dao.SchoolClassDao;
-import ua.timonov.aplib.model.SchoolClass;
+import ua.timonov.aplib.model.SchoolClassDb;
 
 import java.util.List;
 
@@ -19,45 +19,45 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
     }
 
     @Override
-    public SchoolClass add(SchoolClass schoolClass) {
+    public SchoolClassDb add(SchoolClassDb schoolClass) {
         sessionFactory.getCurrentSession().save(schoolClass);
         return schoolClass;
     }
 
     @Override
-    public SchoolClass update(SchoolClass schoolClass) {
+    public SchoolClassDb update(SchoolClassDb schoolClass) {
         sessionFactory.getCurrentSession().update(schoolClass);
         return schoolClass;
     }
 
     @Override
-    public SchoolClass delete(int id) {
-        SchoolClass schoolClass = getById(id);
+    public SchoolClassDb delete(int id) {
+        SchoolClassDb schoolClass = getById(id);
         sessionFactory.getCurrentSession().delete(schoolClass);
         return schoolClass;
     }
 
     @Override
-    public List<SchoolClass> getAll() {
+    public List<SchoolClassDb> getAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select schoolClass from SchoolClass schoolClass").list();
     }
 
     @Override
-    public SchoolClass getById(int id) {
+    public SchoolClassDb getById(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select schoolClass from SchoolClass schoolClass where schoolClass.id = :param");
         query.setParameter("param", id);
-        return (SchoolClass) query.uniqueResult();
+        return (SchoolClassDb) query.uniqueResult();
     }
 
     @Override
-    public SchoolClass getByName(int course, char letter) {
+    public SchoolClassDb getByName(int course, char letter) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select schoolClass from SchoolClass schoolClass where " +
                 "schoolClass.course = :paramCourse and schoolClass.letter = :paramLetter");
         query.setParameter("paramCourse", course);
         query.setParameter("paramLetter", letter);
-        return (SchoolClass) query.uniqueResult();
+        return (SchoolClassDb) query.uniqueResult();
     }
 }
