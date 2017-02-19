@@ -2,8 +2,8 @@ package ua.timonov.aplib.web;
 
 import org.glassfish.jersey.server.mvc.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.model.SchoolClassDb;
-import ua.timonov.aplib.model.Schoolbook;
 import ua.timonov.aplib.service.SchoolClassService;
 
 import javax.ws.rs.*;
@@ -52,14 +52,14 @@ public class SchoolClassResource {
     
     @POST
     @Template(name = "/schoolclass.jsp")
-    public SchoolClass addSchoolClass(SchoolClassDb schoolClass) {
+    public SchoolClass addSchoolClass(SchoolClass schoolClass) {
         return schoolClassService.add(schoolClass);
     }
 
     @PUT
     @Path("/{id}")
     @Template(name = "/schoolclass.jsp")
-    public SchoolClass updateSchoolClass(@PathParam("id") int id, SchoolClassDb schoolClass) {
+    public SchoolClass updateSchoolClass(@PathParam("id") int id, SchoolClass schoolClass) {
         return schoolClassService.update(id, schoolClass);
     }
 
@@ -76,7 +76,7 @@ public class SchoolClassResource {
     public Response formAddSchoolbook() {
         Map<String, Object> map = new HashMap<>();
         map.put("schoolbook", new SchoolClassDb());
-        map.put("librarians", schoolClassService.getLibrarians());
+//        map.put("librarians", schoolClassService.getLibrarians());
         return Response.ok(map).build();
     }
 
@@ -84,10 +84,10 @@ public class SchoolClassResource {
     @Path("/editForm")
     @Template(name = "/schoolbookEditForm.jsp")
     public Response formEditEmployee(@QueryParam("id") int id) {
-        Schoolbook schoolbook = schoolClassService.getById(id);
+        SchoolClass schoolClass = schoolClassService.getById(id);
         Map<String, Object> map = new HashMap<>();
-        map.put("schoolbook", schoolbook);
-        map.put("librarians", schoolClassService.getLibrarians());
+        map.put("schoolbook", schoolClass);
+//        map.put("librarians", schoolClassService.getLibrarians());
         return Response.ok(map).build();
     }
 
@@ -95,7 +95,7 @@ public class SchoolClassResource {
     @Path("/deleteForm")
     @Template(name = "/schoolbookDeleteForm.jsp")
     public Response formDeleteEmployee(@QueryParam("id") int id) {
-        Schoolbook schoolbook = schoolClassService.delete(id);
-        return Response.ok(schoolbook).build();
+        SchoolClass schoolClass = schoolClassService.delete(id);
+        return Response.ok(schoolClass).build();
     }
 }

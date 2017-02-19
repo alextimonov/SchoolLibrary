@@ -9,7 +9,7 @@ import ua.timonov.aplib.model.SchoolClassDb;
 import java.util.List;
 
 /**
- * Created by Alex on 23.12.2016.
+ *
  */
 public class HibernateSchoolClassDao implements SchoolClassDao {
     private SessionFactory sessionFactory;
@@ -40,13 +40,13 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
     @Override
     public List<SchoolClassDb> getAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select schoolClass from SchoolClass schoolClass").list();
+        return session.createQuery("select schoolClass from SchoolClassDb schoolClass").list();
     }
 
     @Override
     public SchoolClassDb getById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select schoolClass from SchoolClass schoolClass where schoolClass.id = :param");
+        Query query = session.createQuery("select schoolClass from SchoolClassDb schoolClass where schoolClass.id = :param");
         query.setParameter("param", id);
         return (SchoolClassDb) query.uniqueResult();
     }
@@ -54,7 +54,7 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
     @Override
     public SchoolClassDb getByName(int course, char letter) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select schoolClass from SchoolClass schoolClass where " +
+        Query query = session.createQuery("select schoolClass from SchoolClassDb schoolClass where " +
                 "schoolClass.course = :paramCourse and schoolClass.letter = :paramLetter");
         query.setParameter("paramCourse", course);
         query.setParameter("paramLetter", letter);

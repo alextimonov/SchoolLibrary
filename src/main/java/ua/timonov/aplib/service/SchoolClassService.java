@@ -68,9 +68,9 @@ public class SchoolClassService {
 
     @Transactional
     public List<SchoolClass> getAll() {
-        List<SchoolClassDb> schoolClassDbs = schoolClassDao.getAll();
+        List<SchoolClassDb> schoolClassesDb = schoolClassDao.getAll();
         List<SchoolClass> schoolClasses = new ArrayList<>();
-        for (SchoolClassDb schoolClassDb : schoolClassDbs) {
+        for (SchoolClassDb schoolClassDb : schoolClassesDb) {
             schoolClasses.add(new SchoolClass(schoolClassDb));
         }
         return schoolClasses;

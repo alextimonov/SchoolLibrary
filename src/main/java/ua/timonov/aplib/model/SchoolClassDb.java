@@ -1,7 +1,5 @@
 package ua.timonov.aplib.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -32,8 +30,7 @@ public class SchoolClassDb {
     @JoinColumn(name = "employee_id")
     private EmployeeDb teacher;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "book_to_class",
             joinColumns = @JoinColumn(name = "class_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))

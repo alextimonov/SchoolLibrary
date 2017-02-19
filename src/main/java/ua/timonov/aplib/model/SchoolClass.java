@@ -1,5 +1,6 @@
 package ua.timonov.aplib.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,8 +21,9 @@ public class SchoolClass {
         this.course = schoolClassDb.getCourse();
         this.letter = schoolClassDb.getLetter();
         this.teacher = new Employee(schoolClassDb.getTeacher());
-        List<SchoolbookDb> schoolbookDbs = schoolClassDb.getBookList();
-        for (SchoolbookDb schoolbookDb : schoolbookDbs) {
+        this.schoolbooks = new ArrayList<>();
+        List<SchoolbookDb> schoolbooksDb = schoolClassDb.getBookList();
+        for (SchoolbookDb schoolbookDb : schoolbooksDb) {
             this.schoolbooks.add(new Schoolbook(schoolbookDb));
         }
     }
