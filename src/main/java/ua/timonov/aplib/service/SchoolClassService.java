@@ -41,7 +41,8 @@ public class SchoolClassService {
         schoolClassDb.setCourse(schoolClass.getCourse());
         schoolClassDb.setLetter(schoolClass.getLetter());
 
-        Employee teacher = schoolClass.getTeacher();
+        int teacherId = schoolClass.getTeacher().getId();
+        Employee teacher = employeeService.getById(teacherId);
         EmployeeDb teacherDb = employeeService.getEmployeeDb(teacher);
         schoolClassDb.setTeacher(teacherDb);
 

@@ -11,7 +11,7 @@ public class SchoolClass {
     private int course;
     private char letter;
     private Employee teacher;
-    private List<Schoolbook> schoolbooks;
+    private List<Schoolbook> schoolbooks = new ArrayList<>();
 
     public SchoolClass() {
     }
@@ -21,7 +21,6 @@ public class SchoolClass {
         this.course = schoolClassDb.getCourse();
         this.letter = schoolClassDb.getLetter();
         this.teacher = new Employee(schoolClassDb.getTeacher());
-        this.schoolbooks = new ArrayList<>();
         List<SchoolbookDb> schoolbooksDb = schoolClassDb.getBookList();
         for (SchoolbookDb schoolbookDb : schoolbooksDb) {
             this.schoolbooks.add(new Schoolbook(schoolbookDb));
