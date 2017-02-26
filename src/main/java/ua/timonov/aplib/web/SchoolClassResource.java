@@ -90,6 +90,7 @@ public class SchoolClassResource {
         SchoolClass schoolClass = schoolClassService.getById(id);
         Map<String, Object> map = new HashMap<>();
         map.put("schoolClass", schoolClass);
+        map.put("teachers", employeeService.getTeachers());
         return Response.ok(map).build();
     }
 
