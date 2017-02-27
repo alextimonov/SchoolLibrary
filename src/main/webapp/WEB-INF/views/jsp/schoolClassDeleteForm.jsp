@@ -15,24 +15,24 @@
             $('#form').submit(function(e) {
                 e.preventDefault();
                 var id = $("#id").val();
-                var formData = {"id": id, "name": $("#name").val(), "course": $("#course").val(),
-                    "amountTotal": $("#amount").val(), "librarian": { "id": $("#librarian").val() } };
+                var formData = {"id": id, "course": $("#course").val(), "letter": $("#letter").val(),
+                    "teacher": { "id": $("#teacher").val() } };
                 $.ajax({
-                    url: ctxPath + "/library/books",
+                    url: ctxPath + "/library/classes",
                     type: "DELETE",
                     data: JSON.stringify(formData),
                     contentType: "application/json",
                     cache: false,
                     dataType: "json",
                     success: function(data, textStatus, jqXHR) {
-                        alert("Schoolbook successfully deleted: #" + data.id + " " + data.name + " for " + data.course +
-                                " course, amount = " + data.amountTotal);
-                        window.location = ctxPath + "/library/books";
+                        alert("Class successfully deleted: #" + data.id + ", class " + data.course + "-" +
+                                data.letter);
+                        window.location = ctxPath + "/library/classes";
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status == 405) { // Method DELETE not allowed in JSP
-                            alert("Schoolbook's data successfully deleted");
-                            window.location = ctxPath + "/library/books";
+                            alert("Class successfully deleted");
+                            window.location = ctxPath + "/library/classes";
                         }
                         else {
                             if (jqXHR.status == 400) {
@@ -57,7 +57,7 @@
 <div class="container">
     <header>
         <h1>School library Web application</h1>
-        <h3>Are you sure to delete schoolbook:</h3>
+        <h3>Are you sure to delete class:</h3>
     </header>
 
     <nav>
@@ -71,22 +71,13 @@
 
     <article>
         <div class="container">
-            <form id="form" class="form-horizontal" action="/library/books">
+            <form id="form" class="form-horizontal" action="/library/classes">
                 <div class="form-group">
                     <div class="col-sm-2">
                         <label class="control-label">ID:</label>
                     </div>
                     <div class="col-sm-4">
                         <label class="control-label">${it.id}</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label">Name:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="control-label">${it.name}</label>
                     </div>
                 </div>
 
@@ -101,31 +92,31 @@
 
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label class="control-label">Amount:</label>
+                        <label class="control-label">Letter:</label>
                     </div>
                     <div class="col-sm-4">
-                        <label class="control-label">${it.amountTotal}</label>
+                        <label class="control-label">${it.letter}</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label class="control-label">Librarian:</label>
+                        <label class="control-label">Teacher:</label>
                     </div>
                     <div class="col-sm-9">
-                        <label class="control-label">${it.librarian.position}
-                            ${it.librarian.name} ${it.librarian.surname}</label>
+                        <label class="control-label">${it.teacher.position}
+                            ${it.teacher.name} ${it.teacher.surname}</label>
                     </div>
                 </div>
 
                 <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span>Delete schoolbook
+                    <span class="glyphicon glyphicon-floppy-disk"></span>Delete class
                 </button>
             </form>
 
             <form class="form-inline" action="/library/books" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span>Return to schoolbooks</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span>Return to classes</button>
             </form>
         </div>
     </article>
