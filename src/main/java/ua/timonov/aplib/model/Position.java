@@ -5,7 +5,7 @@ package ua.timonov.aplib.model;
  */
 public enum Position {
     DIRECTOR,
-    DIRECTOR_DEPUTY,
+    DEPUTY_DIRECTOR,
     LIBRARIAN,
     TEACHER,
     TUTOR,

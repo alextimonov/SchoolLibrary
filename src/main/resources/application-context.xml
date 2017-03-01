@@ -7,15 +7,8 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!--<bean id="employeeDao" class="ua.timonov.aplib.dao.hibernate.HibernateEmployeeDao">
+    <bean id="employeeDao" class="ua.timonov.aplib.dao.hibernate.HibernateEmployeeDao">
         <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>-->
-
-    <bean id="employeesHashMap" class="java.util.HashMap">
-    </bean>
-
-    <bean id="employeeDao" class="ua.timonov.aplib.dao.dbStub.DbStubEmployeeDao" init-method="initialize()">
-        <property name="employees" ref="employeesHashMap"/>
     </bean>
 
     <bean id="employeeService" class="ua.timonov.aplib.service.EmployeeService">
