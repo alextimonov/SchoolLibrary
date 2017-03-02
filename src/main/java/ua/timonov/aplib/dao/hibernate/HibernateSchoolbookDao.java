@@ -30,9 +30,10 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
     }
 
     @Override
-    public void delete(int id) {
+    public Schoolbook delete(int id) {
         Schoolbook schoolbook = getById(id);
         sessionFactory.getCurrentSession().delete(schoolbook);
+        return schoolbook;
     }
 
     @Override

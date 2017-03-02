@@ -12,7 +12,7 @@ public interface SchoolbookDao {
 
     void update(Schoolbook schoolbook);
 
-    void delete(int id);
+    Schoolbook delete(int id);
 
     List<Schoolbook> getAll();
 
