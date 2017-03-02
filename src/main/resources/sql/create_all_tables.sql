@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS BOOK(
   id INT PRIMARY KEY NOT NULL DEFAULT nextval('book_id'),
   name VARCHAR(40) NOT NULL,
   course INT,
-  amountTotal INT
+  amountTotal INT,
+  employee_id INT NOT NULL REFERENCES EMPLOYEE(id)
 );
 
 CREATE TABLE IF NOT EXISTS CLASS(
@@ -33,6 +34,6 @@ CREATE TABLE IF NOT EXISTS CLASS(
 CREATE TABLE IF NOT EXISTS BOOK_TO_CLASS(
   class_id INT NOT NULL REFERENCES CLASS(id),
   book_id INT NOT NULL REFERENCES BOOK(id),
-  wnumber_books INT,
+  number_books INT,
   CONSTRAINT book_to_class_pkey PRIMARY KEY (book_id, class_id)
 );

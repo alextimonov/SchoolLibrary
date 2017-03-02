@@ -13,11 +13,11 @@ INSERT INTO EMPLOYEE (surname, name, position_id) VALUES('Brown', 'Steven', 4);
 INSERT INTO EMPLOYEE (surname, name, position_id) VALUES('Gray', 'Stew', 4);
 INSERT INTO EMPLOYEE (surname, name, position_id) VALUES('Magenta', 'Tom', 5);
 
-INSERT INTO BOOK (name, course, amounttotal) VALUES('Maths', 1, 50);
-INSERT INTO BOOK (name, course, amounttotal) VALUES('Alphabet', 1, 80);
-INSERT INTO BOOK (name, course, amounttotal) VALUES('Ukrainian language', 2, 70);
-INSERT INTO BOOK (name, course, amounttotal) VALUES('English class book', 2, 50);
-INSERT INTO BOOK (name, course, amounttotal) VALUES('English work book', 2, 90);
+INSERT INTO BOOK (name, course, amounttotal, employee_id) VALUES('Maths', 1, 50, 3);
+INSERT INTO BOOK (name, course, amounttotal, employee_id) VALUES('Alphabet', 1, 80, 3);
+INSERT INTO BOOK (name, course, amounttotal, employee_id) VALUES('Ukrainian language', 2, 70, 3);
+INSERT INTO BOOK (name, course, amounttotal, employee_id) VALUES('English class book', 2, 50, 3);
+INSERT INTO BOOK (name, course, amounttotal, employee_id) VALUES('English work book', 2, 90, 3);
 
 INSERT INTO CLASS (course, letter, employee_id) VALUES(1, 'A', 3);
 INSERT INTO CLASS (course, letter, employee_id) VALUES(1, 'B', 4);

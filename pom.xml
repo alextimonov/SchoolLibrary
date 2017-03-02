@@ -12,27 +12,27 @@
         <javaVersion>1.8</javaVersion>
         <mavenPluginVersion>2.5</mavenPluginVersion>
         <hibernateJpaApiVersion>1.0.0.Final</hibernateJpaApiVersion>
-        <springVersion>4.3.1.RELEASE</springVersion>
+        <springVersion>4.3.6.RELEASE</springVersion>
         <hibernateVersion>5.2.1.Final</hibernateVersion>
         <comMchangeC3p0Version>0.9.5.2</comMchangeC3p0Version>
         <postgresqlVersion>9.1-901-1.jdbc4</postgresqlVersion>
         <tomcatJdbcVersion>9.0.0.M9</tomcatJdbcVersion>
         <servletApiVersion>3.1.0</servletApiVersion>
         <jstlVersion>1.2</jstlVersion>
-        <jerseyVersion>2.16</jerseyVersion>
+        <jerseyVersion>2.25.1</jerseyVersion>
     </properties>
 
-    <!--<dependencyManagement>
+    <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.glassfish.jersey</groupId>
                 <artifactId>jersey-bom</artifactId>
-                <version>${jersey.version}</version>
+                <version>${jerseyVersion}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
-    </dependencyManagement>-->
+    </dependencyManagement>
 
     <dependencies>
         <!--JUnit, Tests-->
@@ -104,7 +104,17 @@
         <!--Spring Web-->
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
             <version>${springVersion}</version>
         </dependency>
 
@@ -119,6 +129,33 @@
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
             <version>${jerseyVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-spring3</artifactId>
+            <version>${jerseyVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--JSTL-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstlVersion}</version>
         </dependency>
 
    </dependencies>

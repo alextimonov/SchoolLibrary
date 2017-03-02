@@ -1,5 +1,6 @@
 package ua.timonov.aplib.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.model.Employee;
 
@@ -26,13 +27,14 @@ public class EmployeeService {
 
     void delete(int id) {
         employeeDao.delete(id);
-
     }
 
+    @Transactional
     public List<Employee> getAll() {
         return employeeDao.getAll();
     }
 
+    @Transactional
     public Employee getById(int id) {
         return employeeDao.getById(id);
     }

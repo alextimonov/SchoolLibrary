@@ -12,7 +12,7 @@ public class Schoolbook {
     /* unique id in DB table */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "book_id")
+    @Column
     private int id;
 
     @Column

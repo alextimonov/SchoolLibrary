@@ -3,6 +3,7 @@ package ua.timonov.aplib.dao.hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.model.Employee;
 
@@ -42,17 +43,21 @@ public class HibernateEmployeeDao implements EmployeeDao {
     }
 
     @Override
+    @Transactional
     public List<Employee> getAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select employee from Employee employee").list();
+        List<Employee> employees = session.createQuery("select employee from Employee employee").list();
+        return employees;
     }
 
     @Override
+    @Transactional
     public Employee getById(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select employee from Employee employee where employee.id = :param");
         query.setParameter("param", id);
-        return (Employee) query.uniqueResult();
+        Employee employee = (Employee) query.uniqueResult();
+        return employee;
     }
 
     @Override

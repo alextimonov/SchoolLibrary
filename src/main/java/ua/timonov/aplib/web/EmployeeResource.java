@@ -1,10 +1,13 @@
-package ua.timonov.aplib.resource;
+package ua.timonov.aplib.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.service.EmployeeService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -12,14 +15,18 @@ import java.util.List;
 /**
  * REST resource class for Employee
  */
-@Path(EmployeeResource.EMPLOYEES)
+@Path("/employees")
 public class EmployeeResource {
-    public static final String EMPLOYEES = "/employees";
-
     private EmployeeService employeeService = new EmployeeService();
+
+    @Autowired
+    public void setEmployeeService(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
     public List<Employee> getEmployees() {
         return employeeService.getAll();
     }
@@ -27,7 +34,8 @@ public class EmployeeResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Employee getEmployeeById(int id) {
+    @Transactional
+    public Employee getEmployeeById(@PathParam("id") int id) {
         return employeeService.getById(id);
     }
 
