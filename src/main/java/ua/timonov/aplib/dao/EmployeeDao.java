@@ -18,7 +18,5 @@ public interface EmployeeDao {
 
     Employee getById(int id);
 
-    Employee getByName(String name);
-
     Employee getBySurname(String surname);
 }

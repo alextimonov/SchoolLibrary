@@ -1,17 +1,21 @@
 package ua.timonov.aplib.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Provides employee's data
  */
-//@XmlRootElement
+@XmlRootElement
 @Entity
 @Table(name = "employee")
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column
     private int id;
 
@@ -21,7 +25,7 @@ public class Employee {
     @Column
     private String surname;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne  //(cascade = CascadeType.ALL)
     @JoinColumn(name = "position_id")
     protected Job job;
 
