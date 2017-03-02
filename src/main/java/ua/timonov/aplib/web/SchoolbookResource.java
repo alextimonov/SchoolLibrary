@@ -32,7 +32,7 @@ public class SchoolbookResource {
     @GET
     @Path("/{id}")
     @Transactional
-    public Schoolbook getById(@PathParam("id") int id) {
+    public Schoolbook getSchoolbookById(@PathParam("id") int id) {
         return schoolbookService.getById(id);
     }
 

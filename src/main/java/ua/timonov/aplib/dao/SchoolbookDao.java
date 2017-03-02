@@ -8,9 +8,9 @@ import java.util.List;
  * DAO interface for Schoolbook
  */
 public interface SchoolbookDao {
-    void add(Schoolbook schoolbook);
+    Schoolbook add(Schoolbook schoolbook);
 
-    void update(Schoolbook schoolbook);
+    Schoolbook update(Schoolbook schoolbook);
 
     Schoolbook delete(int id);
 

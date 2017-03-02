@@ -5,11 +5,13 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
  * Provides curator's data
  */
+@XmlRootElement
 @Entity
 @Table(name = "class")
 public class SchoolClass {
@@ -30,7 +32,7 @@ public class SchoolClass {
     @JoinColumn(name = "employee_id")
     private Employee teacher;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
     @JoinTable(name = "book_to_class",
             joinColumns = @JoinColumn(name = "class_id"),
@@ -38,6 +40,14 @@ public class SchoolClass {
     private List<Schoolbook> schoolbooks;
 
     public SchoolClass() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getCourse() {
