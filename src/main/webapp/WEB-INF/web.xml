@@ -6,25 +6,49 @@
 
     <display-name>Web Application School Library</display-name>
 
-    <servlet>
-        <servlet-name>JerseySpring</servlet-name>
-        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+    <welcome-file-list>
+        <welcome-file>/index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <filter>
+        <filter-name>JerseySpringFilter</filter-name>
+        <filter-class>org.glassfish.jersey.servlet.ServletContainer</filter-class>
+
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>ua.timonov.aplib</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
 
-    <servlet-mapping>
-        <servlet-name>JerseySpring</servlet-name>
+        <init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>org.glassfish.jersey.server.mvc.jsp.JspMvcFeature</param-value>
+        </init-param>
+        <init-param>
+            <param-name>jersey.config.server.mvc.templateBasePath.jsp</param-name>
+            <param-value>/WEB-INF/views/jsp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>jersey.config.servlet.filter.staticContentRegex</param-name>
+            <param-value>/(scripts|styles|resources|(WEB-INF/views/jsp))/*.jsp</param-value>
+        </init-param>
+
+        <init-param>
+            <param-name>jersey.config.servlet.filter.forwardOn404</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>JerseySpringFilter</filter-name>
         <url-pattern>/library/*</url-pattern>
-    </servlet-mapping>
+    </filter-mapping>
 
     <listener>
-        <listener-class>
-            org.springframework.web.context.ContextLoaderListener
-        </listener-class>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
     <context-param>

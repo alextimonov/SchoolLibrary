@@ -1,20 +1,23 @@
 package ua.timonov.aplib.web;
 
+import org.glassfish.jersey.server.mvc.ErrorTemplate;
+import org.glassfish.jersey.server.mvc.Template;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.service.EmployeeService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
+import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * REST resource class for Employee
  */
 @Path("/employees")
 @Consumes(MediaType.APPLICATION_JSON)
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class EmployeeResource {
     private EmployeeService employeeService = new EmployeeService();
 
@@ -24,17 +27,33 @@ public class EmployeeResource {
     }
 
     @GET
-    @Transactional
-    public List<Employee> getEmployees() {
-        return employeeService.getAll();
+    @Template(name = "/employees.jsp")
+    @ErrorTemplate(name = "/error.jsp")
+    public Response getEmployees() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "Employees:");
+        map.put("employees", employeeService.getAll());
+        return Response.ok(map).build();
     }
 
     @GET
     @Path("/{id}")
-    @Transactional
-    public Employee getEmployeeById(@PathParam("id") int id) {
-        return employeeService.getById(id);
+    @Template(name = "/employee.jsp")
+    @ErrorTemplate(name = "/error.jsp")
+    public Response getEmployeeById(@PathParam("id") int id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "Found employee by ID:");
+        map.put("employee", employeeService.getById(id));
+        return Response.ok(map).build();
     }
+
+    /*return Response
+            .status(Response.Status.CREATED)
+            // 201
+            .entity("A new podcast has been created AT THE LOCATION you specified")
+    .header("Location",
+                    "http://localhost:8888/demo-rest-jersey-spring/podcasts/"
+                    + String.valueOf(createPodcastId)).build();*/
 
     /*@GET
     @Path("/{surname}")
@@ -43,22 +62,34 @@ public class EmployeeResource {
     }*/
 
     @POST
-    @Transactional
-    public Employee addEmployee(Employee employee) {
-        return employeeService.add(employee);
+    @Template(name = "/employee.jsp")
+    @ErrorTemplate(name = "/error.jsp")
+    public Response addEmployee(Employee employee) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "Added employee:");
+        map.put("employee", employeeService.add(employee));
+        return Response.status(Response.Status.CREATED).entity(map).build();
     }
 
     @PUT
     @Path("/{id}")
-    @Transactional
-    public Employee updateEmployee(@PathParam("id") int id, Employee employee) {
-        return employeeService.update(id, employee);
+    @Template(name = "/employee.jsp")
+    @ErrorTemplate(name = "/error.jsp")
+    public Response updateEmployee(@PathParam("id") int id, Employee employee) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "Updated employee:");
+        map.put("employee", employeeService.update(id, employee));
+        return Response.ok(map).build();
     }
 
     @DELETE
     @Path("/{id}")
-    @Transactional
-    public Employee deleteEmployee(@PathParam("id") int id) {
-        return employeeService.delete(id);
+    @Template(name = "/employee.jsp")
+    @ErrorTemplate(name = "/error.jsp")
+    public Response deleteEmployee(@PathParam("id") int id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", "Deleted employee:");
+        map.put("employee", employeeService.delete(id));
+        return Response.ok(map).build();
     }
 }
