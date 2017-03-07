@@ -90,10 +90,10 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <label class="control-label">Surname:</label>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-9">
                         <label class="control-label">${it.surname}</label>
                     </div>
                 </div>
