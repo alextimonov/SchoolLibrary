@@ -32,12 +32,21 @@
                     <th>First name</th>
                     <th>Last name</th>
                     <th>Position</th>
+                    <th>Add</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
+                <c:url var="addUrl" value="/library/employees/addForm"/>
+                <c:url var="editUrl" value="/library/employees/editForm?id=${it.id}"/>
+                <c:url var="deleteUrl" value="/library/employees/deleteForm?id=${it.id}"/>
                 <tr>
                     <td>${it.id}</td>
                     <td>${it.name}</td>
                     <td>${it.surname}</td>
                     <td>${it.position}</td>
+                    <td><a href="${addUrl}">Add</a></td>
+                    <td><a href="${editUrl}">Edit</a></td>
+                    <td><a href="${deleteUrl}">Delete</a></td>
                 </tr>
             </table>
         </div>
