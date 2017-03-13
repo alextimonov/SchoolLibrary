@@ -7,7 +7,7 @@
     <display-name>Web Application School Library</display-name>
 
     <welcome-file-list>
-        <welcome-file>/index.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
     <filter>
@@ -16,7 +16,7 @@
 
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>ua.timonov.aplib</param-value>
+            <param-value>ua.timonov.aplib, ua.timonov.aplib.provider</param-value>
         </init-param>
 
         <init-param>
@@ -32,10 +32,15 @@
             <param-value>/(scripts|styles|resources|(WEB-INF/views/jsp))/*.jsp</param-value>
         </init-param>
 
-        <init-param>
+        <!--<init-param>
             <param-name>jersey.config.servlet.filter.forwardOn404</param-name>
             <param-value>true</param-value>
-        </init-param>
+        </init-param>-->
+
+        <!--<init-param>
+            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+            <param-value>true</param-value>
+        </init-param>-->
     </filter>
 
     <filter-mapping>
@@ -58,6 +63,13 @@
             classpath:hibernate-context.xml
         </param-value>
     </context-param>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+        <cookie-config>
+            <name>SESSIONID</name>
+        </cookie-config>
+    </session-config>
 
 </web-app>
 

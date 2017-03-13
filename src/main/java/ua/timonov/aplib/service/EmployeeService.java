@@ -2,8 +2,11 @@ package ua.timonov.aplib.service;
 
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.EmployeeDao;
+import ua.timonov.aplib.dao.JobDao;
 import ua.timonov.aplib.model.Employee;
+import ua.timonov.aplib.model.EmployeeDb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,41 +14,60 @@ import java.util.List;
  */
 public class EmployeeService {
     private EmployeeDao employeeDao;
+    private JobDao jobDao;
 
     public void setEmployeeDao(EmployeeDao employeeDao) {
         this.employeeDao = employeeDao;
     }
 
+    public void setJobDao(JobDao jobDao) {
+        this.jobDao = jobDao;
+    }
+
     @Transactional
     public Employee add(Employee employee) {
-        employeeDao.add(employee);
-        return employee;
+        EmployeeDb employeeDb = getEmployeeDb(employee);
+        return new Employee(employeeDao.add(employeeDb));
     }
 
     @Transactional
     public Employee update(int id, Employee employee) {
         employee.setId(id);
-        employeeDao.update(employee);
-        return employee;
+        EmployeeDb employeeDb = getEmployeeDb(employee);
+        return new Employee(employeeDao.update(employeeDb));
+    }
+
+    @Transactional
+    private EmployeeDb getEmployeeDb(Employee employee) {
+        EmployeeDb employeeDb = new EmployeeDb();
+        employeeDb.setId(employee.getId());
+        employeeDb.setName(employee.getName());
+        employeeDb.setSurname(employee.getSurname());
+        employeeDb.setJob(jobDao.getJobByPosition(employee.getPosition()));
+        return employeeDb;
     }
 
     @Transactional
     public Employee delete(int id) {
-        return employeeDao.delete(id);
+        return new Employee(employeeDao.delete(id));
     }
 
     @Transactional
     public List<Employee> getAll() {
-        return employeeDao.getAll();
+        List<Employee> employees = new ArrayList<>();
+        for (EmployeeDb employeeDb : employeeDao.getAll()) {
+            employees.add(new Employee(employeeDb));
+        }
+        return employees;
     }
 
     @Transactional
     public Employee getById(int id) {
-        return employeeDao.getById(id);
+        return new Employee(employeeDao.getById(id));
     }
 
     @Transactional
     public Employee getBySurname(String surname) {
-        return employeeDao.getBySurname(surname);
+        return new Employee(employeeDao.getBySurname(surname));
     }
 }

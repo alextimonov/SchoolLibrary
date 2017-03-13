@@ -30,7 +30,7 @@ public class SchoolClass {
 
     @OneToOne
     @JoinColumn(name = "employee_id")
-    private Employee teacher;
+    private EmployeeDb teacher;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
@@ -66,11 +66,11 @@ public class SchoolClass {
         this.letter = letter;
     }
 
-    public Employee getTeacher() {
+    public EmployeeDb getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(Employee teacher) {
+    public void setTeacher(EmployeeDb teacher) {
         this.teacher = teacher;
     }
 
