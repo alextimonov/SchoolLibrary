@@ -106,4 +106,12 @@ public class EmployeeResource {
         Employee employee = employeeService.getById(id);
         return Response.ok(employee).build();
     }
+
+    @GET
+    @Path("/deleteForm")
+    @Template(name = "/formDeleteEmployee.jsp")
+    public Response formDeleteEmployee(@QueryParam("id") int id) {
+        Employee employee = employeeService.delete(id);
+        return Response.ok(employee).build();
+    }
 }

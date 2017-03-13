@@ -71,6 +71,21 @@
                         </div>
                     </div>
                 </form>
+
+                <form class="form-horizontal" action="/library/employees/deleteForm" method="GET">
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            <label class="control-label">Delete employee. Input ID:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="number" name="id" title="id">
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-primary" type="submit">
+                                <span class="glyphicon glyphicon-edit"></span>Delete by id</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </article>
