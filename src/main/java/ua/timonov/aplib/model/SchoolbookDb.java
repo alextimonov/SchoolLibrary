@@ -1,21 +1,39 @@
 package ua.timonov.aplib.model;
 
-public class Schoolbook {
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/**
+ * Provides schoolbook's data
+ */
+@XmlRootElement
+@Entity
+@Table(name = "book")
+public class SchoolbookDb {
+
+    /* unique id in DB table */
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @Column
     private int id;
+
+    @Column
     private String name;
+
+    @Column
     private int course;
+
+    @Column
     private int amountTotal;
-    private Employee librarian;
 
-    public Schoolbook() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private EmployeeDb librarian;
 
-    public Schoolbook(SchoolbookDb schoolbookDb) {
-        this.id = schoolbookDb.getId();
-        this.name = schoolbookDb.getName();
-        this.course = schoolbookDb.getCourse();
-        this.amountTotal = schoolbookDb.getAmountTotal();
-        this.librarian = new Employee(schoolbookDb.getLibrarian());
+    public SchoolbookDb() {
     }
 
     public int getId() {
@@ -50,11 +68,11 @@ public class Schoolbook {
         this.amountTotal = amountTotal;
     }
 
-    public Employee getLibrarian() {
+    public EmployeeDb getLibrarian() {
         return librarian;
     }
 
-    public void setLibrarian(Employee librarian) {
+    public void setLibrarian(EmployeeDb librarian) {
         this.librarian = librarian;
     }
 
@@ -65,21 +83,19 @@ public class Schoolbook {
                 ", name='" + name + '\'' +
                 ", course=" + course +
                 ", amountTotal=" + amountTotal +
-                ", librarian=" + librarian +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Schoolbook)) return false;
+        if (!(o instanceof SchoolbookDb)) return false;
 
-        Schoolbook that = (Schoolbook) o;
+        SchoolbookDb that = (SchoolbookDb) o;
 
         if (course != that.course) return false;
         if (amountTotal != that.amountTotal) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        return librarian != null ? librarian.equals(that.librarian) : that.librarian == null;
+        return name != null ? name.equals(that.name) : that.name == null;
 
     }
 
@@ -88,7 +104,6 @@ public class Schoolbook {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + course;
         result = 31 * result + amountTotal;
-        result = 31 * result + (librarian != null ? librarian.hashCode() : 0);
         return result;
     }
 }

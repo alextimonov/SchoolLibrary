@@ -1,9 +1,9 @@
 package ua.timonov.aplib.web;
 
-import org.glassfish.jersey.server.mvc.ErrorTemplate;
 import org.glassfish.jersey.server.mvc.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.timonov.aplib.model.Schoolbook;
+import ua.timonov.aplib.service.EmployeeService;
 import ua.timonov.aplib.service.SchoolbookService;
 
 import javax.ws.rs.*;
@@ -16,19 +16,24 @@ import java.util.Map;
  * REST resource class for Schoolbook
  */
 @Path("/books")
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class SchoolbookResource {
     private SchoolbookService schoolbookService;
+    private EmployeeService employeeService;
 
     @Autowired
     public void setSchoolbookService(SchoolbookService schoolbookService) {
         this.schoolbookService = schoolbookService;
     }
 
+    @Autowired
+    public void setEmployeeService(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
     @GET
     @Template(name = "/schoolbooks.jsp")
-    @ErrorTemplate(name = "/error.jsp")
     public Response getAll() {
         Map<String, Object> map = new HashMap<>();
         map.put("message", "Schoolbooks:");
@@ -39,12 +44,8 @@ public class SchoolbookResource {
     @GET
     @Path("/{id}")
     @Template(name = "/schoolbook.jsp")
-    @ErrorTemplate(name = "/error.jsp")
-    public Response getSchoolbookById(@PathParam("id") int id) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", "Found schoolbook by ID:");
-        map.put("schoolbook", schoolbookService.getById(id));
-        return Response.ok(map).build();
+    public Schoolbook getSchoolbookById(@PathParam("id") int id) {
+        return schoolbookService.getById(id);
     }
 
     /*@GET
@@ -55,34 +56,48 @@ public class SchoolbookResource {
     }*/
 
     @POST
-    @Template(name = "/schoolbook.jsp")
-    @ErrorTemplate(name = "/error.jsp")
-    public Response addSchoolbook(Schoolbook schoolbook) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", "Added schoolbook:");
-        map.put("schoolbook", schoolbookService.add(schoolbook));
-        return Response.status(Response.Status.CREATED).entity(map).build();
+    public Schoolbook addSchoolbook(Schoolbook schoolbook) {
+        return schoolbookService.add(schoolbook);
     }
 
     @PUT
     @Path("/{id}")
-    @Template(name = "/schoolbook.jsp")
-    @ErrorTemplate(name = "/error.jsp")
-    public Response updateSchoolbook(@PathParam("id") int id, Schoolbook schoolbook) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", "Updated schoolbook:");
-        map.put("schoolbook", schoolbookService.update(id, schoolbook));
-        return Response.ok(map).build();
+    public Schoolbook updateSchoolbook(@PathParam("id") int id, Schoolbook schoolbook) {
+        return schoolbookService.update(id, schoolbook);
     }
 
     @DELETE
     @Path("/{id}")
-    @Template(name = "/schoolbook.jsp")
-    @ErrorTemplate(name = "/error.jsp")
-    public Response deleteSchoolbook(@PathParam("id") int id) {
+    public Schoolbook deleteSchoolbook(@PathParam("id") int id) {
+        return schoolbookService.delete(id);
+    }
+
+    @GET
+    @Path("/addForm")
+    @Template(name = "/schoolbookAddForm.jsp")
+    public Response formAddSchoolbook() {
         Map<String, Object> map = new HashMap<>();
-        map.put("message", "Deleted schoolbook:");
-        map.put("schoolbook", schoolbookService.delete(id));
+        map.put("schoolbook", new Schoolbook());
+        map.put("librarians", employeeService.getLibrarians());
         return Response.ok(map).build();
+    }
+
+    @GET
+    @Path("/editForm")
+    @Template(name = "/schoolbookEditForm.jsp")
+    public Response formEditEmployee(@QueryParam("id") int id) {
+        Schoolbook schoolbook = schoolbookService.getById(id);
+        Map<String, Object> map = new HashMap<>();
+        map.put("schoolbook", schoolbook);
+        map.put("librarians", employeeService.getLibrarians());
+        return Response.ok(map).build();
+    }
+
+    @GET
+    @Path("/deleteForm")
+    @Template(name = "/schoolbookDeleteForm.jsp")
+    public Response formDeleteEmployee(@QueryParam("id") int id) {
+        Schoolbook schoolbook = schoolbookService.delete(id);
+        return Response.ok(schoolbook).build();
     }
 }

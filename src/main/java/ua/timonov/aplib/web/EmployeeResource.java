@@ -8,8 +8,6 @@ import ua.timonov.aplib.service.EmployeeService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,11 +15,9 @@ import java.util.Map;
  * REST resource class for Employee
  */
 @Path("/employees")
-//@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN, MediaType.APPLICATION_FORM_URLENCODED})
-//@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
+@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class EmployeeResource {
     private EmployeeService employeeService = new EmployeeService();
 
@@ -30,16 +26,16 @@ public class EmployeeResource {
         this.employeeService = employeeService;
     }
 
-    @OPTIONS
+    /*@OPTIONS
     @Produces(MediaType.TEXT_PLAIN)
     public Response checkOptions() throws URISyntaxException {
         return Response.status(200)
                 .contentLocation(new URI("http://localhost:8080/library/employees"))
                 .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+                .header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
                 .header("Access-Control-Allow-Headers", "Content-Type")
                 .build();
-    }
+    }*/
 
     @GET
     @Template(name = "/employees.jsp")
@@ -54,11 +50,8 @@ public class EmployeeResource {
     @GET
     @Path("/{id}")
     @Template(name = "/employee.jsp")
-    public Response getEmployeeById(@PathParam("id") int id) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", "Found employee by ID:");
-        map.put("employee", employeeService.getById(id));
-        return Response.ok(map).build();
+    public Employee getEmployeeById(@PathParam("id") int id) {
+        return employeeService.getById(id);
     }
 
     /*@GET
@@ -74,20 +67,14 @@ public class EmployeeResource {
 
     @PUT
     @Path("/{id}")
-    @Template(name = "/employee.jsp")
     public Employee updateEmployee(@PathParam("id") int id, Employee employee) {
         return employeeService.update(id, employee);
-//        return "redirect:/control/membership/list";
     }
 
     @DELETE
     @Path("/{id}")
-    @Template(name = "/employee.jsp")
-    public Response deleteEmployee(@PathParam("id") int id) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("message", "Deleted employee:");
-        map.put("employee", employeeService.delete(id));
-        return Response.ok(map).build();
+    public Employee deleteEmployee(@PathParam("id") int id) {
+        return employeeService.delete(id);
     }
 
     @GET
@@ -104,7 +91,10 @@ public class EmployeeResource {
     @Template(name = "/formEditEmployee.jsp")
     public Response formEditEmployee(@QueryParam("id") int id) {
         Employee employee = employeeService.getById(id);
-        return Response.ok(employee).build();
+        Map<String, Object> map = new HashMap<>();
+        map.put("employee", employee);
+        map.put("positions", employeeService.getAllPositions());
+        return Response.ok(map).build();
     }
 
     @GET

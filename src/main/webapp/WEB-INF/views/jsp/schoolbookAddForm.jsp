@@ -7,24 +7,26 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>School library. Add Employee</title>
+    <title>School library. Add schoolbook</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
         var ctxPath = "<%=request.getContextPath() %>";
         $(document).ready(function() {
             $('#form').submit(function(e) {
                 e.preventDefault();
-                var formData = {"name": $("#name").val(), "surname": $("#surname").val(), "position": $("#position").val()};
+                var formData = {"name": $("#name").val(), "course": $("#course").val(),
+                    "amountTotal": $("#amount").val(), "librarian": { "id": $("#librarian").val() } };
                 $.ajax({
-                    url: ctxPath + "/library/employees",
+                    url: ctxPath + "/library/books",
                     type: "POST",
                     data: JSON.stringify(formData),
                     contentType: "application/json",
                     cache: false,
                     dataType: "json",
                     success: function(data, textStatus, jqXHR) {
-                        alert("Employee successfully added: " + data.name + " " + data.surname + ", " + data.position);
-                        window.location = ctxPath + "/library/employees";
+                        alert("Schoolbook successfully added: " + data.name + " for " + data.course + " course, amount = " +
+                                data.amountTotal);
+                        window.location = ctxPath + "/library/books";
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         if(jqXHR.status == 400) {
@@ -48,7 +50,7 @@
 <div class="container">
     <header>
         <h1>School library Web application</h1>
-        <h3>Create new employee:</h3>
+        <h3>Create new schoolbook:</h3>
     </header>
 
     <nav>
@@ -62,7 +64,7 @@
 
     <article>
         <div class="container">
-            <form id="form" class="form-horizontal" method="POST" action="/library/employees">
+            <form id="form" class="form-horizontal" method="POST" action="/library/books">
                 <div class="form-group">
                     <div class="col-sm-2">
                         <label class="control-label" for="name">Name:</label>
@@ -77,45 +79,45 @@
 
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label class="control-label" for="surname">Surname:</label>
+                        <label class="control-label" for="course">Course:</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control" id="surname" name="surname" type="text"/>
+                        <input class="form-control" id="course" name="course" type="text"/>
                     </div>
-                    <%--<div class="col-sm-4">
-                        <label class="label-info">${employeeValidate.surnameLabel}</label>
-                    </div>--%>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label class="control-label" for="position">Position:</label>
+                        <label class="control-label" for="amount">Amount:</label>
                     </div>
                     <div class="col-sm-4">
-                        <select id="position" name="position" class="form-control">
-                            <option selected disabled hidden>Choose from available positions</option>
-                            <option value="director">director</option>
-                            <option value="deputy_director">deputy director</option>
-                            <option value="librarian">librarian</option>
-                            <option value="teacher">teacher</option>
-                            <option value="tutor">tutor</option>
-                            <option value="security">security</option>
-                            <option value="cleaner">cleaner</option>
+                        <input class="form-control" id="amount" name="amount" type="text"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <label class="control-label" for="librarian">Librarian:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="librarian" name="librarian" class="form-control">
+                            <option selected disabled hidden>Choose from employees:</option>
+                            <c:forEach var="employee" items="${it.librarians}">
+                                <option value=${employee.id}>${employee.position} ${employee.name} ${employee.surname}
+                                </option>
+                            </c:forEach>
                         </select>
                     </div>
-                    <%--<div class="col-sm-4">
-                        <label class="label-info">${employeeValidate.positionLabel}</label>
-                    </div>--%>
                 </div>
 
                 <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span>Save new employee
+                    <span class="glyphicon glyphicon-floppy-disk"></span>Save new schoolbook
                 </button>
             </form>
 
-            <form class="form-inline" action="/library/employees" method="GET">
+            <form class="form-inline" action="/library/books" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span>Return to employees</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span>Return to schoolbooks</button>
             </form>
         </div>
     </article>

@@ -5,6 +5,7 @@ import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.dao.JobDao;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.EmployeeDb;
+import ua.timonov.aplib.model.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    private EmployeeDb getEmployeeDb(Employee employee) {
+    public EmployeeDb getEmployeeDb(Employee employee) {
         EmployeeDb employeeDb = new EmployeeDb();
         employeeDb.setId(employee.getId());
         employeeDb.setName(employee.getName());
@@ -62,6 +63,13 @@ public class EmployeeService {
     }
 
     @Transactional
+    public List<Employee> getLibrarians() {
+        List<Employee> librarians = getAll();
+        // TODO
+        return librarians;
+    }
+
+    @Transactional
     public Employee getById(int id) {
         return new Employee(employeeDao.getById(id));
     }
@@ -69,5 +77,10 @@ public class EmployeeService {
     @Transactional
     public Employee getBySurname(String surname) {
         return new Employee(employeeDao.getBySurname(surname));
+    }
+
+    @Transactional
+    public List<String> getAllPositions() {
+        return jobDao.getAllPositions();
     }
 }
