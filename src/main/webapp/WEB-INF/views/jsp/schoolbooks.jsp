@@ -38,8 +38,16 @@
                         <th>Amount</th>
                         <th>Responsible</th>
                         <th>Employee</th>
+                        <th>Details</th>
+                        <th>Add</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                     <c:forEach var="schoolbook" items="${it.schoolbooks}">
+                        <c:url var="detailsUrl" value="/library/books/${schoolbook.id}"/>
+                        <c:url var="addUrl" value="/library/books/addForm"/>
+                        <c:url var="editUrl" value="/library/books/editForm?id=${schoolbook.id}"/>
+                        <c:url var="deleteUrl" value="/library/books/deleteForm?id=${schoolbook.id}"/>
                         <tr>
                             <td>${schoolbook.id}</td>
                             <td>${schoolbook.name}</td>
@@ -47,6 +55,10 @@
                             <td>${schoolbook.amountTotal}</td>
                             <td>${schoolbook.librarian.position}</td>
                             <td>${schoolbook.librarian.name} ${schoolbook.librarian.surname} </td>
+                            <td><a href="${detailsUrl}">Details</a></td>
+                            <td><a href="${addUrl}">Add</a></td>
+                            <td><a href="${editUrl}">Edit</a></td>
+                            <td><a href="${deleteUrl}">Delete</a></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -59,8 +71,10 @@
                             <label class="control-label">Add new schoolbook:</label>
                         </div>
                         <div class="col-sm-4">
+                        </div>
+                        <div class="col-sm-3">
                             <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-plus-sign"></span>Add new schoolbook</button>
+                                <span class="glyphicon glyphicon-plus-sign"></span> Add new schoolbook</button>
                         </div>
                     </div>
                 </form>
@@ -73,9 +87,9 @@
                         <div class="col-sm-4">
                             <input class="form-control" type="number" name="id" title="id">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-edit"></span>Edit by id</button>
+                                <span class="glyphicon glyphicon-edit"></span> Edit by id</button>
                         </div>
                     </div>
                 </form>
@@ -88,9 +102,9 @@
                         <div class="col-sm-4">
                             <input class="form-control" type="number" name="id" title="id">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-edit"></span>Delete by id</button>
+                                <span class="glyphicon glyphicon-trash"></span> Delete by id</button>
                         </div>
                     </div>
                 </form>
