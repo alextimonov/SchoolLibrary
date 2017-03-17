@@ -10,10 +10,54 @@
     <title>School library. Class</title>
 </head>
 <body>
-<h2>Class by ID:</h2>
-<h3>${path}</h3>
-<h3>${it.message}</h3>
-<p>${it.schoolClass}</p>
+<div class="container">
+    <header>
+        <h1>School library Web application</h1>
+        <h2>Found class by ID:</h2>
+    </header>
 
+    <nav>
+        <ul>
+            <li><a href="/index.jsp">Main page</a></li>
+            <li><a href="/library/employees">Employees</a></li>
+            <li><a href="/library/books">Books</a></li>
+            <li><a href="/library/classes">Classes</a></li>
+        </ul>
+    </nav>
+
+    <article>
+        <div class="container">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Class</th>
+                    <th>Teacher</th>
+                </tr>
+                <tr>
+                    <td>${it.id}</td>
+                    <td>${it.course}-${it.letter}</td>
+                    <td>${it.teacher.name} ${it.teacher.surname} </td>
+                </tr>
+            </table>
+            <hr>
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>School book</th>
+                    <th>Amount (TOTAL)</th>
+                </tr>
+                <c:forEach var="schoolbook" items="${it.schoolbooks}">
+                    <tr>
+                        <td>${schoolbook.id}</td>
+                        <td>${schoolbook.name}</td>
+                        <td>${schoolbook.amountTotal}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+    </article>
+
+    <footer>Copyright &copy; Alexey Timonov</footer>
+</div>
 </body>
 </html>

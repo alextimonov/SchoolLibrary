@@ -29,7 +29,7 @@ public class SchoolbookDb {
     @Column
     private int amountTotal;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id")
     private EmployeeDb librarian;
 

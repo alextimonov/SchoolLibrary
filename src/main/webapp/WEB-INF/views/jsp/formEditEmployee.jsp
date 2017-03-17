@@ -103,9 +103,9 @@
                     </div>
                     <div class="col-sm-4">
                         <select id="position" class="form-control" name="position">
-                            <option disabled hidden>Choose from positions:</option>
+                            <option disabled>Choose from positions:</option>
                             <c:forEach var="position" items="${it.positions}">
-                                <option <c:if test="${position} === ${it.employee.position}">selected</c:if>
+                                <option <c:if test="${position == it.employee.position}">selected</c:if>
                                         value="${position}">${position}</option>
                             </c:forEach>
                         </select>

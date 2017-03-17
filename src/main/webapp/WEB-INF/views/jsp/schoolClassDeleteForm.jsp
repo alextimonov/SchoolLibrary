@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>School library. Edit schoolbook</title>
+    <title>School library. Delete schoolbook</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
         var ctxPath = "<%=request.getContextPath() %>";
@@ -15,24 +15,24 @@
             $('#form').submit(function(e) {
                 e.preventDefault();
                 var id = $("#id").val();
-                var formData = {"id": id, "name": $("#name").val(), "course": $("#course").val(),
-                    "amountTotal": $("#amount").val(), "librarian": { "id": $("#librarian").val() } };
+                var formData = {"id": id, "course": $("#course").val(), "letter": $("#letter").val(),
+                    "teacher": { "id": $("#teacher").val() } };
                 $.ajax({
-                    url: ctxPath + "/library/books/" + id,
-                    type: "PUT",
+                    url: ctxPath + "/library/classes",
+                    type: "DELETE",
                     data: JSON.stringify(formData),
                     contentType: "application/json",
                     cache: false,
                     dataType: "json",
                     success: function(data, textStatus, jqXHR) {
-                        alert("Schoolbook's data successfully changed: #" + data.id + " " + data.name + " for " + data.course +
-                                " course, amount = " + data.amountTotal);
-                        window.location = ctxPath + "/library/books";
+                        alert("Class successfully deleted: #" + data.id + ", class " + data.course + "-" +
+                                data.letter);
+                        window.location = ctxPath + "/library/classes";
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status == 405) { // Method PUT not allowed in JSP
-                            alert("Schoolbook's data successfully changed");
-                            window.location = ctxPath + "/library/books";
+                        if (jqXHR.status == 405) { // Method DELETE not allowed in JSP
+                            alert("Class successfully deleted");
+                            window.location = ctxPath + "/library/classes";
                         }
                         else {
                             if (jqXHR.status == 400) {
@@ -57,7 +57,7 @@
 <div class="container">
     <header>
         <h1>School library Web application</h1>
-        <h3>Edit schoolbook:</h3>
+        <h3>Are you sure to delete class:</h3>
     </header>
 
     <nav>
@@ -70,69 +70,53 @@
     </nav>
 
     <article>
-        <c:set var="schoolbook" value="${it.schoolbook}"/>
         <div class="container">
-            <form id="form" class="form-horizontal" action="/library/books">
+            <form id="form" class="form-horizontal" action="/library/classes">
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label class="control-label" for="id">ID:</label>
+                        <label class="control-label">ID:</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control" id="id" name="id" value="${schoolbook.id}" disabled="true" type="text"/>
+                        <label class="control-label">${it.id}</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label class="control-label" for="name">Name:</label>
+                        <label class="control-label">Course:</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control" id="name" name="name" value="${schoolbook.name}" type="text"/>
+                        <label class="control-label">${it.course}</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label class="control-label" for="course">Course:</label>
+                        <label class="control-label">Letter:</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control" id="course" name="course" value="${schoolbook.course}" type="text"/>
+                        <label class="control-label">${it.letter}</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label class="control-label" for="amount">Amount:</label>
+                        <label class="control-label">Teacher:</label>
                     </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="amount" name="amount" value="${schoolbook.amountTotal}" type="text"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="librarian">Librarian:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <select id="librarian" name="librarian" class="form-control">
-                            <option disabled>Choose from employees:</option>
-                            <c:forEach var="employee" items="${it.librarians}">
-                                <option <c:if test="${employee.id == schoolbook.librarian.id}">selected</c:if>
-                                        value=${employee.id}>${employee.position} ${employee.name} ${employee.surname}
-                                </option>
-                            </c:forEach>
-                        </select>
+                    <div class="col-sm-9">
+                        <label class="control-label">${it.teacher.position}
+                            ${it.teacher.name} ${it.teacher.surname}</label>
                     </div>
                 </div>
 
                 <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span>Save edited schoolbook
+                    <span class="glyphicon glyphicon-floppy-disk"></span>Delete class
                 </button>
             </form>
 
             <form class="form-inline" action="/library/books" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span>Return to schoolbooks</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span>Return to classes</button>
             </form>
         </div>
     </article>

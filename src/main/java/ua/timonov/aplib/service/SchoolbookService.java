@@ -27,12 +27,11 @@ public class SchoolbookService {
     @Transactional
     public Schoolbook add(Schoolbook schoolbook) {
         SchoolbookDb schoolbookDb = getSchoolbookDb(schoolbook);
-        schoolbookDao.add(schoolbookDb);
-        return schoolbook;
+        return new Schoolbook(schoolbookDao.add(schoolbookDb));
     }
 
     @Transactional
-    private SchoolbookDb getSchoolbookDb(Schoolbook schoolbook) {
+    public SchoolbookDb getSchoolbookDb(Schoolbook schoolbook) {
         SchoolbookDb schoolbookDb = new SchoolbookDb();
         schoolbookDb.setId(schoolbook.getId());
         schoolbookDb.setName(schoolbook.getName());

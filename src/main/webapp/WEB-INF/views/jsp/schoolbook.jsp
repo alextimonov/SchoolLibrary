@@ -10,6 +10,7 @@
     <title>School library. Schoolbook</title>
 </head>
 <body>
+ <%--TODO--%>
 <h2>Schoolbook by ID:</h2>
 <h3>${path}</h3>
 <h3>${it.message}</h3>

@@ -26,17 +26,6 @@ public class EmployeeResource {
         this.employeeService = employeeService;
     }
 
-    /*@OPTIONS
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response checkOptions() throws URISyntaxException {
-        return Response.status(200)
-                .contentLocation(new URI("http://localhost:8080/library/employees"))
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
-                .header("Access-Control-Allow-Headers", "Content-Type")
-                .build();
-    }*/
-
     @GET
     @Template(name = "/employees.jsp")
 //    @ErrorTemplate(name = "/error.jsp") // to all methods
