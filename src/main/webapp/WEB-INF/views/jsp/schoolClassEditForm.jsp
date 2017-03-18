@@ -117,13 +117,13 @@
                 </div>
 
                 <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span>Save edited class
+                    <span class="glyphicon glyphicon-floppy-disk"></span> Save edited class
                 </button>
             </form>
-
+            <br>
             <form class="form-inline" action="/library/classes" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span>Return to classes</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span> Return to classes</button>
             </form>
         </div>
     </article>

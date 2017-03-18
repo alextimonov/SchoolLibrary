@@ -5,7 +5,7 @@ div.container {
 
 header, footer {
     padding: 1em;
-    color: lightgoldenrodyellow;
+    color: lightyellow;
     background-color: darkblue;
     clear: left;
     text-align: center;
@@ -16,7 +16,7 @@ nav {
     max-width: 160px;
     margin: 0;
     padding: 1em;
-    font-size: 20px;
+    font-size: 16px;
 
 }
 

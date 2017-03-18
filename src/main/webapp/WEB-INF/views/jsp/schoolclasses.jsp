@@ -35,12 +35,24 @@
                         <th>ID</th>
                         <th>Class</th>
                         <th>Teacher</th>
+                        <th>Details</th>
+                        <th>Add</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                     <c:forEach var="schoolClass" items="${it.schoolClasses}">
+                        <c:url var="detailsUrl" value="/library/classes/${schoolClass.id}"/>
+                        <c:url var="addUrl" value="/library/classes/addForm"/>
+                        <c:url var="editUrl" value="/library/classes/editForm?id=${schoolClass.id}"/>
+                        <c:url var="deleteUrl" value="/library/classes/deleteForm?id=${schoolClass.id}"/>
                         <tr>
                             <td>${schoolClass.id}</td>
                             <td>${schoolClass.course}-${schoolClass.letter}</td>
                             <td>${schoolClass.teacher.name} ${schoolClass.teacher.surname} </td>
+                            <td><a href="${detailsUrl}">Details</a></td>
+                            <td><a href="${addUrl}">Add</a></td>
+                            <td><a href="${editUrl}">Edit</a></td>
+                            <td><a href="${deleteUrl}">Delete</a></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -50,11 +62,13 @@
                 <form class="form-horizontal" action="/library/classes/addForm" method="GET">
                     <div class="form-group">
                         <div class="col-sm-5">
-                            <label class="control-label">Add new class:</label>
+                            <label class="control-label"> Add new class:</label>
                         </div>
                         <div class="col-sm-4">
+                        </div>
+                        <div class="col-sm-3">
                             <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-plus-sign"></span>Add new class</button>
+                                <span class="glyphicon glyphicon-plus-sign"></span> Add new class</button>
                         </div>
                     </div>
                 </form>
@@ -69,7 +83,7 @@
                         </div>
                         <div class="col-sm-2">
                             <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-edit"></span>Edit by id</button>
+                                <span class="glyphicon glyphicon-edit"></span> Edit by id</button>
                         </div>
                     </div>
                 </form>
@@ -84,7 +98,7 @@
                         </div>
                         <div class="col-sm-2">
                             <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-edit"></span>Delete by id</button>
+                                <span class="glyphicon glyphicon-trash"></span> Delete by id</button>
                         </div>
                     </div>
                 </form>
