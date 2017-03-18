@@ -1,8 +1,8 @@
 package ua.timonov.aplib.service;
 
 import ua.timonov.aplib.dao.JobDao;
-import ua.timonov.aplib.model.Job;
-import ua.timonov.aplib.model.Position;
+import ua.timonov.aplib.dto.JobDto;
+import ua.timonov.aplib.dto.Position;
 
 /**
  * Service for JobDao
@@ -14,7 +14,7 @@ public class JobService {
         this.jobDao = jobDao;
     }
 
-    public Job getJobByPosition(String position) {
+    public JobDto getJobByPosition(String position) {
         return jobDao.getJobByPosition(position);
     }
 

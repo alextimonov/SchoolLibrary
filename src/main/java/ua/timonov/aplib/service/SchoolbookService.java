@@ -2,9 +2,11 @@ package ua.timonov.aplib.service;
 
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.SchoolbookDao;
+import ua.timonov.aplib.dto.BookInClassDto;
+import ua.timonov.aplib.dto.SchoolbookDto;
+import ua.timonov.aplib.model.BookInClass;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.Schoolbook;
-import ua.timonov.aplib.model.SchoolbookDb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +28,13 @@ public class SchoolbookService {
 
     @Transactional
     public Schoolbook add(Schoolbook schoolbook) {
-        SchoolbookDb schoolbookDb = getSchoolbookDb(schoolbook);
+        SchoolbookDto schoolbookDb = getSchoolbookDto(schoolbook);
         return new Schoolbook(schoolbookDao.add(schoolbookDb));
     }
 
     @Transactional
-    public SchoolbookDb getSchoolbookDb(Schoolbook schoolbook) {
-        SchoolbookDb schoolbookDb = new SchoolbookDb();
+    public SchoolbookDto getSchoolbookDto(Schoolbook schoolbook) {
+        SchoolbookDto schoolbookDb = new SchoolbookDto();
         schoolbookDb.setId(schoolbook.getId());
         schoolbookDb.setName(schoolbook.getName());
         schoolbookDb.setCourse(schoolbook.getCourse());
@@ -46,7 +48,7 @@ public class SchoolbookService {
     @Transactional
     public Schoolbook update(int id, Schoolbook schoolbook) {
         schoolbook.setId(id);
-        SchoolbookDb schoolbookDb = getSchoolbookDb(schoolbook);
+        SchoolbookDto schoolbookDb = getSchoolbookDto(schoolbook);
         return new Schoolbook(schoolbookDao.update(schoolbookDb));
     }
 
@@ -58,7 +60,7 @@ public class SchoolbookService {
     @Transactional
     public List<Schoolbook> getAll() {
         List<Schoolbook> schoolbooks = new ArrayList<>();
-        for (SchoolbookDb schoolbookDb : schoolbookDao.getAll()) {
+        for (SchoolbookDto schoolbookDb : schoolbookDao.getAll()) {
             schoolbooks.add(new Schoolbook(schoolbookDb));
         }
         return schoolbooks;
@@ -66,13 +68,21 @@ public class SchoolbookService {
 
     @Transactional
     public Schoolbook getById(int id) {
-        SchoolbookDb schoolbookDb = schoolbookDao.getById(id);
+        SchoolbookDto schoolbookDb = schoolbookDao.getById(id);
         return new Schoolbook(schoolbookDb);
     }
 
     @Transactional
     public Schoolbook getByName(String name) {
-        SchoolbookDb schoolbookDb = schoolbookDao.getByName(name);
+        SchoolbookDto schoolbookDb = schoolbookDao.getByName(name);
         return new Schoolbook(schoolbookDb);
+    }
+
+    @Transactional
+    public BookInClassDto getBookInClassDto(BookInClass bookInClass) {
+        BookInClassDto bookInClassDto = new BookInClassDto();
+        bookInClassDto.setnBooksInClass(bookInClass.getnBooksInClass());
+        bookInClassDto.setSchoolbook(getSchoolbookDto(bookInClass.getSchoolbook()));
+        return bookInClassDto;
     }
 }

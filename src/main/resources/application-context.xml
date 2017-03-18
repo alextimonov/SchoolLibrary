@@ -15,19 +15,11 @@
     <bean id="schoolbookService" class="ua.timonov.aplib.service.SchoolbookService"/>
     <bean id="schoolbookResource" class="ua.timonov.aplib.web.SchoolbookResource"/>
 
+    <bean id="bookInClassDao" class="ua.timonov.aplib.dao.hibernate.HibernateBookInClassDao"/>
     <bean id="schoolClassDao" class="ua.timonov.aplib.dao.hibernate.HibernateSchoolClassDao"/>
     <bean id="schoolClassService" class="ua.timonov.aplib.service.SchoolClassService"/>
     <bean id="schoolClassResource" class="ua.timonov.aplib.web.SchoolClassResource"/>
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"/>
-
-    <!--<bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider" >
-        <property name="singleJaxbContext" value="true" />
-        <property name="extraClass">
-            <list>
-                <value>package.to.class.Order</value>
-            </list>
-        </property>
-    </bean>-->
 
 </beans>

@@ -1,5 +1,8 @@
 package ua.timonov.aplib.model;
 
+import ua.timonov.aplib.dto.BookInClassDto;
+import ua.timonov.aplib.dto.SchoolClassDto;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,19 +14,19 @@ public class SchoolClass {
     private int course;
     private char letter;
     private Employee teacher;
-    private List<Schoolbook> schoolbooks = new ArrayList<>();
+    private List<BookInClass> booksInClass = new ArrayList<>();
 
     public SchoolClass() {
     }
 
-    public SchoolClass(SchoolClassDb schoolClassDb) {
-        this.id = schoolClassDb.getId();
-        this.course = schoolClassDb.getCourse();
-        this.letter = schoolClassDb.getLetter();
-        this.teacher = new Employee(schoolClassDb.getTeacher());
-        List<SchoolbookDb> schoolbooksDb = schoolClassDb.getBookList();
-        for (SchoolbookDb schoolbookDb : schoolbooksDb) {
-            this.schoolbooks.add(new Schoolbook(schoolbookDb));
+    public SchoolClass(SchoolClassDto schoolClassDto) {
+        this.id = schoolClassDto.getId();
+        this.course = schoolClassDto.getCourse();
+        this.letter = schoolClassDto.getLetter();
+        this.teacher = new Employee(schoolClassDto.getTeacher());
+        List<BookInClassDto> booksInClassDto = schoolClassDto.getBooksInClass();
+        for (BookInClassDto bookInClassDto : booksInClassDto) {
+            this.booksInClass.add(new BookInClass(bookInClassDto));
         }
     }
 
@@ -59,12 +62,12 @@ public class SchoolClass {
         this.teacher = teacher;
     }
 
-    public List<Schoolbook> getSchoolbooks() {
-        return schoolbooks;
+    public List<BookInClass> getBooksInClass() {
+        return booksInClass;
     }
 
-    public void setSchoolbooks(List<Schoolbook> schoolbooks) {
-        this.schoolbooks = schoolbooks;
+    public void setBooksInClass(List<BookInClass> booksInClass) {
+        this.booksInClass = booksInClass;
     }
 
     @Override
@@ -74,7 +77,7 @@ public class SchoolClass {
                 ", course=" + course +
                 ", letter=" + letter +
                 ", teacher=" + teacher +
-                ", schoolbooks=" + schoolbooks +
+                ", booksInClass=" + booksInClass +
                 '}';
     }
 
@@ -88,7 +91,7 @@ public class SchoolClass {
         if (course != that.course) return false;
         if (letter != that.letter) return false;
         if (teacher != null ? !teacher.equals(that.teacher) : that.teacher != null) return false;
-        return schoolbooks != null ? schoolbooks.equals(that.schoolbooks) : that.schoolbooks == null;
+        return booksInClass != null ? booksInClass.equals(that.booksInClass) : that.booksInClass == null;
 
     }
 
@@ -97,7 +100,7 @@ public class SchoolClass {
         int result = course;
         result = 31 * result + (int) letter;
         result = 31 * result + (teacher != null ? teacher.hashCode() : 0);
-        result = 31 * result + (schoolbooks != null ? schoolbooks.hashCode() : 0);
+        result = 31 * result + (booksInClass != null ? booksInClass.hashCode() : 0);
         return result;
     }
 }

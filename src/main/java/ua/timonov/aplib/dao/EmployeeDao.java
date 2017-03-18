@@ -1,6 +1,6 @@
 package ua.timonov.aplib.dao;
 
-import ua.timonov.aplib.model.EmployeeDb;
+import ua.timonov.aplib.dto.EmployeeDto;
 
 import java.util.List;
 
@@ -8,15 +8,15 @@ import java.util.List;
  * DAO interface for Employee
  */
 public interface EmployeeDao {
-    EmployeeDb add(EmployeeDb employee);
+    EmployeeDto add(EmployeeDto employee);
 
-    EmployeeDb update(EmployeeDb employee);
+    EmployeeDto update(EmployeeDto employee);
 
-    EmployeeDb delete(int id);
+    EmployeeDto delete(int id);
 
-    List<EmployeeDb> getAll();
+    List<EmployeeDto> getAll();
 
-    EmployeeDb getById(int id);
+    EmployeeDto getById(int id);
 
-    EmployeeDb getBySurname(String surname);
+    EmployeeDto getBySurname(String surname);
 }

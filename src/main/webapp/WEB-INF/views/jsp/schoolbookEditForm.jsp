@@ -132,7 +132,7 @@
             <br>
             <form class="form-inline" action="/library/books" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span> Return to schoolbooks</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span> Return to booksInClass</button>
             </form>
         </div>
     </article>

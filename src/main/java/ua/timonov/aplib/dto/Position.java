@@ -1,4 +1,4 @@
-package ua.timonov.aplib.model;
+package ua.timonov.aplib.dto;
 
 /**
  * Available positions for employees

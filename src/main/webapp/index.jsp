@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>School library</title>
-    <link rel="stylesheet" type="text/css" href="styles/index.css">
+    <link rel="stylesheet" type="text/css" href="/styles/index.css">
 </head>
 
 <body>

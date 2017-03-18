@@ -1,8 +1,14 @@
 package ua.timonov.aplib.service;
 
 import org.springframework.transaction.annotation.Transactional;
+import ua.timonov.aplib.dao.BookInClassDao;
 import ua.timonov.aplib.dao.SchoolClassDao;
-import ua.timonov.aplib.model.*;
+import ua.timonov.aplib.dto.BookInClassDto;
+import ua.timonov.aplib.dto.EmployeeDto;
+import ua.timonov.aplib.dto.SchoolClassDto;
+import ua.timonov.aplib.model.BookInClass;
+import ua.timonov.aplib.model.Employee;
+import ua.timonov.aplib.model.SchoolClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +17,10 @@ import java.util.List;
  * Web service for SchoolClassDao
  */
 public class SchoolClassService {
-    private SchoolClassDao schoolClassDao;
     private EmployeeService employeeService;
     private SchoolbookService schoolbookService;
-
-    public void setSchoolClassDao(SchoolClassDao schoolClassDao) {
-        this.schoolClassDao = schoolClassDao;
-    }
+    private SchoolClassDao schoolClassDao;
+    private BookInClassDao bookInClassDao;
 
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -27,38 +30,46 @@ public class SchoolClassService {
         this.schoolbookService = schoolbookService;
     }
 
+    public void setSchoolClassDao(SchoolClassDao schoolClassDao) {
+        this.schoolClassDao = schoolClassDao;
+    }
+
+    public void setBookInClassDao(BookInClassDao bookInClassDao) {
+        this.bookInClassDao = bookInClassDao;
+    }
+
     @Transactional
     public SchoolClass add(SchoolClass schoolClass) {
-        SchoolClassDb schoolClassDb = getSchoolClassDb(schoolClass);
+        SchoolClassDto schoolClassDb = getSchoolClassDto(schoolClass);
         schoolClassDao.add(schoolClassDb);
         return schoolClass;
     }
 
     @Transactional
-    private SchoolClassDb getSchoolClassDb(SchoolClass schoolClass) {
-        SchoolClassDb schoolClassDb = new SchoolClassDb();
-        schoolClassDb.setId(schoolClass.getId());
-        schoolClassDb.setCourse(schoolClass.getCourse());
-        schoolClassDb.setLetter(schoolClass.getLetter());
+    private SchoolClassDto getSchoolClassDto(SchoolClass schoolClass) {
+        SchoolClassDto schoolClassDto = new SchoolClassDto();
+        schoolClassDto.setId(schoolClass.getId());
+        schoolClassDto.setCourse(schoolClass.getCourse());
+        schoolClassDto.setLetter(schoolClass.getLetter());
 
         int teacherId = schoolClass.getTeacher().getId();
         Employee teacher = employeeService.getById(teacherId);
-        EmployeeDb teacherDb = employeeService.getEmployeeDb(teacher);
-        schoolClassDb.setTeacher(teacherDb);
+        EmployeeDto teacherDto = employeeService.getEmployeeDb(teacher);
+        schoolClassDto.setTeacher(teacherDto);
 
-        List<Schoolbook> schoolbooks = schoolClass.getSchoolbooks();
-        List<SchoolbookDb> schoolbookDbs = new ArrayList<>();
-        for (Schoolbook schoolbook : schoolbooks) {
-            schoolbookDbs.add(schoolbookService.getSchoolbookDb(schoolbook));
+        List<BookInClass> booksInClass = schoolClass.getBooksInClass();
+        List<BookInClassDto> booksInClassDto = new ArrayList<>();
+        for (BookInClass bookInClass : booksInClass) {
+            booksInClassDto.add(schoolbookService.getBookInClassDto(bookInClass));
         }
-        schoolClassDb.setBookList(schoolbookDbs);
-        return schoolClassDb;
+        schoolClassDto.setBooksInClass(booksInClassDto);
+        return schoolClassDto;
     }
 
     @Transactional
     public SchoolClass update(int id, SchoolClass schoolClass) {
         schoolClass.setId(id);
-        SchoolClassDb schoolClassDb = getSchoolClassDb(schoolClass);
+        SchoolClassDto schoolClassDb = getSchoolClassDto(schoolClass);
         return new SchoolClass(schoolClassDao.update(schoolClassDb));
     }
 
@@ -69,17 +80,22 @@ public class SchoolClassService {
 
     @Transactional
     public List<SchoolClass> getAll() {
-        List<SchoolClassDb> schoolClassesDb = schoolClassDao.getAll();
+        List<SchoolClassDto> schoolClassesDto = schoolClassDao.getAll();
         List<SchoolClass> schoolClasses = new ArrayList<>();
-        for (SchoolClassDb schoolClassDb : schoolClassesDb) {
-            schoolClasses.add(new SchoolClass(schoolClassDb));
+        for (SchoolClassDto schoolClassDto : schoolClassesDto) {
+            List<BookInClassDto> booksInClassDto = bookInClassDao.getByClass(schoolClassDto);
+            schoolClassDto.setBooksInClass(booksInClassDto);
+            schoolClasses.add(new SchoolClass(schoolClassDto));
         }
         return schoolClasses;
     }
 
     @Transactional
-    public SchoolClass getById(int id) {
-        return new SchoolClass(schoolClassDao.getById(id));
+    public SchoolClass getById(int classId) {
+        SchoolClassDto schoolClassDto = schoolClassDao.getById(classId);
+        List<BookInClassDto> booksInClassDto = bookInClassDao.getByClass(schoolClassDto);
+        schoolClassDto.setBooksInClass(booksInClassDto);
+        return new SchoolClass(schoolClassDto);
     }
 
     @Transactional

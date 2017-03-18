@@ -1,6 +1,6 @@
 package ua.timonov.aplib.dao;
 
-import ua.timonov.aplib.model.SchoolbookDb;
+import ua.timonov.aplib.dto.SchoolbookDto;
 
 import java.util.List;
 
@@ -8,15 +8,15 @@ import java.util.List;
  * DAO interface for Schoolbook
  */
 public interface SchoolbookDao {
-    SchoolbookDb add(SchoolbookDb schoolbook);
+    SchoolbookDto add(SchoolbookDto schoolbook);
 
-    SchoolbookDb update(SchoolbookDb schoolbook);
+    SchoolbookDto update(SchoolbookDto schoolbook);
 
-    SchoolbookDb delete(int id);
+    SchoolbookDto delete(int id);
 
-    List<SchoolbookDb> getAll();
+    List<SchoolbookDto> getAll();
 
-    SchoolbookDb getById(int id);
+    SchoolbookDto getById(int id);
 
-    SchoolbookDb getByName(String name);
+    SchoolbookDto getByName(String name);
 }

@@ -1,4 +1,4 @@
-package ua.timonov.aplib.model;
+package ua.timonov.aplib.dto;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Entity
 @Table(name = "book")
-public class SchoolbookDb {
+public class SchoolbookDto {
 
     /* unique id in DB table */
     @Id
@@ -31,9 +31,9 @@ public class SchoolbookDb {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id")
-    private EmployeeDb librarian;
+    private EmployeeDto librarian;
 
-    public SchoolbookDb() {
+    public SchoolbookDto() {
     }
 
     public int getId() {
@@ -68,11 +68,11 @@ public class SchoolbookDb {
         this.amountTotal = amountTotal;
     }
 
-    public EmployeeDb getLibrarian() {
+    public EmployeeDto getLibrarian() {
         return librarian;
     }
 
-    public void setLibrarian(EmployeeDb librarian) {
+    public void setLibrarian(EmployeeDto librarian) {
         this.librarian = librarian;
     }
 
@@ -89,9 +89,9 @@ public class SchoolbookDb {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SchoolbookDb)) return false;
+        if (!(o instanceof SchoolbookDto)) return false;
 
-        SchoolbookDb that = (SchoolbookDb) o;
+        SchoolbookDto that = (SchoolbookDto) o;
 
         if (course != that.course) return false;
         if (amountTotal != that.amountTotal) return false;

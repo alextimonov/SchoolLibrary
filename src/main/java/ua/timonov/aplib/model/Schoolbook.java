@@ -1,5 +1,7 @@
 package ua.timonov.aplib.model;
 
+import ua.timonov.aplib.dto.SchoolbookDto;
+
 public class Schoolbook {
     private int id;
     private String name;
@@ -10,7 +12,7 @@ public class Schoolbook {
     public Schoolbook() {
     }
 
-    public Schoolbook(SchoolbookDb schoolbookDb) {
+    public Schoolbook(SchoolbookDto schoolbookDb) {
         this.id = schoolbookDb.getId();
         this.name = schoolbookDb.getName();
         this.course = schoolbookDb.getCourse();

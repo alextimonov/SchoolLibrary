@@ -1,5 +1,7 @@
 package ua.timonov.aplib.model;
 
+import ua.timonov.aplib.dto.EmployeeDto;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -15,7 +17,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(EmployeeDb employeeDb) {
+    public Employee(EmployeeDto employeeDb) {
         this.id = employeeDb.getId();
         this.name = employeeDb.getName();
         this.surname = employeeDb.getSurname();
