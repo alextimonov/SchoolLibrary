@@ -15,7 +15,7 @@
     <bean id="schoolbookService" class="ua.timonov.aplib.service.SchoolbookService"/>
     <bean id="schoolbookResource" class="ua.timonov.aplib.web.SchoolbookResource"/>
 
-    <!--<bean id="bookInClassDao" class="ua.timonov.aplib.dao.hibernate.HibernateBookInClassDao"/>-->
+    <bean id="bookInClassDao" class="ua.timonov.aplib.dao.hibernate.HibernateBookInClassDao"/>
     <bean id="schoolClassDao" class="ua.timonov.aplib.dao.hibernate.HibernateSchoolClassDao"/>
     <bean id="schoolClassService" class="ua.timonov.aplib.service.SchoolClassService"/>
     <bean id="schoolClassResource" class="ua.timonov.aplib.web.SchoolClassResource"/>

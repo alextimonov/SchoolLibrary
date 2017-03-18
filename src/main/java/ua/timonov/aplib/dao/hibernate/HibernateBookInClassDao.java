@@ -31,7 +31,7 @@ public class HibernateBookInClassDao implements BookInClassDao {
     @Override
     public List<BookInClassDto> getByClass(SchoolClassDto schoolClassDto) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select bookInClass from BookInClassDto bookInClass where bookInClass.class_id = :param");
+        Query query = session.createQuery("select bookInClass from BookInClassDto bookInClass where bookInClass.schoolClass.id = :param");
         query.setParameter("param", schoolClassDto.getId());
         return query.getResultList();
     }
@@ -39,7 +39,7 @@ public class HibernateBookInClassDao implements BookInClassDao {
     @Override
     public List<BookInClassDto> getByBook(SchoolbookDto schoolbookDto) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select bookInClass from BookInClassDto bookInClass where bookInClass.book_id = :param");
+        Query query = session.createQuery("select bookInClass from BookInClassDto bookInClass where bookInClass.schoolbook.id = :param");
         query.setParameter("param", schoolbookDto.getId());
         return query.getResultList();
     }

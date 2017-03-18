@@ -1,5 +1,7 @@
 package ua.timonov.aplib.dto;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -29,6 +31,9 @@ public class SchoolClassDto {
     @OneToOne
     @JoinColumn(name = "employee_id")
     private EmployeeDto teacher;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "schoolClass")
+    @Fetch(FetchMode.SELECT)
     private List<BookInClassDto> booksInClass;
 
     public SchoolClassDto() {

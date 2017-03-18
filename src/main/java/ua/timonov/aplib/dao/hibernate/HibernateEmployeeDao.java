@@ -58,8 +58,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select employee from EmployeeDto employee where employee.id = :param");
         query.setParameter("param", id);
-        EmployeeDto employeeDb = (EmployeeDto) query.uniqueResult();
-        return employeeDb;
+        EmployeeDto employeeDto = (EmployeeDto) query.uniqueResult();
+        return employeeDto;
     }
 
     @Override

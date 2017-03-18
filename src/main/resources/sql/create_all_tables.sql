@@ -3,6 +3,7 @@ CREATE SEQUENCE job_id;
 CREATE SEQUENCE employee_id;
 CREATE SEQUENCE book_id;
 CREATE SEQUENCE class_id;
+CREATE SEQUENCE book_to_class_id;
 
 CREATE TABLE IF NOT EXISTS JOBS(
   id INT PRIMARY KEY NOT NULL DEFAULT nextval('job_id'),
@@ -32,8 +33,8 @@ CREATE TABLE IF NOT EXISTS CLASS(
 );
 
 CREATE TABLE IF NOT EXISTS BOOK_TO_CLASS(
+  id INT PRIMARY KEY NOT NULL DEFAULT nextval('book_to_class_id'),
   class_id INT NOT NULL REFERENCES CLASS(id),
   book_id INT NOT NULL REFERENCES BOOK(id),
-  number_books INT,
-  CONSTRAINT book_to_class_pkey PRIMARY KEY (book_id, class_id)
+  number_books INT
 );

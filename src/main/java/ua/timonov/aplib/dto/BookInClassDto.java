@@ -1,5 +1,7 @@
 package ua.timonov.aplib.dto;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 /**
@@ -8,6 +10,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "book_to_class")
 public class BookInClassDto {
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @Column
+    private int id;
+
     @ManyToOne
     @JoinColumn(name = "class_id")
     private SchoolClassDto schoolClass;
@@ -20,6 +28,14 @@ public class BookInClassDto {
     private int nBooksInClass;
 
     public BookInClassDto() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public SchoolClassDto getSchoolClass() {
@@ -49,7 +65,8 @@ public class BookInClassDto {
     @Override
     public String toString() {
         return "BookInClassDto{" +
-                "schoolClass=" + schoolClass +
+                "id=" + id +
+                ", schoolClass=" + schoolClass +
                 ", schoolbook=" + schoolbook +
                 ", nBooksInClass=" + nBooksInClass +
                 '}';

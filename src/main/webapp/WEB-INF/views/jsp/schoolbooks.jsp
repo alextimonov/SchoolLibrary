@@ -43,7 +43,7 @@
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
-                    <c:forEach var="schoolbook" items="${it.booksInClass}">
+                    <c:forEach var="schoolbook" items="${it.schoolbooks}">
                         <c:url var="detailsUrl" value="/library/books/${schoolbook.id}"/>
                         <c:url var="addUrl" value="/library/books/addForm"/>
                         <c:url var="editUrl" value="/library/books/editForm?id=${schoolbook.id}"/>
