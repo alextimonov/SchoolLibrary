@@ -68,7 +68,7 @@ public class EmployeeResource {
 
     @GET
     @Path("/addForm")
-    @Template(name = "/formAddEmployee.jsp")
+    @Template(name = "/employeeAddForm.jsp")
     public Response formAddEmployee() {
         Map<String, Object> map = new HashMap<>();
         map.put("employee", new Employee());
@@ -77,7 +77,7 @@ public class EmployeeResource {
 
     @GET
     @Path("/editForm")
-    @Template(name = "/formEditEmployee.jsp")
+    @Template(name = "/employeeEditForm.jsp")
     public Response formEditEmployee(@QueryParam("id") int id) {
         Employee employee = employeeService.getById(id);
         Map<String, Object> map = new HashMap<>();
@@ -88,7 +88,7 @@ public class EmployeeResource {
 
     @GET
     @Path("/deleteForm")
-    @Template(name = "/formDeleteEmployee.jsp")
+    @Template(name = "/employeeDeleteForm.jsp")
     public Response formDeleteEmployee(@QueryParam("id") int id) {
         Employee employee = employeeService.delete(id);
         return Response.ok(employee).build();

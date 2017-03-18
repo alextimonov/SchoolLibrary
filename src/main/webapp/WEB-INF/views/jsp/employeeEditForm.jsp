@@ -14,29 +14,37 @@
         $(document).ready(function() {
             $('#form').submit(function(e) {
                 e.preventDefault();
-                var formData = {"name": $("#name").val(), "surname": $("#surname").val(), "position": $("#position").val()};
+                var id = $("#id").val();
+                var formData = {"id": id, "name": $("#name").val(), "surname": $("#surname").val(), "position": $("#position").val()};
                 $.ajax({
-                    url: ctxPath + "/library/employees",
-                    type: "POST",
+                    url: ctxPath + "/library/employees/" + id,
+                    method: "PUT",
                     data: JSON.stringify(formData),
                     contentType: "application/json",
                     cache: false,
                     dataType: "json",
                     success: function(data, textStatus, jqXHR) {
-                        alert("Employee successfully added: " + data.name + " " + data.surname + ", " + data.position);
+                        alert("Employee's data successfully changed: #" + data.id + " " + data.name + " " +
+                                data.surname + ", " + data.position);
                         window.location = ctxPath + "/library/employees";
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        if(jqXHR.status == 400) {
-                            var messages = JSON.parse(jqXHR.responseText);
-                            $('#messages').empty();
-                            $.each(messages, function(i, v) {
-                                var item = $('<li>').append(v);
-                                $('#messages').append(item);
-                            });
+                        if (jqXHR.status == 405) { // Method POST not allowed in JSP
+                            alert("Employee's data successfully changed");
+                            window.location = ctxPath + "/library/employees";
                         }
                         else {
-                            alert('Server error. HTTP status: ' + jqXHR.status);
+                            if (jqXHR.status == 400) {
+                                var messages = JSON.parse(jqXHR.responseText);
+                                $('#messages').empty();
+                                $.each(messages, function (i, v) {
+                                    var item = $('<li>').append(v);
+                                    $('#messages').append(item);
+                                });
+                            }
+                            else {
+                                alert('Server error. HTTP status: ' + jqXHR.status);
+                            }
                         }
                     }
                 });
@@ -48,7 +56,7 @@
 <div class="container">
     <header>
         <h1>School library Web application</h1>
-        <h3>Create new employee:</h3>
+        <h3>Edit employee:</h3>
     </header>
 
     <nav>
@@ -62,17 +70,22 @@
 
     <article>
         <div class="container">
-            <form id="form" class="form-horizontal" method="POST" action="/library/employees">
+            <form id="form" class="form-horizontal" action="/library/employees">
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <label class="control-label" for="id">ID:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control" id="id" name="id" value="${it.employee.id}" disabled="true" type="text"/>
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="col-sm-2">
                         <label class="control-label" for="name">Name:</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control" id="name" name="name" type="text"/>
+                        <input class="form-control" id="name" name="name" value="${it.employee.name}" type="text"/>
                     </div>
-                    <%--<div class="col-sm-4">
-                        <label class="label-info">${employeeValidate.nameLabel}</label>
-                    </div>--%>
                 </div>
 
                 <div class="form-group">
@@ -80,11 +93,8 @@
                         <label class="control-label" for="surname">Surname:</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control" id="surname" name="surname" type="text"/>
+                        <input class="form-control" id="surname" name="surname" value="${it.employee.surname}" type="text"/>
                     </div>
-                    <%--<div class="col-sm-4">
-                        <label class="label-info">${employeeValidate.surnameLabel}</label>
-                    </div>--%>
                 </div>
 
                 <div class="form-group">
@@ -92,30 +102,24 @@
                         <label class="control-label" for="position">Position:</label>
                     </div>
                     <div class="col-sm-4">
-                        <select id="position" name="position" class="form-control">
-                            <option selected disabled hidden>Choose from available positions</option>
-                            <option value="director">director</option>
-                            <option value="deputy_director">deputy director</option>
-                            <option value="librarian">librarian</option>
-                            <option value="teacher">teacher</option>
-                            <option value="tutor">tutor</option>
-                            <option value="security">security</option>
-                            <option value="cleaner">cleaner</option>
+                        <select id="position" class="form-control" name="position">
+                            <option disabled>Choose from positions:</option>
+                            <c:forEach var="position" items="${it.positions}">
+                                <option <c:if test="${position == it.employee.position}">selected</c:if>
+                                        value="${position}">${position}</option>
+                            </c:forEach>
                         </select>
                     </div>
-                    <%--<div class="col-sm-4">
-                        <label class="label-info">${employeeValidate.positionLabel}</label>
-                    </div>--%>
                 </div>
 
                 <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span>Save new employee
+                    <span class="glyphicon glyphicon-floppy-disk"></span> Save edited employee
                 </button>
             </form>
-
+            <br>
             <form class="form-inline" action="/library/employees" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span>Return to employees</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span> Return to employees</button>
             </form>
         </div>
     </article>

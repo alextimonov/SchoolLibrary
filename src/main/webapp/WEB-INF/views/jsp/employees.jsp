@@ -16,12 +16,14 @@
     </header>
 
     <nav>
-        <ul>
-            <li><a href="/index.jsp">Main page</a></li>
-            <li><a href="/library/employees">Employees</a></li>
-            <li><a href="/library/books">Books</a></li>
-            <li><a href="/library/classes">Classes</a></li>
-        </ul>
+        <div class="container">
+            <ul>
+                <li><a href="/index.jsp"><p>Main page</p></a></li>
+                <li><a href="/library/employees">Employees</a></li>
+                <li><a href="/library/books">Books</a></li>
+                <li><a href="/library/classes">Classes</a></li>
+            </ul>
+        </div>
     </nav>
 
     <article>
@@ -34,13 +36,25 @@
                         <th>First name</th>
                         <th>Last name</th>
                         <th>Position</th>
+                        <th>Details</th>
+                        <th>Add</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                     <c:forEach var="employee" items="${it.employees}">
+                        <c:url var="detailsUrl" value="/library/employees/${employee.id}"/>
+                        <c:url var="addUrl" value="/library/employees/addForm"/>
+                        <c:url var="editUrl" value="/library/employees/editForm?id=${employee.id}"/>
+                        <c:url var="deleteUrl" value="/library/employees/deleteForm?id=${employee.id}"/>
                         <tr>
                             <td>${employee.id}</td>
                             <td>${employee.name}</td>
                             <td>${employee.surname}</td>
                             <td>${employee.position}</td>
+                            <td><a href="${detailsUrl}">Details</a></td>
+                            <td><a href="${addUrl}">Add</a></td>
+                            <td><a href="${editUrl}">Edit</a></td>
+                            <td><a href="${deleteUrl}">Delete</a></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -53,8 +67,10 @@
                             <label class="control-label">Add new employee:</label>
                         </div>
                         <div class="col-sm-4">
+                        </div>
+                        <div class="col-sm-3">
                             <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-plus-sign"></span>Add new employee</button>
+                                <span class="glyphicon glyphicon-plus-sign"></span> Add new employee</button>
                         </div>
                     </div>
                 </form>
@@ -67,9 +83,9 @@
                         <div class="col-sm-4">
                             <input class="form-control" type="number" name="id" title="id">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-edit"></span>Edit by id</button>
+                                <span class="glyphicon glyphicon-edit"></span> Edit by id</button>
                         </div>
                     </div>
                 </form>
@@ -77,14 +93,14 @@
                 <form class="form-horizontal" action="/library/employees/deleteForm" method="GET">
                     <div class="form-group">
                         <div class="col-sm-5">
-                            <label class="control-label">Delete employee. Input ID:</label>
+                            <label class="control-label"> Delete employee. Input ID:</label>
                         </div>
                         <div class="col-sm-4">
                             <input class="form-control" type="number" name="id" title="id">
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-edit"></span>Delete by id</button>
+                                <span class="glyphicon glyphicon-trash"></span> Delete by id</button>
                         </div>
                     </div>
                 </form>

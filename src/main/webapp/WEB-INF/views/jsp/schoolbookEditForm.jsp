@@ -126,13 +126,13 @@
                 </div>
 
                 <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span>Save edited schoolbook
+                    <span class="glyphicon glyphicon-floppy-disk"></span> Save edited schoolbook
                 </button>
             </form>
-
+            <br>
             <form class="form-inline" action="/library/books" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span>Return to schoolbooks</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span> Return to schoolbooks</button>
             </form>
         </div>
     </article>

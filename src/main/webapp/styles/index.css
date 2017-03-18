@@ -5,8 +5,8 @@ div.container {
 
 header, footer {
     padding: 1em;
-    color: white;
-    background-color: black;
+    color: lightyellow;
+    background-color: darkblue;
     clear: left;
     text-align: center;
 }
@@ -16,6 +16,8 @@ nav {
     max-width: 160px;
     margin: 0;
     padding: 1em;
+    font-size: 16px;
+
 }
 
 nav ul {

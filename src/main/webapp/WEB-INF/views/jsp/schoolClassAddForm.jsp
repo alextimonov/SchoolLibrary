@@ -98,13 +98,13 @@
                 </div>
 
                 <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span>Save new class
+                    <span class="glyphicon glyphicon-floppy-disk"></span> Save new class
                 </button>
             </form>
-
+            <br>
             <form class="form-inline" action="/library/books" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span>Return to school classes</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span> Return to school classes</button>
             </form>
         </div>
     </article>
