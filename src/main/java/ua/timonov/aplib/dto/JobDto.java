@@ -1,4 +1,4 @@
-package ua.timonov.aplib.model;
+package ua.timonov.aplib.dto;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "jobs")
-public class Job {
+public class JobDto {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -21,10 +21,10 @@ public class Job {
     @Column(name = "position")
     private Position position;
 
-    public Job() {
+    public JobDto() {
     }
 
-    public Job(Position position) {
+    public JobDto(Position position) {
         this.position = position;
     }
 
@@ -52,9 +52,9 @@ public class Job {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Job)) return false;
+        if (!(o instanceof JobDto)) return false;
 
-        Job job = (Job) o;
+        JobDto job = (JobDto) o;
 
         return position == job.position;
 

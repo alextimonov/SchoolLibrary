@@ -1,4 +1,4 @@
-package ua.timonov.aplib.model;
+package ua.timonov.aplib.dto;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "employee")
-public class EmployeeDb {
+public class EmployeeDto {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
@@ -24,9 +24,9 @@ public class EmployeeDb {
 
     @ManyToOne  //(cascade = CascadeType.ALL)
     @JoinColumn(name = "position_id")
-    private Job job;
+    private JobDto job;
 
-    public EmployeeDb() {
+    public EmployeeDto() {
     }
 
     public String getName() {
@@ -53,11 +53,11 @@ public class EmployeeDb {
         this.id = id;
     }
 
-    public Job getJob() {
+    public JobDto getJob() {
         return job;
     }
 
-    public void setJob(Job job) {
+    public void setJob(JobDto job) {
         this.job = job;
     }
 
@@ -74,9 +74,9 @@ public class EmployeeDb {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EmployeeDb)) return false;
+        if (!(o instanceof EmployeeDto)) return false;
 
-        EmployeeDb employee = (EmployeeDb) o;
+        EmployeeDto employee = (EmployeeDto) o;
 
         if (name != null ? !name.equals(employee.name) : employee.name != null) return false;
         if (surname != null ? !surname.equals(employee.surname) : employee.surname != null) return false;

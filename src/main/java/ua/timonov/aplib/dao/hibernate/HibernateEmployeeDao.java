@@ -5,7 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.EmployeeDao;
-import ua.timonov.aplib.model.EmployeeDb;
+import ua.timonov.aplib.dto.EmployeeDto;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
 
     @Override
     @Transactional
-    public EmployeeDb add(EmployeeDb employee) {
+    public EmployeeDto add(EmployeeDto employee) {
         Session session = sessionFactory.getCurrentSession();
         session.save(employee);
         return employee;
@@ -30,7 +30,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
 
     @Override
     @Transactional
-    public EmployeeDb update(EmployeeDb employee) {
+    public EmployeeDto update(EmployeeDto employee) {
         Session session = sessionFactory.getCurrentSession();
         session.update(employee);
         return employee;
@@ -38,8 +38,8 @@ public class HibernateEmployeeDao implements EmployeeDao {
 
     @Override
     @Transactional
-    public EmployeeDb delete(int id) {
-        EmployeeDb employee = getById(id);
+    public EmployeeDto delete(int id) {
+        EmployeeDto employee = getById(id);
         Session session = sessionFactory.getCurrentSession();
         session.delete(employee);
         return employee;
@@ -47,27 +47,27 @@ public class HibernateEmployeeDao implements EmployeeDao {
 
     @Override
     @Transactional
-    public List<EmployeeDb> getAll() {
+    public List<EmployeeDto> getAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select employee from EmployeeDb employee").list();
+        return session.createQuery("select employee from EmployeeDto employee").list();
     }
 
     @Override
     @Transactional
-    public EmployeeDb getById(int id) {
+    public EmployeeDto getById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select employee from EmployeeDb employee where employee.id = :param");
+        Query query = session.createQuery("select employee from EmployeeDto employee where employee.id = :param");
         query.setParameter("param", id);
-        EmployeeDb employeeDb = (EmployeeDb) query.uniqueResult();
+        EmployeeDto employeeDb = (EmployeeDto) query.uniqueResult();
         return employeeDb;
     }
 
     @Override
     @Transactional
-    public EmployeeDb getBySurname(String surname) {
+    public EmployeeDto getBySurname(String surname) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select employee from EmployeeDb employee where employee.surname like :param");
+        Query query = session.createQuery("select employee from EmployeeDto employee where employee.surname like :param");
         query.setParameter("param", surname);
-        return (EmployeeDb) query.uniqueResult();
+        return (EmployeeDto) query.uniqueResult();
     }
 }

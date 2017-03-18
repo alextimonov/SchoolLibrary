@@ -5,7 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.SchoolbookDao;
-import ua.timonov.aplib.model.SchoolbookDb;
+import ua.timonov.aplib.dto.SchoolbookDto;
 
 import java.util.List;
 
@@ -22,48 +22,48 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
 
     @Override
     @Transactional
-    public SchoolbookDb add(SchoolbookDb schoolbook) {
+    public SchoolbookDto add(SchoolbookDto schoolbook) {
         sessionFactory.getCurrentSession().save(schoolbook);
         return schoolbook;
     }
 
     @Override
     @Transactional
-    public SchoolbookDb update(SchoolbookDb schoolbook) {
+    public SchoolbookDto update(SchoolbookDto schoolbook) {
         sessionFactory.getCurrentSession().update(schoolbook);
         return schoolbook;
     }
 
     @Override
     @Transactional
-    public SchoolbookDb delete(int id) {
-        SchoolbookDb schoolbook = getById(id);
+    public SchoolbookDto delete(int id) {
+        SchoolbookDto schoolbook = getById(id);
         sessionFactory.getCurrentSession().delete(schoolbook);
         return schoolbook;
     }
 
     @Override
     @Transactional
-    public List<SchoolbookDb> getAll() {
+    public List<SchoolbookDto> getAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select book from SchoolbookDb book").list();
+        return session.createQuery("select book from SchoolbookDto book").list();
     }
 
     @Override
     @Transactional
-    public SchoolbookDb getById(int id) {
+    public SchoolbookDto getById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select book from SchoolbookDb book where book.id = :param");
+        Query query = session.createQuery("select book from SchoolbookDto book where book.id = :param");
         query.setParameter("param", id);
-        return (SchoolbookDb) query.getSingleResult();
+        return (SchoolbookDto) query.getSingleResult();
     }
 
     @Override
     @Transactional
-    public SchoolbookDb getByName(String name) {
+    public SchoolbookDto getByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select book from SchoolbookDb book where book.id like :param");
+        Query query = session.createQuery("select book from SchoolbookDto book where book.id like :param");
         query.setParameter("param", name);
-        return (SchoolbookDb) query.getSingleResult();
+        return (SchoolbookDto) query.getSingleResult();
     }
 }

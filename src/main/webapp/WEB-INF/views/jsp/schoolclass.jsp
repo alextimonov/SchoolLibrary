@@ -28,15 +28,24 @@
     <article>
         <div class="container">
             <table class="table table-striped">
+                <c:url var="addUrl" value="/library/classes/addForm"/>
+                <c:url var="editUrl" value="/library/classes/editForm?id=${it.id}"/>
+                <c:url var="deleteUrl" value="/library/classes/deleteForm?id=${it.id}"/>
                 <tr>
                     <th>ID</th>
                     <th>Class</th>
                     <th>Teacher</th>
+                    <th>Add</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
                 <tr>
                     <td>${it.id}</td>
                     <td>${it.course}-${it.letter}</td>
                     <td>${it.teacher.name} ${it.teacher.surname} </td>
+                    <td><a href="${addUrl}">Add</a></td>
+                    <td><a href="${editUrl}">Edit</a></td>
+                    <td><a href="${deleteUrl}">Delete</a></td>
                 </tr>
             </table>
             <hr>
@@ -46,7 +55,7 @@
                     <th>School book</th>
                     <th>Amount (TOTAL)</th>
                 </tr>
-                <c:forEach var="schoolbook" items="${it.schoolbooks}">
+                <c:forEach var="schoolbook" items="${it.booksInClass}">
                     <tr>
                         <td>${schoolbook.id}</td>
                         <td>${schoolbook.name}</td>

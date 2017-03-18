@@ -5,8 +5,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.JobDao;
-import ua.timonov.aplib.model.Job;
-import ua.timonov.aplib.model.Position;
+import ua.timonov.aplib.dto.JobDto;
+import ua.timonov.aplib.dto.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +23,11 @@ public class HibernateJobDao implements JobDao {
 
     @Override
     @Transactional
-    public Job getJobByPosition(String position) {
+    public JobDto getJobByPosition(String position) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select job from Job job where job.position = :param");
+        Query query = session.createQuery("select job from JobDto job where job.position = :param");
         query.setParameter("param", Position.byName(position.toUpperCase()));
-        Job job = (Job) query.uniqueResult();
+        JobDto job = (JobDto) query.uniqueResult();
         return job;
     }
 
@@ -35,9 +35,9 @@ public class HibernateJobDao implements JobDao {
     @Transactional
     public Position getPositionById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select job from Job job where job.id = :param");
+        Query query = session.createQuery("select job from JobDto job where job.id = :param");
         query.setParameter("param", id);
-        Job job = (Job) query.uniqueResult();
+        JobDto job = (JobDto) query.uniqueResult();
         return job.getPosition();
     }
 
@@ -45,9 +45,9 @@ public class HibernateJobDao implements JobDao {
     @Transactional
     public List<String> getAllPositions() {
         Session session = sessionFactory.getCurrentSession();
-        List<Job> jobs = session.createQuery("select job from Job job").list();
+        List<JobDto> jobs = session.createQuery("select job from JobDto job").list();
         List<String> positions = new ArrayList<>();
-        for (Job job : jobs) {
+        for (JobDto job : jobs) {
             positions.add(job.getPosition().toString().toLowerCase());
         }
         return positions;

@@ -1,7 +1,7 @@
 package ua.timonov.aplib.dao;
 
-import ua.timonov.aplib.model.Job;
-import ua.timonov.aplib.model.Position;
+import ua.timonov.aplib.dto.JobDto;
+import ua.timonov.aplib.dto.Position;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * DAO interface for Job
  */
 public interface JobDao {
-    Job getJobByPosition(String position);
+    JobDto getJobByPosition(String position);
     Position getPositionById(int id);
     List<String> getAllPositions();
 }

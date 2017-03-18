@@ -1,4 +1,4 @@
-package ua.timonov.aplib.model;
+package ua.timonov.aplib.dto;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @XmlRootElement
 @Entity
 @Table(name = "class")
-public class SchoolClassDb {
+public class SchoolClassDto {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -28,15 +28,10 @@ public class SchoolClassDb {
 
     @OneToOne
     @JoinColumn(name = "employee_id")
-    private EmployeeDb teacher;
+    private EmployeeDto teacher;
+    private List<BookInClassDto> booksInClass;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "book_to_class",
-            joinColumns = @JoinColumn(name = "class_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private List<SchoolbookDb> schoolbooks;
-
-    public SchoolClassDb() {
+    public SchoolClassDto() {
     }
 
     public int getId() {
@@ -63,26 +58,17 @@ public class SchoolClassDb {
         this.letter = letter;
     }
 
-    public EmployeeDb getTeacher() {
+    public EmployeeDto getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(EmployeeDb teacher) {
+    public void setTeacher(EmployeeDto teacher) {
         this.teacher = teacher;
-    }
-
-    public List<SchoolbookDb> getBookList() {
-        return schoolbooks;
-    }
-
-    public void setBookList(List<SchoolbookDb> schoolbooks) {
-        this.schoolbooks = schoolbooks;
     }
 
     @Override
     public String toString() {
         return "SchoolClass{" +
-                "schoolbooks=" + schoolbooks +
                 ", teacher=" + teacher +
                 ", letter=" + letter +
                 ", course=" + course +
@@ -92,14 +78,13 @@ public class SchoolClassDb {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SchoolClassDb)) return false;
+        if (!(o instanceof SchoolClassDto)) return false;
 
-        SchoolClassDb that = (SchoolClassDb) o;
+        SchoolClassDto that = (SchoolClassDto) o;
 
         if (course != that.course) return false;
         if (letter != that.letter) return false;
-        if (teacher != null ? !teacher.equals(that.teacher) : that.teacher != null) return false;
-        return schoolbooks != null ? schoolbooks.equals(that.schoolbooks) : that.schoolbooks == null;
+        return teacher != null ? teacher.equals(that.teacher) : that.teacher == null;
 
     }
 
@@ -108,7 +93,14 @@ public class SchoolClassDb {
         int result = course;
         result = 31 * result + (int) letter;
         result = 31 * result + (teacher != null ? teacher.hashCode() : 0);
-        result = 31 * result + (schoolbooks != null ? schoolbooks.hashCode() : 0);
         return result;
+    }
+
+    public void setBooksInClass(List<BookInClassDto> booksInClass) {
+        this.booksInClass = booksInClass;
+    }
+
+    public List<BookInClassDto> getBooksInClass() {
+        return booksInClass;
     }
 }

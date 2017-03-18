@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import ua.timonov.aplib.dao.SchoolClassDao;
-import ua.timonov.aplib.model.SchoolClassDb;
+import ua.timonov.aplib.dto.SchoolClassDto;
 
 import java.util.List;
 
@@ -19,45 +19,45 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
     }
 
     @Override
-    public SchoolClassDb add(SchoolClassDb schoolClass) {
+    public SchoolClassDto add(SchoolClassDto schoolClass) {
         sessionFactory.getCurrentSession().save(schoolClass);
         return schoolClass;
     }
 
     @Override
-    public SchoolClassDb update(SchoolClassDb schoolClass) {
+    public SchoolClassDto update(SchoolClassDto schoolClass) {
         sessionFactory.getCurrentSession().update(schoolClass);
         return schoolClass;
     }
 
     @Override
-    public SchoolClassDb delete(int id) {
-        SchoolClassDb schoolClass = getById(id);
+    public SchoolClassDto delete(int id) {
+        SchoolClassDto schoolClass = getById(id);
         sessionFactory.getCurrentSession().delete(schoolClass);
         return schoolClass;
     }
 
     @Override
-    public List<SchoolClassDb> getAll() {
+    public List<SchoolClassDto> getAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select schoolClass from SchoolClassDb schoolClass").list();
+        return session.createQuery("select schoolClass from SchoolClassDto schoolClass").list();
     }
 
     @Override
-    public SchoolClassDb getById(int id) {
+    public SchoolClassDto getById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select schoolClass from SchoolClassDb schoolClass where schoolClass.id = :param");
+        Query query = session.createQuery("select schoolClass from SchoolClassDto schoolClass where schoolClass.id = :param");
         query.setParameter("param", id);
-        return (SchoolClassDb) query.uniqueResult();
+        return (SchoolClassDto) query.uniqueResult();
     }
 
     @Override
-    public SchoolClassDb getByName(int course, char letter) {
+    public SchoolClassDto getByName(int course, char letter) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select schoolClass from SchoolClassDb schoolClass where " +
+        Query query = session.createQuery("select schoolClass from SchoolClassDto schoolClass where " +
                 "schoolClass.course = :paramCourse and schoolClass.letter = :paramLetter");
         query.setParameter("paramCourse", course);
         query.setParameter("paramLetter", letter);
-        return (SchoolClassDb) query.uniqueResult();
+        return (SchoolClassDto) query.uniqueResult();
     }
 }
