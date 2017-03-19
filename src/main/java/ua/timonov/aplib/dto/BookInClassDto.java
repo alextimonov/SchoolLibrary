@@ -1,5 +1,7 @@
 package ua.timonov.aplib.dto;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,7 +18,8 @@ public class BookInClassDto {
     @Column
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "class_id")
     private SchoolClassDto schoolClass;
 

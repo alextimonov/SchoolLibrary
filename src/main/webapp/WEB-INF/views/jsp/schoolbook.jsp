@@ -38,20 +38,38 @@
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
+                <c:set var="schoolbook" value="${it.schoolbook}"/>;
                 <c:url var="addUrl" value="/library/books/addForm"/>
-                <c:url var="editUrl" value="/library/books/editForm?id=${it.id}"/>
-                <c:url var="deleteUrl" value="/library/books/deleteForm?id=${it.id}"/>
+                <c:url var="editUrl" value="/library/books/editForm?id=${schoolbook.id}"/>
+                <c:url var="deleteUrl" value="/library/books/deleteForm?id=${schoolbook.id}"/>
                 <tr>
-                    <td>${it.id}</td>
-                    <td>${it.name}</td>
-                    <td>${it.course}</td>
-                    <td>${it.amountTotal}</td>
-                    <td>${it.librarian.position}</td>
-                    <td>${it.librarian.name} ${it.librarian.surname} </td>
+                    <td>${schoolbook.id}</td>
+                    <td>${schoolbook.name}</td>
+                    <td>${schoolbook.course}</td>
+                    <td>${schoolbook.amountTotal}</td>
+                    <td>${schoolbook.librarian.position}</td>
+                    <td>${schoolbook.librarian.name} ${it.librarian.surname} </td>
                     <td><a href="${addUrl}">Add</a></td>
                     <td><a href="${editUrl}">Edit</a></td>
                     <td><a href="${deleteUrl}">Delete</a></td>
                 </tr>
+            </table>
+            <table class="table table-striped">
+                <caption>Book's amount in classes</caption>
+                <tr>
+                    <th>ID</th>
+                    <th>Class</th>
+                    <th>Teacher</th>
+                    <th>Amount</th>
+                </tr>
+                <c:forEach var="bookInClass" items="${it.booksInClass}">
+                    <tr>
+                        <td>${bookInClass.schoolClassId}</td>
+                        <td>${bookInClass.schoolClassCourse}-${bookInClass.schoolClassLetter}</td>
+                        <td>${bookInClass.schoolClassTeacherName} ${bookInClass.schoolClassTeacherSurname}</td>
+                        <td>${bookInClass.nBooksInClass}</td>
+                    </tr>
+                </c:forEach>
             </table>
         </div>
     </article>
@@ -60,4 +78,3 @@
 </div>
 </body>
 </html>
-

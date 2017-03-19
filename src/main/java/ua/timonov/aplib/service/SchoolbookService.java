@@ -1,6 +1,7 @@
 package ua.timonov.aplib.service;
 
 import org.springframework.transaction.annotation.Transactional;
+import ua.timonov.aplib.dao.BookInClassDao;
 import ua.timonov.aplib.dao.SchoolbookDao;
 import ua.timonov.aplib.dto.BookInClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
@@ -16,10 +17,15 @@ import java.util.List;
  */
 public class SchoolbookService {
     private SchoolbookDao schoolbookDao;
+    private BookInClassDao bookInClassDao;
     private EmployeeService employeeService;
 
     public void setSchoolbookDao(SchoolbookDao schoolbookDao) {
         this.schoolbookDao = schoolbookDao;
+    }
+
+    public void setBookInClassDao(BookInClassDao bookInClassDao) {
+        this.bookInClassDao = bookInClassDao;
     }
 
     public void setEmployeeService(EmployeeService employeeService) {
@@ -84,5 +90,16 @@ public class SchoolbookService {
         bookInClassDto.setnBooksInClass(bookInClass.getnBooksInClass());
         bookInClassDto.setSchoolbook(getSchoolbookDto(bookInClass.getSchoolbook()));
         return bookInClassDto;
+    }
+
+    @Transactional
+    public List<BookInClass> getBooksInClass(Schoolbook schoolbook) {
+        SchoolbookDto schoolbookDto = getSchoolbookDto(schoolbook);
+        List<BookInClassDto> booksInClassDto = bookInClassDao.getByBook(schoolbookDto);
+        List<BookInClass> booksInClass = new ArrayList<>();
+        for (BookInClassDto bookInClassDto : booksInClassDto) {
+            booksInClass.add(new BookInClass(bookInClassDto));
+        }
+        return booksInClass;
     }
 }
