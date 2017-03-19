@@ -1,5 +1,6 @@
 package ua.timonov.aplib.dao;
 
+import ua.timonov.aplib.dto.EmployeeDto;
 import ua.timonov.aplib.dto.SchoolClassDto;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface SchoolClassDao {
     SchoolClassDto getById(int id);
 
     SchoolClassDto getByName(int course, char letter);
+
+    SchoolClassDto getSchoolClassByEmployee(EmployeeDto employeeDto);
 }

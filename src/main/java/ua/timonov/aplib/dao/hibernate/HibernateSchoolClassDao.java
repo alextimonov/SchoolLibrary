@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import ua.timonov.aplib.dao.SchoolClassDao;
+import ua.timonov.aplib.dto.EmployeeDto;
 import ua.timonov.aplib.dto.SchoolClassDto;
 
 import java.util.List;
@@ -58,6 +59,14 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
                 "schoolClass.course = :paramCourse and schoolClass.letter = :paramLetter");
         query.setParameter("paramCourse", course);
         query.setParameter("paramLetter", letter);
+        return (SchoolClassDto) query.uniqueResult();
+    }
+
+    @Override
+    public SchoolClassDto getSchoolClassByEmployee(EmployeeDto employeeDto) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select schoolClass from SchoolClassDto schoolClass where schoolClass.teacher.id = :param");
+        query.setParameter("param", employeeDto.getId());
         return (SchoolClassDto) query.uniqueResult();
     }
 }

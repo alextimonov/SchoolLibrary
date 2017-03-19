@@ -48,7 +48,7 @@
                     <td><a href="${deleteUrl}">Delete</a></td>
                 </tr>
             </table>
-            <hr>
+            <br>
             <table class="table table-striped">
                 <tr>
                     <th>ID</th>

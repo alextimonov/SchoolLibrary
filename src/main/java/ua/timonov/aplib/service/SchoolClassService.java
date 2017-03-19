@@ -54,7 +54,7 @@ public class SchoolClassService {
 
         int teacherId = schoolClass.getTeacher().getId();
         Employee teacher = employeeService.getById(teacherId);
-        EmployeeDto teacherDto = employeeService.getEmployeeDb(teacher);
+        EmployeeDto teacherDto = employeeService.getEmployeeDto(teacher);
         schoolClassDto.setTeacher(teacherDto);
 
         List<BookInClass> booksInClass = schoolClass.getBooksInClass();

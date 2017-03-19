@@ -47,7 +47,7 @@ public class SchoolbookService {
         schoolbookDb.setAmountTotal(schoolbook.getAmountTotal());
         int librarianId = schoolbook.getLibrarian().getId();
         Employee librarian = employeeService.getById(librarianId);
-        schoolbookDb.setLibrarian(employeeService.getEmployeeDb(librarian));
+        schoolbookDb.setLibrarian(employeeService.getEmployeeDto(librarian));
         return schoolbookDb;
     }
 

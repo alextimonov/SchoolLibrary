@@ -20,13 +20,16 @@ public class SchoolClass {
     }
 
     public SchoolClass(SchoolClassDto schoolClassDto) {
-        this.id = schoolClassDto.getId();
-        this.course = schoolClassDto.getCourse();
-        this.letter = schoolClassDto.getLetter();
-        this.teacher = new Employee(schoolClassDto.getTeacher());
-        List<BookInClassDto> booksInClassDto = schoolClassDto.getBooksInClass();
-        for (BookInClassDto bookInClassDto : booksInClassDto) {
-            this.booksInClass.add(new BookInClass(bookInClassDto));
+        // TODO
+        if (schoolClassDto != null) {
+            this.id = schoolClassDto.getId();
+            this.course = schoolClassDto.getCourse();
+             this.letter = schoolClassDto.getLetter();
+            this.teacher = new Employee(schoolClassDto.getTeacher());
+            List<BookInClassDto> booksInClassDto = schoolClassDto.getBooksInClass();
+            for (BookInClassDto bookInClassDto : booksInClassDto) {
+                this.booksInClass.add(new BookInClass(bookInClassDto));
+            }
         }
     }
 

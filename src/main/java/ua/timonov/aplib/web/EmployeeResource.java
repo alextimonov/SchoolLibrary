@@ -3,6 +3,7 @@ package ua.timonov.aplib.web;
 import org.glassfish.jersey.server.mvc.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.timonov.aplib.model.Employee;
+import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.service.EmployeeService;
 
 import javax.ws.rs.*;
@@ -39,8 +40,13 @@ public class EmployeeResource {
     @GET
     @Path("/{id}")
     @Template(name = "/employee.jsp")
-    public Employee getEmployeeById(@PathParam("id") int id) {
-        return employeeService.getById(id);
+    public Response getEmployeeById(@PathParam("id") int id) {
+        Employee employee = employeeService.getById(id);
+        SchoolClass schoolClass = employeeService.getSchoolClass(employee);
+        Map<String, Object> map = new HashMap<>();
+        map.put("employee", employee);
+        map.put("schoolClass", schoolClass);
+        return Response.ok(map).build();
     }
 
     /*@GET

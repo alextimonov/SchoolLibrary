@@ -3,8 +3,11 @@ package ua.timonov.aplib.service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.dao.JobDao;
+import ua.timonov.aplib.dao.SchoolClassDao;
+import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.dto.EmployeeDto;
+import ua.timonov.aplib.model.SchoolClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
  */
 public class EmployeeService {
     private EmployeeDao employeeDao;
+    private SchoolClassDao schoolClassDao;
     private JobDao jobDao;
 
     public void setEmployeeDao(EmployeeDao employeeDao) {
@@ -24,27 +28,31 @@ public class EmployeeService {
         this.jobDao = jobDao;
     }
 
+    public void setSchoolClassDao(SchoolClassDao schoolClassDao) {
+        this.schoolClassDao = schoolClassDao;
+    }
+
     @Transactional
     public Employee add(Employee employee) {
-        EmployeeDto employeeDb = getEmployeeDb(employee);
+        EmployeeDto employeeDb = getEmployeeDto(employee);
         return new Employee(employeeDao.add(employeeDb));
     }
 
     @Transactional
     public Employee update(int id, Employee employee) {
         employee.setId(id);
-        EmployeeDto employeeDb = getEmployeeDb(employee);
+        EmployeeDto employeeDb = getEmployeeDto(employee);
         return new Employee(employeeDao.update(employeeDb));
     }
 
     @Transactional
-    public EmployeeDto getEmployeeDb(Employee employee) {
-        EmployeeDto employeeDb = new EmployeeDto();
-        employeeDb.setId(employee.getId());
-        employeeDb.setName(employee.getName());
-        employeeDb.setSurname(employee.getSurname());
-        employeeDb.setJob(jobDao.getJobByPosition(employee.getPosition().toUpperCase()));
-        return employeeDb;
+    public EmployeeDto getEmployeeDto(Employee employee) {
+        EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setId(employee.getId());
+        employeeDto.setName(employee.getName());
+        employeeDto.setSurname(employee.getSurname());
+        employeeDto.setJob(jobDao.getJobByPosition(employee.getPosition().toUpperCase()));
+        return employeeDto;
     }
 
     @Transactional
@@ -88,5 +96,12 @@ public class EmployeeService {
     @Transactional
     public List<String> getAllPositions() {
         return jobDao.getAllPositions();
+    }
+
+    @Transactional
+    public SchoolClass getSchoolClass(Employee employee) {
+        EmployeeDto employeeDto = getEmployeeDto(employee);
+        SchoolClassDto schoolClassDto = schoolClassDao.getSchoolClassByEmployee(employeeDto);
+        return new SchoolClass(schoolClassDto);
     }
 }
