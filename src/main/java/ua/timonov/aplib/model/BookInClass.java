@@ -7,10 +7,20 @@ import ua.timonov.aplib.dto.BookInClassDto;
  */
 public class BookInClass {
     private Schoolbook schoolbook;
+    private int schoolClassId;
+    private int schoolClassCourse;
+    private char schoolClassLetter;
+    private String schoolClassTeacherName;
+    private String schoolClassTeacherSurname;
     private int nBooksInClass;
 
     public BookInClass(BookInClassDto bookInClassDto) {
         this.schoolbook = new Schoolbook(bookInClassDto.getSchoolbook());
+        this.schoolClassId = bookInClassDto.getSchoolClass().getId();
+        this.schoolClassCourse = bookInClassDto.getSchoolClass().getCourse();
+        this.schoolClassLetter = bookInClassDto.getSchoolClass().getLetter();
+        this.schoolClassTeacherName = bookInClassDto.getSchoolClass().getTeacher().getName();
+        this.schoolClassTeacherSurname = bookInClassDto.getSchoolClass().getTeacher().getSurname();
         this.nBooksInClass = bookInClassDto.getnBooksInClass();
     }
 
@@ -30,30 +40,43 @@ public class BookInClass {
         this.nBooksInClass = nBooksInClass;
     }
 
-    @Override
-    public String toString() {
-        return "BookInClass{" +
-                "schoolbook=" + schoolbook +
-                ", nBooksInClass=" + nBooksInClass +
-                '}';
+    public int getSchoolClassId() {
+        return schoolClassId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BookInClass)) return false;
-
-        BookInClass that = (BookInClass) o;
-
-        if (nBooksInClass != that.nBooksInClass) return false;
-        return schoolbook != null ? schoolbook.equals(that.schoolbook) : that.schoolbook == null;
-
+    public void setSchoolClassId(int schoolClassId) {
+        this.schoolClassId = schoolClassId;
     }
 
-    @Override
-    public int hashCode() {
-        int result = schoolbook != null ? schoolbook.hashCode() : 0;
-        result = 31 * result + nBooksInClass;
-        return result;
+    public int getSchoolClassCourse() {
+        return schoolClassCourse;
+    }
+
+    public void setSchoolClassCourse(int schoolClassCourse) {
+        this.schoolClassCourse = schoolClassCourse;
+    }
+
+    public char getSchoolClassLetter() {
+        return schoolClassLetter;
+    }
+
+    public void setSchoolClassLetter(char schoolClassLetter) {
+        this.schoolClassLetter = schoolClassLetter;
+    }
+
+    public String getSchoolClassTeacherName() {
+        return schoolClassTeacherName;
+    }
+
+    public void setSchoolClassTeacherName(String schoolClassTeacherName) {
+        this.schoolClassTeacherName = schoolClassTeacherName;
+    }
+
+    public String getSchoolClassTeacherSurname() {
+        return schoolClassTeacherSurname;
+    }
+
+    public void setSchoolClassTeacherSurname(String schoolClassTeacherSurname) {
+        this.schoolClassTeacherSurname = schoolClassTeacherSurname;
     }
 }

@@ -2,14 +2,17 @@ package ua.timonov.aplib.web;
 
 import org.glassfish.jersey.server.mvc.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import ua.timonov.aplib.model.BookInClass;
 import ua.timonov.aplib.model.Schoolbook;
 import ua.timonov.aplib.service.EmployeeService;
+import ua.timonov.aplib.service.SchoolClassService;
 import ua.timonov.aplib.service.SchoolbookService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +24,7 @@ import java.util.Map;
 public class SchoolbookResource {
     private SchoolbookService schoolbookService;
     private EmployeeService employeeService;
+    private SchoolClassService schoolClassService;
 
     @Autowired
     public void setSchoolbookService(SchoolbookService schoolbookService) {
@@ -30,6 +34,11 @@ public class SchoolbookResource {
     @Autowired
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
+    }
+
+    @Autowired
+    public void setSchoolClassService(SchoolClassService schoolClassService) {
+        this.schoolClassService = schoolClassService;
     }
 
     @GET
@@ -44,8 +53,13 @@ public class SchoolbookResource {
     @GET
     @Path("/{id}")
     @Template(name = "/schoolbook.jsp")
-    public Schoolbook getSchoolbookById(@PathParam("id") int id) {
-        return schoolbookService.getById(id);
+    public Response getSchoolbookById(@PathParam("id") int id) {
+        Map<String, Object> map = new HashMap<>();
+        Schoolbook schoolbook = schoolbookService.getById(id);
+        List<BookInClass> booksInClass = schoolbookService.getBooksInClass(schoolbook);
+        map.put("schoolbook", schoolbook);
+        map.put("booksInClass", booksInClass);
+        return Response.ok(map).build();
     }
 
     /*@GET
