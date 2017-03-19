@@ -33,7 +33,7 @@ public class SchoolClassResource {
     }
 
     @GET
-    @Template(name = "/schoolClasses.jsp")
+    @Template(name = "/schoolclasses.jsp")
 //    @ErrorTemplate(name = "/error.jsp")
     public Response getAllSchoolClasses() {
         Map<String, Object> map = new HashMap<>();
@@ -44,7 +44,7 @@ public class SchoolClassResource {
 
     @GET
     @Path("/{id}")
-    @Template(name = "/schoolClass.jsp")
+    @Template(name = "/schoolclass.jsp")
     public SchoolClass getSchoolClassById(@PathParam("id") int id) {
         return schoolClassService.getById(id);
     }
