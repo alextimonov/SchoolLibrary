@@ -31,14 +31,15 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Course</th>
-                    <th>Amount</th>
+                    <th>Total</th>
+                    <th>Residue</th>
                     <th>Responsible</th>
                     <th>Employee</th>
                     <th>Add</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
-                <c:set var="schoolbook" value="${it.schoolbook}"/>;
+                <c:set var="schoolbook" value="${it.schoolbook}"/>
                 <c:url var="addUrl" value="/library/books/addForm"/>
                 <c:url var="editUrl" value="/library/books/editForm?id=${schoolbook.id}"/>
                 <c:url var="deleteUrl" value="/library/books/deleteForm?id=${schoolbook.id}"/>
@@ -47,8 +48,9 @@
                     <td>${schoolbook.name}</td>
                     <td>${schoolbook.course}</td>
                     <td>${schoolbook.amountTotal}</td>
+                    <td>${it.residue}</td>
                     <td>${schoolbook.librarian.position}</td>
-                    <td>${schoolbook.librarian.name} ${it.librarian.surname} </td>
+                    <td>${schoolbook.librarian.name} ${it.librarian.surname}</td>
                     <td><a href="${addUrl}">Add</a></td>
                     <td><a href="${editUrl}">Edit</a></td>
                     <td><a href="${deleteUrl}">Delete</a></td>
@@ -60,7 +62,7 @@
                     <th>ID</th>
                     <th>Class</th>
                     <th>Teacher</th>
-                    <th>Amount</th>
+                    <th>Amount in class</th>
                 </tr>
                 <c:forEach var="bookInClass" items="${it.booksInClass}">
                     <tr>
