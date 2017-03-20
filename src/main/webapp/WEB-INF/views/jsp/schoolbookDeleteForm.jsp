@@ -71,61 +71,107 @@
 
     <article>
         <div class="container">
-            <form id="form" class="form-horizontal" action="/library/books">
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label">ID:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="control-label">${it.id}</label>
-                    </div>
-                </div>
+            <c:choose>
+                <c:when test="${it.id > 0}">
+                    <form id="form" class="form-horizontal" action="/library/books">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">ID:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">${it.id}</label>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label">Name:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="control-label">${it.name}</label>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">Name:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">${it.name}</label>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label">Course:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="control-label">${it.course}</label>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">Course:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">${it.course}</label>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label">Amount:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="control-label">${it.amountTotal}</label>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">Amount:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">${it.amountTotal}</label>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label">Librarian:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <label class="control-label">${it.librarian.position}
-                            ${it.librarian.name} ${it.librarian.surname}</label>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">Responsible:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <label class="control-label">${it.librarian.position}
+                                    ${it.librarian.name} ${it.librarian.surname}</label>
+                            </div>
+                        </div>
 
-                <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-trash"></span> Delete schoolbook
-                </button>
-            </form>
-            <br>
+                        <button id="submit" class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-trash"></span> Delete schoolbook
+                        </button>
+                    </form>
+                    <br>
+                </c:when>
+                <c:otherwise>
+                    <h3>Schoolbook cannot be deleted while it's items are in some classes</h3>
+                    <form id="form" class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">Name:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">${it.name}</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">Course:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">${it.course}</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">Amount:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">${it.amountTotal}</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">Responsible:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <label class="control-label">${it.librarian.position}
+                                    ${it.librarian.name} ${it.librarian.surname}
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </c:otherwise>
+            </c:choose>
             <form class="form-inline" action="/library/books" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span> Return to booksInClass</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span> Return to schoolbooks</button>
             </form>
         </div>
     </article>
