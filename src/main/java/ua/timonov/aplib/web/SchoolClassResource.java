@@ -1,7 +1,9 @@
 package ua.timonov.aplib.web;
 
 import org.glassfish.jersey.server.mvc.Template;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.service.EmployeeService;
 import ua.timonov.aplib.service.SchoolClassService;
@@ -19,6 +21,7 @@ import java.util.Map;
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class SchoolClassResource {
+    private static final int ERROR_ID = -1;
     private SchoolClassService schoolClassService;
     private EmployeeService employeeService;
 
@@ -98,7 +101,14 @@ public class SchoolClassResource {
     @Path("/deleteForm")
     @Template(name = "/schoolClassDeleteForm.jsp")
     public Response formDeleteEmployee(@QueryParam("id") int id) {
-        SchoolClass schoolClass = schoolClassService.delete(id);
-        return Response.ok(schoolClass).build();
+        try {
+            SchoolClass schoolClass = schoolClassService.delete(id);
+            return Response.ok(schoolClass).build();
+        }
+        catch (HibernateException | DataAccessException e) {
+            SchoolClass schoolClass = schoolClassService.getById(id);
+            schoolClass.setId(ERROR_ID);
+            return Response.ok(schoolClass).build();
+        }
     }
 }

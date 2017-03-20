@@ -50,7 +50,7 @@
                     <td>${schoolbook.amountTotal}</td>
                     <td>${it.residue}</td>
                     <td>${schoolbook.librarian.position}</td>
-                    <td>${schoolbook.librarian.name} ${it.librarian.surname}</td>
+                    <td>${schoolbook.librarian.name} ${schoolbook.librarian.surname}</td>
                     <td><a href="${addUrl}">Add</a></td>
                     <td><a href="${editUrl}">Edit</a></td>
                     <td><a href="${deleteUrl}">Delete</a></td>

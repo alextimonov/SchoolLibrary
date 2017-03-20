@@ -40,9 +40,8 @@ public class SchoolClassService {
 
     @Transactional
     public SchoolClass add(SchoolClass schoolClass) {
-        SchoolClassDto schoolClassDb = getSchoolClassDto(schoolClass);
-        schoolClassDao.add(schoolClassDb);
-        return schoolClass;
+        SchoolClassDto schoolClassDto = getSchoolClassDto(schoolClass);
+        return new SchoolClass(schoolClassDao.add(schoolClassDto));
     }
 
     @Transactional
@@ -57,7 +56,7 @@ public class SchoolClassService {
         EmployeeDto teacherDto = employeeService.getEmployeeDto(teacher);
         schoolClassDto.setTeacher(teacherDto);
 
-        List<BookInClass> booksInClass = schoolClass.getBooksInClass();
+        List<BookInClass> booksInClass = new ArrayList<>(); // schoolClass.getBooksList().getBooks();
         List<BookInClassDto> booksInClassDto = new ArrayList<>();
         for (BookInClass bookInClass : booksInClass) {
             booksInClassDto.add(schoolbookService.getBookInClassDto(bookInClass));

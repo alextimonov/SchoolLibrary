@@ -15,11 +15,12 @@
             $('#form').submit(function(e) {
                 e.preventDefault();
                 var formData = {"course": $("#course").val(), "letter": $("#letter").val(),
-                    "teacher": { "id": $("#teacher").val() } };
+                    "teacher": { "id": $("#teacher").val() }, "booksList": { "books": [] } }; //
                 $.ajax({
                     url: ctxPath + "/library/classes",
                     type: "POST",
                     data: JSON.stringify(formData),
+//                    data: $.toJSON(formData),
                     contentType: "application/json",
                     cache: false,
                     dataType: "json",
@@ -63,7 +64,7 @@
 
     <article>
         <div class="container">
-            <form id="form" class="form-horizontal" method="POST" action="/library/books">
+            <form id="form" class="form-horizontal" method="POST" action="/library/classes">
                 <div class="form-group">
                     <div class="col-sm-2">
                         <label class="control-label" for="course">Course:</label>
@@ -102,7 +103,7 @@
                 </button>
             </form>
             <br>
-            <form class="form-inline" action="/library/books" method="GET">
+            <form class="form-inline" action="/library/classes" method="GET">
                 <button class="btn btn-primary" type="submit">
                     <span class="glyphicon glyphicon-triangle-left"></span> Return to school classes</button>
             </form>
