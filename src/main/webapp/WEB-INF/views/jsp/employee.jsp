@@ -38,8 +38,8 @@
                     <th>Delete</th>
                 </tr>
                 <c:url var="addUrl" value="/library/employees/addForm"/>
-                <c:url var="editUrl" value="/library/employees/editForm?id=${it.id}"/>
-                <c:url var="deleteUrl" value="/library/employees/deleteForm?id=${it.id}"/>
+                <c:url var="editUrl" value="/library/employees/editForm?id=${it.employee.id}"/>
+                <c:url var="deleteUrl" value="/library/employees/deleteForm?id=${it.employee.id}"/>
                 <tr>
                     <td>${it.employee.id}</td>
                     <td>${it.employee.name}</td>

@@ -1,11 +1,16 @@
 package ua.timonov.aplib.dao.hibernate;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.dto.EmployeeDto;
+import ua.timonov.aplib.exceptions.ForbidToDeleteException;
 
 import java.util.List;
 
