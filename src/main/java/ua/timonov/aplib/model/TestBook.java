@@ -1,11 +1,9 @@
 package ua.timonov.aplib.model;
 
-import ua.timonov.aplib.dto.BookInClassDto;
-
 /**
- *
+ * Created by Alex on 22.03.2017.
  */
-public class BookInClass {
+public class TestBook {
     private Schoolbook schoolbook;
     private int schoolClassId;
     private int schoolClassCourse;
@@ -14,33 +12,12 @@ public class BookInClass {
     private String schoolClassTeacherSurname;
     private int booksNumber;
 
-    public BookInClass() {
-    }
-
-    public BookInClass(BookInClassDto bookInClassDto) {
-//        this.schoolbook = new Schoolbook(bookInClassDto.getSchoolbook());
-        this.schoolClassId = bookInClassDto.getSchoolClass().getId();
-        this.schoolClassCourse = bookInClassDto.getSchoolClass().getCourse();
-        this.schoolClassLetter = bookInClassDto.getSchoolClass().getLetter();
-        this.schoolClassTeacherName = bookInClassDto.getSchoolClass().getTeacher().getName();
-        this.schoolClassTeacherSurname = bookInClassDto.getSchoolClass().getTeacher().getSurname();
-        this.booksNumber = bookInClassDto.getnBooksInClass();
-    }
-
     public Schoolbook getSchoolbook() {
         return schoolbook;
     }
 
     public void setSchoolbook(Schoolbook schoolbook) {
         this.schoolbook = schoolbook;
-    }
-
-    public int getBooksNumber() {
-        return booksNumber;
-    }
-
-    public void setBooksNumber(int booksNumber) {
-        this.booksNumber = booksNumber;
     }
 
     public int getSchoolClassId() {
@@ -83,10 +60,19 @@ public class BookInClass {
         this.schoolClassTeacherSurname = schoolClassTeacherSurname;
     }
 
+    public int getBooksNumber() {
+        return booksNumber;
+    }
+
+    public void setBooksNumber(int booksNumber) {
+        this.booksNumber = booksNumber;
+    }
+
     @Override
     public String toString() {
-        return "BookInClass{" +
-                "schoolClassId=" + schoolClassId +
+        return "TestBook{" +
+                "schoolbook=" + schoolbook +
+                ", schoolClassId=" + schoolClassId +
                 ", schoolClassCourse=" + schoolClassCourse +
                 ", schoolClassLetter=" + schoolClassLetter +
                 ", schoolClassTeacherName='" + schoolClassTeacherName + '\'' +
@@ -98,23 +84,25 @@ public class BookInClass {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof BookInClass)) return false;
+        if (!(o instanceof TestBook)) return false;
 
-        BookInClass that = (BookInClass) o;
+        TestBook testBook = (TestBook) o;
 
-        if (schoolClassId != that.schoolClassId) return false;
-        if (schoolClassCourse != that.schoolClassCourse) return false;
-        if (schoolClassLetter != that.schoolClassLetter) return false;
-        if (booksNumber != that.booksNumber) return false;
-        if (schoolClassTeacherName != null ? !schoolClassTeacherName.equals(that.schoolClassTeacherName) : that.schoolClassTeacherName != null)
+        if (schoolClassId != testBook.schoolClassId) return false;
+        if (schoolClassCourse != testBook.schoolClassCourse) return false;
+        if (schoolClassLetter != testBook.schoolClassLetter) return false;
+        if (booksNumber != testBook.booksNumber) return false;
+        if (schoolbook != null ? !schoolbook.equals(testBook.schoolbook) : testBook.schoolbook != null) return false;
+        if (schoolClassTeacherName != null ? !schoolClassTeacherName.equals(testBook.schoolClassTeacherName) : testBook.schoolClassTeacherName != null)
             return false;
-        return schoolClassTeacherSurname != null ? schoolClassTeacherSurname.equals(that.schoolClassTeacherSurname) : that.schoolClassTeacherSurname == null;
+        return schoolClassTeacherSurname != null ? schoolClassTeacherSurname.equals(testBook.schoolClassTeacherSurname) : testBook.schoolClassTeacherSurname == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = schoolClassId;
+        int result = schoolbook != null ? schoolbook.hashCode() : 0;
+        result = 31 * result + schoolClassId;
         result = 31 * result + schoolClassCourse;
         result = 31 * result + (int) schoolClassLetter;
         result = 31 * result + (schoolClassTeacherName != null ? schoolClassTeacherName.hashCode() : 0);

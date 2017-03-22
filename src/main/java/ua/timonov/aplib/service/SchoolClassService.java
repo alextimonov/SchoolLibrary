@@ -41,7 +41,7 @@ public class SchoolClassService {
     @Transactional
     public SchoolClass add(SchoolClass schoolClass) {
         SchoolClassDto schoolClassDto = getSchoolClassDto(schoolClass);
-        return new SchoolClass(schoolClassDao.add(schoolClassDto));
+        return new SchoolClass(); //(schoolClassDao.add(schoolClassDto));
     }
 
     @Transactional
@@ -69,12 +69,12 @@ public class SchoolClassService {
     public SchoolClass update(int id, SchoolClass schoolClass) {
         schoolClass.setId(id);
         SchoolClassDto schoolClassDb = getSchoolClassDto(schoolClass);
-        return new SchoolClass(schoolClassDao.update(schoolClassDb));
+        return new SchoolClass(); // schoolClassDao.update(schoolClassDb));
     }
 
     @Transactional
     public SchoolClass delete(int id) {
-        return new SchoolClass(schoolClassDao.delete(id));
+        return new SchoolClass(); //schoolClassDao.delete(id));
     }
 
     @Transactional
@@ -84,7 +84,7 @@ public class SchoolClassService {
         for (SchoolClassDto schoolClassDto : schoolClassesDto) {
             List<BookInClassDto> booksInClassDto = bookInClassDao.getByClass(schoolClassDto);
             schoolClassDto.setBooksInClass(booksInClassDto);
-            schoolClasses.add(new SchoolClass(schoolClassDto));
+            schoolClasses.add(new SchoolClass()); //(schoolClassDto));
         }
         return schoolClasses;
     }
@@ -94,13 +94,13 @@ public class SchoolClassService {
         SchoolClassDto schoolClassDto = schoolClassDao.getById(classId);
         List<BookInClassDto> booksInClassDto = bookInClassDao.getByClass(schoolClassDto);
         schoolClassDto.setBooksInClass(booksInClassDto);
-        return new SchoolClass(schoolClassDto);
+        return new SchoolClass(); // schoolClassDto);
     }
 
     @Transactional
     public SchoolClass getByName(String name) {
         int course = (int) name.charAt(0);
         char letter = name.charAt(1);
-        return new SchoolClass(schoolClassDao.getByName(course, letter));
+        return new SchoolClass(); // schoolClassDao.getByName(course, letter));
     }
 }

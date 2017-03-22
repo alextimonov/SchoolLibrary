@@ -64,7 +64,7 @@ public class SchoolbookResource {
         int amountTotal = schoolbook.getAmountTotal();
         int amountInClasses = 0;
         for (BookInClass bookInClass : booksInClass) {
-            amountInClasses += bookInClass.getnBooksInClass();
+            amountInClasses += bookInClass.getBooksNumber();
         }
         return amountTotal - amountInClasses;
     }

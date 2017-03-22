@@ -102,6 +102,6 @@ public class EmployeeService {
     public SchoolClass getSchoolClass(Employee employee) {
         EmployeeDto employeeDto = getEmployeeDto(employee);
         SchoolClassDto schoolClassDto = schoolClassDao.getSchoolClassByEmployee(employeeDto);
-        return new SchoolClass(schoolClassDto);
+        return new SchoolClass(); // schoolClassDto);
     }
 }

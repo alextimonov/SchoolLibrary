@@ -15,7 +15,7 @@
             $('#form').submit(function(e) {
                 e.preventDefault();
                 var formData = {"course": $("#course").val(), "letter": $("#letter").val(),
-                    "teacher": { "id": $("#teacher").val() }, "booksList": { "books": [] } }; //
+                    "teacher": { "id": $("#teacher").val() } };  // , "booksList": { "books": [] }
                 $.ajax({
                     url: ctxPath + "/library/classes",
                     type: "POST",

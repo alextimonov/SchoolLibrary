@@ -69,7 +69,7 @@
                         <td>${bookInClass.schoolClassId}</td>
                         <td>${bookInClass.schoolClassCourse}-${bookInClass.schoolClassLetter}</td>
                         <td>${bookInClass.schoolClassTeacherName} ${bookInClass.schoolClassTeacherSurname}</td>
-                        <td>${bookInClass.nBooksInClass}</td>
+                        <td>${bookInClass.booksNumber}</td>
                     </tr>
                 </c:forEach>
             </table>

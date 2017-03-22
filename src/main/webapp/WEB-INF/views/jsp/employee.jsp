@@ -67,7 +67,7 @@
                         <tr>
                             <td>${bookInClass.schoolbook.id}</td>
                             <td>${bookInClass.schoolbook.name}</td>
-                            <td>${bookInClass.nBooksInClass}</td>
+                            <td>${bookInClass.booksNumber}</td>
                             <td>${bookInClass.schoolbook.amountTotal}</td>
                         </tr>
                     </c:forEach>
