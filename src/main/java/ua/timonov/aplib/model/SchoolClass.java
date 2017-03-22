@@ -1,5 +1,8 @@
 package ua.timonov.aplib.model;
 
+import ua.timonov.aplib.dto.BookInClassDto;
+import ua.timonov.aplib.dto.SchoolClassDto;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +15,12 @@ public class SchoolClass {
     private char letter;
     private Employee teacher;
     private int pupilsNumber;
-//    private ListOfBooksInClass booksList;
     private List<BookInClass> booksInClass = new ArrayList<>();
 
     public SchoolClass() {
     }
 
-    /*public SchoolClass(SchoolClassDto schoolClassDto) {
+    public SchoolClass(SchoolClassDto schoolClassDto) {
         // TODO
         if (schoolClassDto != null) {
             this.id = schoolClassDto.getId();
@@ -30,7 +32,7 @@ public class SchoolClass {
                 this.booksInClass.add(new BookInClass(bookInClassDto));
             }
         }
-    }*/
+    }
 
     public List<BookInClass> getBooksInClass() {
         return booksInClass;

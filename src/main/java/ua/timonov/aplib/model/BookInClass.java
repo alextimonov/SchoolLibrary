@@ -18,7 +18,7 @@ public class BookInClass {
     }
 
     public BookInClass(BookInClassDto bookInClassDto) {
-//        this.schoolbook = new Schoolbook(bookInClassDto.getSchoolbook());
+        this.schoolbook = new Schoolbook(bookInClassDto.getSchoolbook());
         this.schoolClassId = bookInClassDto.getSchoolClass().getId();
         this.schoolClassCourse = bookInClassDto.getSchoolClass().getCourse();
         this.schoolClassLetter = bookInClassDto.getSchoolClass().getLetter();

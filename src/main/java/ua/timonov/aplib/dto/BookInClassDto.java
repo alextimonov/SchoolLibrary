@@ -3,8 +3,6 @@ package ua.timonov.aplib.dto;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
-import ua.timonov.aplib.model.BookInClass;
-import ua.timonov.aplib.model.Schoolbook;
 
 import javax.persistence.*;
 
@@ -67,7 +65,7 @@ public class BookInClassDto {
         this.nBooksInClass = nBooksInClass;
     }
 
-    public BookInClass getBookInClass() {
+    /*public BookInClass getBookInClass() {
         BookInClass bookInClass = new BookInClass();
         bookInClass.setSchoolbook(new Schoolbook(schoolbook));
         bookInClass.setSchoolClassId(schoolClass.getId());
@@ -77,7 +75,7 @@ public class BookInClassDto {
         bookInClass.setSchoolClassTeacherSurname(schoolClass.getTeacher().getSurname());
         bookInClass.setBooksNumber(nBooksInClass);
         return bookInClass;
-    }
+    }*/
 
     @Override
     public String toString() {
