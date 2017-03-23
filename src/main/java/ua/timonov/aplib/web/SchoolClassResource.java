@@ -1,5 +1,6 @@
 package ua.timonov.aplib.web;
 
+import org.glassfish.jersey.server.mvc.ErrorTemplate;
 import org.glassfish.jersey.server.mvc.Template;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,10 @@ public class SchoolClassResource {
     }*/
     
     @POST
+    @ErrorTemplate(name = "/errorAdd.jsp")
     public SchoolClass addSchoolClass(SchoolClass schoolClass) {
         return schoolClassService.add(schoolClass);
+//        return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage());
     }
 
     @PUT

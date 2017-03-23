@@ -22,7 +22,7 @@ public class EmployeeDto {
     @Column
     private String surname;
 
-    @ManyToOne  //(cascade = CascadeType.ALL)
+    @ManyToOne  // (cascade = CascadeType.ALL)
     @JoinColumn(name = "position_id")
     private JobDto job;
 

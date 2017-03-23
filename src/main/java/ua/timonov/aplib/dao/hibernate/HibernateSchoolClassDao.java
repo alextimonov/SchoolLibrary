@@ -6,7 +6,10 @@ import org.hibernate.query.Query;
 import ua.timonov.aplib.dao.SchoolClassDao;
 import ua.timonov.aplib.dto.EmployeeDto;
 import ua.timonov.aplib.dto.SchoolClassDto;
+import ua.timonov.aplib.dto.SchoolbookDto;
+import ua.timonov.aplib.exceptions.ForbidToAddException;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -20,9 +23,21 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
     }
 
     @Override
-    public SchoolClassDto add(SchoolClassDto schoolClass) {
-        sessionFactory.getCurrentSession().save(schoolClass);
-        return schoolClass;
+    public SchoolClassDto add(SchoolClassDto newSchoolClass) {
+        EmployeeDto newTeacher = newSchoolClass.getTeacher();
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select schoolClass from SchoolClassDto schoolClass where schoolClass.teacher.id = :param");
+        query.setParameter("param", newTeacher.getId());
+        SchoolClassDto schoolClassDto = (SchoolClassDto) query.uniqueResult();
+        if (schoolClassDto != null) {
+            Response.status(Response.Status.FORBIDDEN);
+            throw new ForbidToAddException("Teacher " + newTeacher.getName() + " " + newTeacher.getSurname() +
+                    " is already curator of class " + schoolClassDto.getCourse() + "-" + schoolClassDto.getLetter());
+        }
+        else {
+            session.save(newSchoolClass);
+            return newSchoolClass;
+        }
     }
 
     @Override

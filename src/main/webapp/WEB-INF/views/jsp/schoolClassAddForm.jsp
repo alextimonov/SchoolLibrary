@@ -15,33 +15,23 @@
             $('#form').submit(function(e) {
                 e.preventDefault();
                 var formData = {"course": $("#course").val(), "letter": $("#letter").val(),
-                    "teacher": { "id": $("#teacher").val() } };  // , "booksList": { "books": [] }
+                    "teacher": { "id": $("#teacher").val() } };
                 $.ajax({
                     url: ctxPath + "/library/classes",
                     type: "POST",
                     data: JSON.stringify(formData),
-//                    data: $.toJSON(formData),
                     contentType: "application/json",
                     cache: false,
-                    dataType: "json",
-                    success: function(data, textStatus, jqXHR) {
-                        alert("New class successfully added: " + data.course + "-" + data.letter);
-                        window.location = ctxPath + "/library/classes";
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        if(jqXHR.status == 400) {
-                            var messages = JSON.parse(jqXHR.responseText);
-                            $('#messages').empty();
-                            $.each(messages, function(i, v) {
-                                var item = $('<li>').append(v);
-                                $('#messages').append(item);
-                            });
-                        }
-                        else {
-                            alert('Server error. HTTP status: ' + jqXHR.status);
-                        }
-                    }
-                });
+                    dataType: "json"
+                })
+                        .done(function(data, textStatus, jqXHR) {
+                            alert("New class successfully added: " + data.course + "-" + data.letter);
+                            window.location = ctxPath + "/library/classes";
+                        })
+                        .fail(function(jqXHR, textStatus, errorThrown) {
+                            alert(jqXHR.responseText);
+                        })
+
             });
         });
     </script>
@@ -117,3 +107,26 @@
 </html>
 
 
+<%--function OnError(xhr, errorType, exception) {
+var responseText;
+$("#dialog").html("");
+try {
+responseText = jQuery.parseJSON(xhr.responseText);
+$("#dialog").append("<div><b>" + errorType + " " + exception + "</b></div>");
+$("#dialog").append("<div><p>Exception</p>:<br /><br />" + responseText.ExceptionType + "</div>");
+$("#dialog").append("<div><p>StackTrace</p>:<br /><br />" + responseText.StackTrace + "</div>");
+$("#dialog").append("<div><p>Message</p>:<br /><br />" + responseText.Message + "</div>");
+} catch (e) {
+responseText = xhr.responseText;
+$("#dialog").html(responseText);
+}
+$("#dialog").dialog({
+title: "jQuery Exception Details",
+width: 700,
+buttons: {
+Close: function () {
+$(this).dialog('close');
+}
+}
+});
+}--%>
