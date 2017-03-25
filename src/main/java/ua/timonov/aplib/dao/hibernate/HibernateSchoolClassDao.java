@@ -3,14 +3,14 @@ package ua.timonov.aplib.dao.hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.SchoolClassDao;
 import ua.timonov.aplib.dto.EmployeeDto;
 import ua.timonov.aplib.dto.SchoolClassDto;
-import ua.timonov.aplib.dto.SchoolbookDto;
 import ua.timonov.aplib.exceptions.ForbidToAddException;
+import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -46,6 +46,23 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
         }
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public SchoolClassDto update(SchoolClassDto schoolClassEdited) {
+        EmployeeDto newTeacher = schoolClassEdited.getTeacher();
+        Session session = sessionFactory.getCurrentSession();
+        SchoolClassDto sameSchoolClass = findSameSchoolClass(schoolClassEdited, session);
+        SchoolClassDto schoolClassWithSameTeacher = findSchoolClassWithSameTeacher(newTeacher, session);
+        if ((sameSchoolClass != null && schoolClassEdited.getId() != sameSchoolClass.getId()) ||
+                (schoolClassWithSameTeacher != null && newTeacher.getId() != schoolClassWithSameTeacher.getTeacher().getId())) {
+            throw new ForbidToAddException("Class is already in school or teacher is already curator of another class.");
+        }
+        else {
+            session.update(schoolClassEdited);
+            return schoolClassEdited;
+        }
+    }
+
     @Transactional
     private SchoolClassDto findSchoolClassWithSameTeacher(EmployeeDto newTeacher, Session session) {
         Query queryFindTeacher = session.createQuery("select schoolClass from SchoolClassDto schoolClass where schoolClass.teacher.id = :param");
@@ -64,17 +81,15 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
 
     @Override
     @Transactional
-    public SchoolClassDto update(SchoolClassDto schoolClass) {
-        sessionFactory.getCurrentSession().update(schoolClass);
-        return schoolClass;
-    }
-
-    @Override
-    @Transactional
     public SchoolClassDto delete(int id) {
-        SchoolClassDto schoolClass = getById(id);
-        sessionFactory.getCurrentSession().delete(schoolClass);
-        return schoolClass;
+        SchoolClassDto schoolClass = getSchoolClassById(id);
+        if (schoolClass != null) {
+            sessionFactory.getCurrentSession().delete(schoolClass);
+            return schoolClass;
+        }
+        else {
+            throw new NoItemInDatabaseException("There is no class with id = " + id + " in database!");
+        }
     }
 
     @Override
@@ -86,16 +101,17 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
 
     @Override
     @Transactional
-    public SchoolClassDto getById(int id) {
+    public SchoolClassDto getSchoolClassById(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select schoolClass from SchoolClassDto schoolClass where schoolClass.id = :param");
         query.setParameter("param", id);
-        return (SchoolClassDto) query.uniqueResult();
+        SchoolClassDto foundSchoolClassDto = (SchoolClassDto) query.uniqueResult();
+        return foundSchoolClassDto;
     }
 
     @Override
     @Transactional
-    public SchoolClassDto getByName(int course, char letter) {
+    public SchoolClassDto getSchoolClassByName(int course, char letter) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select schoolClass from SchoolClassDto schoolClass where " +
                 "schoolClass.course = :paramCourse and schoolClass.letter = :paramLetter");

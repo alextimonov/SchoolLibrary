@@ -6,6 +6,7 @@ import ua.timonov.aplib.dao.SchoolClassDao;
 import ua.timonov.aplib.dto.BookInClassDto;
 import ua.timonov.aplib.dto.EmployeeDto;
 import ua.timonov.aplib.dto.SchoolClassDto;
+import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.BookInClass;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
@@ -68,8 +69,8 @@ public class SchoolClassService {
     @Transactional
     public SchoolClass update(int id, SchoolClass schoolClass) {
         schoolClass.setId(id);
-        SchoolClassDto schoolClassDb = getSchoolClassDto(schoolClass);
-        return new SchoolClass(schoolClassDao.update(schoolClassDb));
+        SchoolClassDto schoolClassDto = getSchoolClassDto(schoolClass);
+        return new SchoolClass(schoolClassDao.update(schoolClassDto));
     }
 
     @Transactional
@@ -91,16 +92,20 @@ public class SchoolClassService {
 
     @Transactional
     public SchoolClass getById(int classId) {
-        SchoolClassDto schoolClassDto = schoolClassDao.getById(classId);
-        List<BookInClassDto> booksInClassDto = bookInClassDao.getByClass(schoolClassDto);
-        schoolClassDto.setBooksInClass(booksInClassDto);
-        return new SchoolClass(schoolClassDto);
+        SchoolClassDto schoolClassDto = schoolClassDao.getSchoolClassById(classId);
+        if (schoolClassDto != null) {
+            List<BookInClassDto> booksInClassDto = bookInClassDao.getByClass(schoolClassDto);
+            schoolClassDto.setBooksInClass(booksInClassDto);
+            return new SchoolClass(schoolClassDto);
+        }
+        else
+            throw new NoItemInDatabaseException("There is no class with id = " + classId + " in database!");
     }
 
     @Transactional
     public SchoolClass getByName(String name) {
         int course = (int) name.charAt(0);
         char letter = name.charAt(1);
-        return new SchoolClass(schoolClassDao.getByName(course, letter));
+        return new SchoolClass(schoolClassDao.getSchoolClassByName(course, letter));
     }
 }

@@ -31,7 +31,6 @@
                         .fail(function(jqXHR, textStatus, errorThrown) {
                             alert(jqXHR.responseText);
                         })
-
             });
         });
     </script>
@@ -93,6 +92,7 @@
                 </button>
             </form>
             <br>
+
             <form class="form-inline" action="/library/classes" method="GET">
                 <button class="btn btn-primary" type="submit">
                     <span class="glyphicon glyphicon-triangle-left"></span> Return to school classes</button>

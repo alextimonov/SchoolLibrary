@@ -20,6 +20,10 @@ public class SchoolClass {
     public SchoolClass() {
     }
 
+    public SchoolClass(int id) {
+        this.id = id;
+    }
+
     public SchoolClass(SchoolClassDto schoolClassDto) {
         // TODO
         if (schoolClassDto != null) {

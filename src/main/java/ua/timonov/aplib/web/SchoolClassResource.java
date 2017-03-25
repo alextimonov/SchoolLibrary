@@ -5,6 +5,7 @@ import org.glassfish.jersey.server.mvc.Template;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.service.EmployeeService;
 import ua.timonov.aplib.service.SchoolClassService;
@@ -57,11 +58,11 @@ public class SchoolClassResource {
     @Path("/{name}")
     @Transactional
     public SchoolClass getSchoolClassByName(@PathParam("name") String name) {
-        return schoolClassService.getByName(name);
+        return schoolClassService.getSchoolClassByName(name);
     }*/
     
     @POST
-    @ErrorTemplate(name = "/errorAdd.jsp")
+    @ErrorTemplate(name = "/errorMessage.jsp")
     public SchoolClass addSchoolClass(SchoolClass schoolClass) {
         return schoolClassService.add(schoolClass);
 //        return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage());
@@ -69,12 +70,15 @@ public class SchoolClassResource {
 
     @PUT
     @Path("/{id}")
+    @ErrorTemplate(name = "/errorMessage.jsp")
     public SchoolClass updateSchoolClass(@PathParam("id") int id, SchoolClass schoolClass) {
-        return schoolClassService.update(id, schoolClass);
+        SchoolClass schoolClassEdited = schoolClassService.update(id, schoolClass);
+        return schoolClassEdited;
     }
 
     @DELETE
     @Path("/{id}")
+    @ErrorTemplate(name = "/errorMessage.jsp")
     public SchoolClass deleteSchoolClass(@PathParam("id") int id) {
         return schoolClassService.delete(id);
     }
@@ -93,11 +97,18 @@ public class SchoolClassResource {
     @Path("/editForm")
     @Template(name = "/schoolClassEditForm.jsp")
     public Response formEditEmployee(@QueryParam("id") int id) {
-        SchoolClass schoolClass = schoolClassService.getById(id);
         Map<String, Object> map = new HashMap<>();
-        map.put("schoolClass", schoolClass);
-        map.put("teachers", employeeService.getTeachers());
-        return Response.ok(map).build();
+        try {
+            SchoolClass schoolClass = schoolClassService.getById(id);
+            map.put("schoolClass", schoolClass);
+            map.put("teachers", employeeService.getTeachers());
+            return Response.ok(map).build();
+        }
+        catch (NoItemInDatabaseException e) {
+            SchoolClass schoolClass = new SchoolClass(id);
+            map.put("schoolClass", schoolClass);
+            return Response.ok(map).build();
+        }
     }
 
     @GET
@@ -111,6 +122,10 @@ public class SchoolClassResource {
         catch (HibernateException | DataAccessException e) {
             SchoolClass schoolClass = schoolClassService.getById(id);
             schoolClass.setId(ERROR_ID);
+            return Response.ok(schoolClass).build();
+        }
+        catch (NoItemInDatabaseException e) {
+            SchoolClass schoolClass = new SchoolClass(id);
             return Response.ok(schoolClass).build();
         }
     }

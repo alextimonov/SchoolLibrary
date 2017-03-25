@@ -72,8 +72,8 @@ public class SchoolbookResource {
     /*@GET
     @Path("/{name}")
     @Transactional
-    public Schoolbook getByName(@PathParam("name") String name) {
-        return schoolbookService.getByName(name);
+    public Schoolbook getSchoolClassByName(@PathParam("name") String name) {
+        return schoolbookService.getSchoolClassByName(name);
     }*/
 
     @POST

@@ -23,17 +23,46 @@
                     data: JSON.stringify(formData),
                     contentType: "application/json",
                     cache: false,
-                    dataType: "json",
-                    success: function(data, textStatus, jqXHR) {
-                        alert("Class's data successfully changed: #" + data.id + ", class " + data.course + "-" +
-                                data.letter);
-                        window.location = ctxPath + "/library/classes";
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status == 405) { // Method PUT not allowed in JSP
-                            alert("Class's data successfully changed.");
+                    dataType: "json"
+                })
+                        .done(function(data, textStatus, jqXHR) {
+                            alert("Class's data successfully changed: #" + data.id + ", class " + data.course + "-" +
+                                    data.letter);
                             window.location = ctxPath + "/library/classes";
-                        }
+                        })
+                        .fail(function(jqXHR, textStatus, errorThrown) {
+                            if (jqXHR.status == 405) {  // Method PUT not allowed in JSP
+                                alert("Class is already in school or teacher is already curator of another class.");
+                                window.location = ctxPath + "/library/classes";
+                            }
+                            else {
+                                alert(jqXHR.responseText);
+                            }
+                        })
+            });
+        });
+
+        /* if (jqXHR.status == 405) { // Method PUT not allowed in JSP
+         alert("Class's data successfully changed.");
+         window.location = ctxPath + "/library/classes";
+         }
+         else {*/
+
+                        /*
+                         success: function(data, textStatus, jqXHR) {
+                         alert("Class's data successfully changed: #" + data.id + ", class " + data.course + "-" +
+                         data.letter);
+                         window.location = ctxPath + "/library/classes";
+                         },
+                         error: function(jqXHR, textStatus, errorThrown) {
+                         if (jqXHR.status == 405) { // Method PUT not allowed in JSP
+                         alert("Class's data successfully changed.");
+                         window.location = ctxPath + "/library/classes";
+                         }
+                         else {
+                         alert(jqXHR.responseText);
+                         }
+
                         else {
                             if (jqXHR.status == 400) {
                                 var messages = JSON.parse(jqXHR.responseText);
@@ -42,15 +71,7 @@
                                     var item = $('<li>').append(v);
                                     $('#messages').append(item);
                                 });
-                            }
-                            else {
-                                alert('Server error. HTTP status: ' + jqXHR.status);
-                            }
-                        }
-                    }
-                });
-            });
-        });
+                            }*/
     </script>
 </head>
 <body>
@@ -72,55 +93,62 @@
     <article>
         <c:set var="schoolClass" value="${it.schoolClass}"/>
         <div class="container">
-            <form id="form" class="form-horizontal" action="/library/classes">
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="id">ID:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="id" name="id" value="${schoolClass.id}" disabled="true" type="text"/>
-                    </div>
-                </div>
+            <c:choose>
+                <c:when test="${schoolClass.course > 0}">
+                    <form id="form" class="form-horizontal" action="/library/classes">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="id">ID:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="id" name="id" value="${schoolClass.id}" disabled="true" type="text"/>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="course">Course:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="course" name="course" value="${schoolClass.course}" type="text"/>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="course">Course:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="course" name="course" value="${schoolClass.course}" type="text"/>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="letter">Letter:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="letter" name="letter" value="${schoolClass.letter}" type="text"/>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="letter">Letter:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="letter" name="letter" value="${schoolClass.letter}" type="text"/>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="teacher">Teacher:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <select id="teacher" name="teacher" class="form-control">
-                            <option disabled>Choose from teachers:</option>
-                            <c:forEach var="employee" items="${it.teachers}">
-                                <option <c:if test="${employee.id == schoolClass.teacher.id}">selected</c:if>
-                                        value=${employee.id}>${employee.position} ${employee.name} ${employee.surname}
-                                </option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="teacher">Teacher:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <select id="teacher" name="teacher" class="form-control">
+                                    <option disabled>Choose from teachers:</option>
+                                    <c:forEach var="employee" items="${it.teachers}">
+                                        <option <c:if test="${employee.id == schoolClass.teacher.id}">selected</c:if>
+                                                value=${employee.id}>${employee.position} ${employee.name} ${employee.surname}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
 
-                <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span> Save edited class
-                </button>
-            </form>
-            <br>
+                        <button id="submit" class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-floppy-disk"></span> Save edited class
+                        </button>
+                    </form>
+                    <br>
+                </c:when>
+                <c:otherwise>
+                    <h3>There is no class with id = ${schoolClass.id} in database. You cannot edit it.</h3>
+                </c:otherwise>
+            </c:choose>
             <form class="form-inline" action="/library/classes" method="GET">
                 <button class="btn btn-primary" type="submit">
                     <span class="glyphicon glyphicon-triangle-left"></span> Return to classes</button>

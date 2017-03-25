@@ -5,6 +5,8 @@ import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.dao.JobDao;
 import ua.timonov.aplib.dao.SchoolClassDao;
 import ua.timonov.aplib.dto.EmployeeDto;
+import ua.timonov.aplib.dto.JobDto;
+import ua.timonov.aplib.dto.Position;
 import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
@@ -51,7 +53,8 @@ public class EmployeeService {
         employeeDto.setId(employee.getId());
         employeeDto.setName(employee.getName());
         employeeDto.setSurname(employee.getSurname());
-        employeeDto.setJob(jobDao.getJobByPosition(employee.getPosition().toUpperCase()));
+        String employeePosition = employee.getPosition();
+        employeeDto.setJob(new JobDto(Position.byName(employeePosition.toUpperCase())));
         return employeeDto;
     }
 

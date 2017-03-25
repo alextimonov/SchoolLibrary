@@ -17,9 +17,9 @@ public interface SchoolClassDao {
 
     List<SchoolClassDto> getAll();
 
-    SchoolClassDto getById(int id);
+    SchoolClassDto getSchoolClassById(int id);
 
-    SchoolClassDto getByName(int course, char letter);
+    SchoolClassDto getSchoolClassByName(int course, char letter);
 
     SchoolClassDto getSchoolClassByEmployee(EmployeeDto employeeDto);
 }
