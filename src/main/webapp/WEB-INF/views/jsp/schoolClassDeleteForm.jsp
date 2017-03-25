@@ -35,6 +35,9 @@
                             window.location = ctxPath + "/library/classes";
                         }
                         else {
+                            alert(jqXHR.responseText);
+                        }
+                        /*{
                             if (jqXHR.status == 400) {
                                 var messages = JSON.parse(jqXHR.responseText);
                                 $('#messages').empty();
@@ -43,10 +46,7 @@
                                     $('#messages').append(item);
                                 });
                             }
-                            else {
-                                alert('Server error. HTTP status: ' + jqXHR.status);
-                            }
-                        }
+                            else {*/
                     }
                 });
             });
@@ -71,50 +71,93 @@
 
     <article>
         <div class="container">
-            <form id="form" class="form-horizontal" action="/library/classes">
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label">ID:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="control-label">${it.id}</label>
-                    </div>
-                </div>
+            <c:choose>
+                <c:when test="${it.course > 0}">
+                    <c:choose>
+                        <c:when test="${it.id > 0}">
+                            <form id="form" class="form-horizontal" action="/library/classes">
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <label class="control-label">ID:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label">${it.id}</label>
+                                    </div>
+                                </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label">Course:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="control-label">${it.course}</label>
-                    </div>
-                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <label class="control-label">Course:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label">${it.course}</label>
+                                    </div>
+                                </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label">Letter:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <label class="control-label">${it.letter}</label>
-                    </div>
-                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <label class="control-label">Letter:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label">${it.letter}</label>
+                                    </div>
+                                </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label">Teacher:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <label class="control-label">${it.teacher.position}
-                            ${it.teacher.name} ${it.teacher.surname}</label>
-                    </div>
-                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <label class="control-label">Teacher:</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <label class="control-label">${it.teacher.position}
+                                                ${it.teacher.name} ${it.teacher.surname}</label>
+                                    </div>
+                                </div>
 
-                <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-trash"></span> Delete class
-                </button>
-            </form>
-            <br>
-            <form class="form-inline" action="/library/books" method="GET">
+                                <button id="submit" class="btn btn-primary" type="submit">
+                                    <span class="glyphicon glyphicon-trash"></span> Delete class
+                                </button>
+                            </form>
+                            <br>
+                        </c:when>
+                        <c:otherwise>
+                            <h3>Class cannot be deleted while it has some schoolbooks</h3>
+                            <form id="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <label class="control-label">Course:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label">${it.course}</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <label class="control-label">Letter:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label">${it.letter}</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <label class="control-label">Teacher:</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <label class="control-label">${it.teacher.position}
+                                                ${it.teacher.name} ${it.teacher.surname}</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:otherwise>
+                    <h3>There is no class with id = ${it.id} in database. You cannot delete it.</h3>
+                </c:otherwise>
+            </c:choose>
+            <form class="form-inline" action="/library/classes" method="GET">
                 <button class="btn btn-primary" type="submit">
                     <span class="glyphicon glyphicon-triangle-left"></span> Return to classes</button>
             </form>

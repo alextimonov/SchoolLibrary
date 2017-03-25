@@ -48,18 +48,20 @@
                     <td><a href="${deleteUrl}">Delete</a></td>
                 </tr>
             </table>
-            <hr>
+            <br>
             <table class="table table-striped">
                 <tr>
                     <th>ID</th>
                     <th>School book</th>
-                    <th>Amount (TOTAL)</th>
+                    <th>Amount in class</th>
+                    <th>TOTAL</th>
                 </tr>
-                <c:forEach var="schoolbook" items="${it.booksInClass}">
+                <c:forEach var="bookInClass" items="${it.booksInClass}">
                     <tr>
-                        <td>${schoolbook.id}</td>
-                        <td>${schoolbook.name}</td>
-                        <td>${schoolbook.amountTotal}</td>
+                        <td>${bookInClass.schoolbook.id}</td>
+                        <td>${bookInClass.schoolbook.name}</td>
+                        <td>${bookInClass.booksNumber}</td>
+                        <td>${bookInClass.schoolbook.amountTotal}</td>
                     </tr>
                 </c:forEach>
             </table>

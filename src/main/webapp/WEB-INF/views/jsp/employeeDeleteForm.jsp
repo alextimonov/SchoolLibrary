@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>School library. Add Employee</title>
+    <title>School library. Delete Employee</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
         var ctxPath = "<%=request.getContextPath() %>";
@@ -70,47 +70,82 @@
 
     <article>
         <div class="container">
-            <form id="form" class="form-horizontal" action="/library/employees">
-                <div class="form-group">
-                    <div class="col-sm-3">
-                        <label class="control-label">ID:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <label class="control-label">${it.id}</label>
-                    </div>
-                </div>
+            <c:choose>
+                <c:when test="${it.id > 0}">
+                    <form id="form" class="form-horizontal" action="/library/employees">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label class="control-label">ID:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <label class="control-label">${it.id}</label>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-3">
-                        <label class="control-label">Name:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <label class="control-label">${it.name}</label>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label class="control-label">Name:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <label class="control-label">${it.name}</label>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-3">
-                        <label class="control-label">Surname:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <label class="control-label">${it.surname}</label>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label class="control-label">Surname:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <label class="control-label">${it.surname}</label>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-3">
-                        <label class="control-label">Position:</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <label class="control-label">${it.position}</label>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label class="control-label">Position:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <label class="control-label">${it.position}</label>
+                            </div>
+                        </div>
 
-                <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-trash"></span> Delete employee
-                </button>
-            </form>
+                        <button id="submit" class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-trash"></span> Delete employee
+                        </button>
+                    </form>
+                </c:when>
+                <c:otherwise>
+                    <h3>Employee cannot be deleted while he(she) is a curator of some class:</h3>
+                    <form id="form" class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label class="control-label">Name:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <label class="control-label">${it.name}</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label class="control-label">Surname:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <label class="control-label">${it.surname}</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label class="control-label">Position:</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <label class="control-label">${it.position}</label>
+                            </div>
+                        </div>
+                    </form>
+                </c:otherwise>
+            </c:choose>
             <br>
             <form class="form-inline" action="/library/employees" method="GET">
                 <button class="btn btn-primary" type="submit">

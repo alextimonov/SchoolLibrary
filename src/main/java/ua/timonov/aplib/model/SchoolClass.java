@@ -14,20 +14,44 @@ public class SchoolClass {
     private int course;
     private char letter;
     private Employee teacher;
+    private int pupilsNumber;
     private List<BookInClass> booksInClass = new ArrayList<>();
 
     public SchoolClass() {
     }
 
+    public SchoolClass(int id) {
+        this.id = id;
+    }
+
     public SchoolClass(SchoolClassDto schoolClassDto) {
-        this.id = schoolClassDto.getId();
-        this.course = schoolClassDto.getCourse();
-        this.letter = schoolClassDto.getLetter();
-        this.teacher = new Employee(schoolClassDto.getTeacher());
-        List<BookInClassDto> booksInClassDto = schoolClassDto.getBooksInClass();
-        for (BookInClassDto bookInClassDto : booksInClassDto) {
-            this.booksInClass.add(new BookInClass(bookInClassDto));
+        // TODO
+        if (schoolClassDto != null) {
+            this.id = schoolClassDto.getId();
+            this.course = schoolClassDto.getCourse();
+            this.letter = schoolClassDto.getLetter();
+            this.teacher = new Employee(schoolClassDto.getTeacher());
+            List<BookInClassDto> booksInClassDto = schoolClassDto.getBooksInClass();
+            for (BookInClassDto bookInClassDto : booksInClassDto) {
+                this.booksInClass.add(new BookInClass(bookInClassDto));
+            }
         }
+    }
+
+    public List<BookInClass> getBooksInClass() {
+        return booksInClass;
+    }
+
+    public void setBooksInClass(List<BookInClass> booksInClass) {
+        this.booksInClass = booksInClass;
+    }
+
+    public int getPupilsNumber() {
+        return pupilsNumber;
+    }
+
+    public void setPupilsNumber(int pupilsNumber) {
+        this.pupilsNumber = pupilsNumber;
     }
 
     public int getId() {
@@ -62,14 +86,6 @@ public class SchoolClass {
         this.teacher = teacher;
     }
 
-    public List<BookInClass> getBooksInClass() {
-        return booksInClass;
-    }
-
-    public void setBooksInClass(List<BookInClass> booksInClass) {
-        this.booksInClass = booksInClass;
-    }
-
     @Override
     public String toString() {
         return "SchoolClass{" +
@@ -77,7 +93,7 @@ public class SchoolClass {
                 ", course=" + course +
                 ", letter=" + letter +
                 ", teacher=" + teacher +
-                ", booksInClass=" + booksInClass +
+                ", pupilsNumber=" + pupilsNumber +
                 '}';
     }
 
@@ -90,6 +106,7 @@ public class SchoolClass {
 
         if (course != that.course) return false;
         if (letter != that.letter) return false;
+        if (pupilsNumber != that.pupilsNumber) return false;
         if (teacher != null ? !teacher.equals(that.teacher) : that.teacher != null) return false;
         return booksInClass != null ? booksInClass.equals(that.booksInClass) : that.booksInClass == null;
 
@@ -100,6 +117,7 @@ public class SchoolClass {
         int result = course;
         result = 31 * result + (int) letter;
         result = 31 * result + (teacher != null ? teacher.hashCode() : 0);
+        result = 31 * result + pupilsNumber;
         result = 31 * result + (booksInClass != null ? booksInClass.hashCode() : 0);
         return result;
     }

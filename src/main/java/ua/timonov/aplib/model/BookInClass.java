@@ -12,7 +12,10 @@ public class BookInClass {
     private char schoolClassLetter;
     private String schoolClassTeacherName;
     private String schoolClassTeacherSurname;
-    private int nBooksInClass;
+    private int booksNumber;
+
+    public BookInClass() {
+    }
 
     public BookInClass(BookInClassDto bookInClassDto) {
         this.schoolbook = new Schoolbook(bookInClassDto.getSchoolbook());
@@ -21,7 +24,7 @@ public class BookInClass {
         this.schoolClassLetter = bookInClassDto.getSchoolClass().getLetter();
         this.schoolClassTeacherName = bookInClassDto.getSchoolClass().getTeacher().getName();
         this.schoolClassTeacherSurname = bookInClassDto.getSchoolClass().getTeacher().getSurname();
-        this.nBooksInClass = bookInClassDto.getnBooksInClass();
+        this.booksNumber = bookInClassDto.getnBooksInClass();
     }
 
     public Schoolbook getSchoolbook() {
@@ -32,12 +35,12 @@ public class BookInClass {
         this.schoolbook = schoolbook;
     }
 
-    public int getnBooksInClass() {
-        return nBooksInClass;
+    public int getBooksNumber() {
+        return booksNumber;
     }
 
-    public void setnBooksInClass(int nBooksInClass) {
-        this.nBooksInClass = nBooksInClass;
+    public void setBooksNumber(int booksNumber) {
+        this.booksNumber = booksNumber;
     }
 
     public int getSchoolClassId() {
@@ -78,5 +81,45 @@ public class BookInClass {
 
     public void setSchoolClassTeacherSurname(String schoolClassTeacherSurname) {
         this.schoolClassTeacherSurname = schoolClassTeacherSurname;
+    }
+
+    @Override
+    public String toString() {
+        return "BookInClass{" +
+                "schoolClassId=" + schoolClassId +
+                ", schoolClassCourse=" + schoolClassCourse +
+                ", schoolClassLetter=" + schoolClassLetter +
+                ", schoolClassTeacherName='" + schoolClassTeacherName + '\'' +
+                ", schoolClassTeacherSurname='" + schoolClassTeacherSurname + '\'' +
+                ", booksNumber=" + booksNumber +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BookInClass)) return false;
+
+        BookInClass that = (BookInClass) o;
+
+        if (schoolClassId != that.schoolClassId) return false;
+        if (schoolClassCourse != that.schoolClassCourse) return false;
+        if (schoolClassLetter != that.schoolClassLetter) return false;
+        if (booksNumber != that.booksNumber) return false;
+        if (schoolClassTeacherName != null ? !schoolClassTeacherName.equals(that.schoolClassTeacherName) : that.schoolClassTeacherName != null)
+            return false;
+        return schoolClassTeacherSurname != null ? schoolClassTeacherSurname.equals(that.schoolClassTeacherSurname) : that.schoolClassTeacherSurname == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = schoolClassId;
+        result = 31 * result + schoolClassCourse;
+        result = 31 * result + (int) schoolClassLetter;
+        result = 31 * result + (schoolClassTeacherName != null ? schoolClassTeacherName.hashCode() : 0);
+        result = 31 * result + (schoolClassTeacherSurname != null ? schoolClassTeacherSurname.hashCode() : 0);
+        result = 31 * result + booksNumber;
+        return result;
     }
 }

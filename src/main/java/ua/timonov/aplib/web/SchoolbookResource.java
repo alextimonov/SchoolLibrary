@@ -1,11 +1,12 @@
 package ua.timonov.aplib.web;
 
 import org.glassfish.jersey.server.mvc.Template;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import ua.timonov.aplib.model.BookInClass;
 import ua.timonov.aplib.model.Schoolbook;
 import ua.timonov.aplib.service.EmployeeService;
-import ua.timonov.aplib.service.SchoolClassService;
 import ua.timonov.aplib.service.SchoolbookService;
 
 import javax.ws.rs.*;
@@ -22,9 +23,9 @@ import java.util.Map;
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class SchoolbookResource {
+    private static final int ERROR_ID = -1;
     private SchoolbookService schoolbookService;
     private EmployeeService employeeService;
-    private SchoolClassService schoolClassService;
 
     @Autowired
     public void setSchoolbookService(SchoolbookService schoolbookService) {
@@ -34,11 +35,6 @@ public class SchoolbookResource {
     @Autowired
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
-    }
-
-    @Autowired
-    public void setSchoolClassService(SchoolClassService schoolClassService) {
-        this.schoolClassService = schoolClassService;
     }
 
     @GET
@@ -57,16 +53,27 @@ public class SchoolbookResource {
         Map<String, Object> map = new HashMap<>();
         Schoolbook schoolbook = schoolbookService.getById(id);
         List<BookInClass> booksInClass = schoolbookService.getBooksInClass(schoolbook);
+        int residue = getBookResudue(schoolbook, booksInClass);
         map.put("schoolbook", schoolbook);
         map.put("booksInClass", booksInClass);
+        map.put("residue", residue);
         return Response.ok(map).build();
+    }
+
+    private int getBookResudue(Schoolbook schoolbook, List<BookInClass> booksInClass) {
+        int amountTotal = schoolbook.getAmountTotal();
+        int amountInClasses = 0;
+        for (BookInClass bookInClass : booksInClass) {
+            amountInClasses += bookInClass.getBooksNumber();
+        }
+        return amountTotal - amountInClasses;
     }
 
     /*@GET
     @Path("/{name}")
     @Transactional
-    public Schoolbook getByName(@PathParam("name") String name) {
-        return schoolbookService.getByName(name);
+    public Schoolbook getSchoolClassByName(@PathParam("name") String name) {
+        return schoolbookService.getSchoolClassByName(name);
     }*/
 
     @POST
@@ -111,7 +118,14 @@ public class SchoolbookResource {
     @Path("/deleteForm")
     @Template(name = "/schoolbookDeleteForm.jsp")
     public Response formDeleteEmployee(@QueryParam("id") int id) {
-        Schoolbook schoolbook = schoolbookService.delete(id);
-        return Response.ok(schoolbook).build();
+        try {
+            Schoolbook schoolbook = schoolbookService.delete(id);
+            return Response.ok(schoolbook).build();
+        }
+        catch (HibernateException| DataAccessException e) {
+            Schoolbook schoolbook = schoolbookService.getById(id);
+            schoolbook.setId(ERROR_ID);
+            return Response.ok(schoolbook).build();
+        }
     }
 }

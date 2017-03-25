@@ -17,11 +17,11 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(EmployeeDto employeeDb) {
-        this.id = employeeDb.getId();
-        this.name = employeeDb.getName();
-        this.surname = employeeDb.getSurname();
-        this.position = employeeDb.getJob().getPosition().toString().toLowerCase();
+    public Employee(EmployeeDto employeeDto) {
+        this.id = employeeDto.getId();
+        this.name = employeeDto.getName();
+        this.surname = employeeDto.getSurname();
+        this.position = employeeDto.getJob().getPosition().toString().toLowerCase();
     }
 
     public int getId() {

@@ -10,5 +10,6 @@
 <h2>Error page</h2>
 <h3>${pageContext.request.contextPath}</h3>
 <h3>Something goes wrong</h3>
+<h3>${it.message}</h3>
 </body>
 </html>

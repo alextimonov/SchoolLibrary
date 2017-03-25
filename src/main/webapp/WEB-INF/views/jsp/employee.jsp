@@ -32,23 +32,47 @@
                     <th>First name</th>
                     <th>Last name</th>
                     <th>Position</th>
+                    <th>Class</th>
                     <th>Add</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
                 <c:url var="addUrl" value="/library/employees/addForm"/>
-                <c:url var="editUrl" value="/library/employees/editForm?id=${it.id}"/>
-                <c:url var="deleteUrl" value="/library/employees/deleteForm?id=${it.id}"/>
+                <c:url var="editUrl" value="/library/employees/editForm?id=${it.employee.id}"/>
+                <c:url var="deleteUrl" value="/library/employees/deleteForm?id=${it.employee.id}"/>
                 <tr>
-                    <td>${it.id}</td>
-                    <td>${it.name}</td>
-                    <td>${it.surname}</td>
-                    <td>${it.position}</td>
+                    <td>${it.employee.id}</td>
+                    <td>${it.employee.name}</td>
+                    <td>${it.employee.surname}</td>
+                    <td>${it.employee.position}</td>
+                    <td>
+                        <c:if test="${it.schoolClass.course > 0}">${it.schoolClass.course}-${it.schoolClass.letter}</c:if>
+                    </td>
                     <td><a href="${addUrl}">Add</a></td>
                     <td><a href="${editUrl}">Edit</a></td>
                     <td><a href="${deleteUrl}">Delete</a></td>
                 </tr>
             </table>
+            <br>
+            <c:if test="${it.schoolClass.course > 0}">
+                <table class="table table-striped">
+                    <title>Teacher's books</title>
+                    <tr>
+                        <th>ID</th>
+                        <th>School book</th>
+                        <th>Amount in class</th>
+                        <th>TOTAL</th>
+                    </tr>
+                    <c:forEach var="bookInClass" items="${it.schoolClass.booksInClass}">
+                        <tr>
+                            <td>${bookInClass.schoolbook.id}</td>
+                            <td>${bookInClass.schoolbook.name}</td>
+                            <td>${bookInClass.booksNumber}</td>
+                            <td>${bookInClass.schoolbook.amountTotal}</td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:if>
         </div>
     </article>
 

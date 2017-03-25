@@ -14,6 +14,7 @@ public class JobService {
         this.jobDao = jobDao;
     }
 
+    @Deprecated
     public JobDto getJobByPosition(String position) {
         return jobDao.getJobByPosition(position);
     }

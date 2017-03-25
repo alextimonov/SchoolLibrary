@@ -65,6 +65,18 @@ public class BookInClassDto {
         this.nBooksInClass = nBooksInClass;
     }
 
+    /*public BookInClass getBookInClass() {
+        BookInClass bookInClass = new BookInClass();
+        bookInClass.setSchoolbook(new Schoolbook(schoolbook));
+        bookInClass.setSchoolClassId(schoolClass.getId());
+        bookInClass.setSchoolClassCourse(schoolClass.getCourse());
+        bookInClass.setSchoolClassLetter(schoolClass.getLetter());
+        bookInClass.setSchoolClassTeacherName(schoolClass.getTeacher().getName());
+        bookInClass.setSchoolClassTeacherSurname(schoolClass.getTeacher().getSurname());
+        bookInClass.setBooksNumber(nBooksInClass);
+        return bookInClass;
+    }*/
+
     @Override
     public String toString() {
         return "BookInClassDto{" +

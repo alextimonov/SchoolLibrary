@@ -1,8 +1,11 @@
 package ua.timonov.aplib.web;
 
 import org.glassfish.jersey.server.mvc.Template;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import ua.timonov.aplib.model.Employee;
+import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.service.EmployeeService;
 
 import javax.ws.rs.*;
@@ -19,7 +22,8 @@ import java.util.Map;
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class EmployeeResource {
-    private EmployeeService employeeService = new EmployeeService();
+    public static final int ERROR_ID = -1;
+    private EmployeeService employeeService;
 
     @Autowired
     public void setEmployeeService(EmployeeService employeeService) {
@@ -39,8 +43,13 @@ public class EmployeeResource {
     @GET
     @Path("/{id}")
     @Template(name = "/employee.jsp")
-    public Employee getEmployeeById(@PathParam("id") int id) {
-        return employeeService.getById(id);
+    public Response getEmployeeById(@PathParam("id") int id) {
+        Employee employee = employeeService.getById(id);
+        SchoolClass schoolClass = employeeService.getSchoolClass(employee);
+        Map<String, Object> map = new HashMap<>();
+        map.put("employee", employee);
+        map.put("schoolClass", schoolClass);
+        return Response.ok(map).build();
     }
 
     /*@GET
@@ -90,7 +99,14 @@ public class EmployeeResource {
     @Path("/deleteForm")
     @Template(name = "/employeeDeleteForm.jsp")
     public Response formDeleteEmployee(@QueryParam("id") int id) {
-        Employee employee = employeeService.delete(id);
-        return Response.ok(employee).build();
+        try {
+            Employee employee = employeeService.delete(id);
+            return Response.ok(employee).build();
+        }
+        catch (HibernateException | DataAccessException e) {
+            Employee employee = employeeService.getById(id);
+            employee.setId(ERROR_ID);
+            return Response.ok(employee).build();
+        }
     }
 }

@@ -23,10 +23,12 @@ public class HibernateJobDao implements JobDao {
 
     @Override
     @Transactional
-    public JobDto getJobByPosition(String position) {
+    @Deprecated
+    public JobDto getJobByPosition(String positionName) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select job from JobDto job where job.position = :param");
-        query.setParameter("param", Position.byName(position.toUpperCase()));
+        Query query = session.createQuery("select job from JobDto job where job.position like :param");
+        Position positionByName = Position.byName(positionName.toUpperCase());
+        query.setParameter("param", positionByName);
         JobDto job = (JobDto) query.uniqueResult();
         return job;
     }
