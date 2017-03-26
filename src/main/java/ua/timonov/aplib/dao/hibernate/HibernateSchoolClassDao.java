@@ -3,7 +3,6 @@ package ua.timonov.aplib.dao.hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.SchoolClassDao;
 import ua.timonov.aplib.dto.EmployeeDto;
@@ -47,30 +46,19 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional // (propagation = Propagation.REQUIRES_NEW)
     public SchoolClassDto update(SchoolClassDto schoolClassEdited) {
-        EmployeeDto newTeacher = schoolClassEdited.getTeacher();
         Session session = sessionFactory.getCurrentSession();
-        SchoolClassDto sameSchoolClass = findSameSchoolClass(schoolClassEdited, session);
-        SchoolClassDto schoolClassWithSameTeacher = findSchoolClassWithSameTeacher(newTeacher, session);
-        if ((sameSchoolClass != null && schoolClassEdited.getId() != sameSchoolClass.getId()) ||
-                (schoolClassWithSameTeacher != null && newTeacher.getId() != schoolClassWithSameTeacher.getTeacher().getId())) {
-            throw new ForbidToAddException("Class is already in school or teacher is already curator of another class.");
-        }
-        else {
-            session.update(schoolClassEdited);
-            return schoolClassEdited;
-        }
+        session.update(schoolClassEdited);
+        return schoolClassEdited;
     }
 
-    @Transactional
     private SchoolClassDto findSchoolClassWithSameTeacher(EmployeeDto newTeacher, Session session) {
         Query queryFindTeacher = session.createQuery("select schoolClass from SchoolClassDto schoolClass where schoolClass.teacher.id = :param");
         queryFindTeacher.setParameter("param", newTeacher.getId());
         return (SchoolClassDto) queryFindTeacher.uniqueResult();
     }
 
-    @Transactional
     private SchoolClassDto findSameSchoolClass(SchoolClassDto newSchoolClass, Session session) {
         Query queryFindClass = session.createQuery("select schoolClass from SchoolClassDto schoolClass " +
                 "where schoolClass.course = :course and schoolClass.letter = :letter");
@@ -122,10 +110,10 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
 
     @Override
     @Transactional
-    public SchoolClassDto getSchoolClassByEmployee(EmployeeDto employeeDto) {
+    public SchoolClassDto getSchoolClassByTeacherId(int teacherId) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select schoolClass from SchoolClassDto schoolClass where schoolClass.teacher.id = :param");
-        query.setParameter("param", employeeDto.getId());
+        query.setParameter("param", teacherId);
         return (SchoolClassDto) query.uniqueResult();
     }
 }

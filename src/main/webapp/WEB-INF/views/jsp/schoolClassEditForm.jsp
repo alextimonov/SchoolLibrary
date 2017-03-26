@@ -32,7 +32,7 @@
                         })
                         .fail(function(jqXHR, textStatus, errorThrown) {
                             if (jqXHR.status == 405) {  // Method PUT not allowed in JSP
-                                alert("Class is already in school or teacher is already curator of another class.");
+                                alert("There is the same class already in school or teacher is already a curator of another class.");
                                 window.location = ctxPath + "/library/classes";
                             }
                             else {
@@ -42,36 +42,6 @@
             });
         });
 
-        /* if (jqXHR.status == 405) { // Method PUT not allowed in JSP
-         alert("Class's data successfully changed.");
-         window.location = ctxPath + "/library/classes";
-         }
-         else {*/
-
-                        /*
-                         success: function(data, textStatus, jqXHR) {
-                         alert("Class's data successfully changed: #" + data.id + ", class " + data.course + "-" +
-                         data.letter);
-                         window.location = ctxPath + "/library/classes";
-                         },
-                         error: function(jqXHR, textStatus, errorThrown) {
-                         if (jqXHR.status == 405) { // Method PUT not allowed in JSP
-                         alert("Class's data successfully changed.");
-                         window.location = ctxPath + "/library/classes";
-                         }
-                         else {
-                         alert(jqXHR.responseText);
-                         }
-
-                        else {
-                            if (jqXHR.status == 400) {
-                                var messages = JSON.parse(jqXHR.responseText);
-                                $('#messages').empty();
-                                $.each(messages, function (i, v) {
-                                    var item = $('<li>').append(v);
-                                    $('#messages').append(item);
-                                });
-                            }*/
     </script>
 </head>
 <body>
