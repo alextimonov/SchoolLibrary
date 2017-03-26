@@ -39,6 +39,7 @@ public class SchoolClassService {
         this.bookInClassDao = bookInClassDao;
     }
 
+    @Transactional
     public SchoolClass add(SchoolClass schoolClass) {
         SchoolClassDto schoolClassDto = getSchoolClassDto(schoolClass);
         return new SchoolClass(schoolClassDao.add(schoolClassDto));
@@ -65,6 +66,7 @@ public class SchoolClassService {
         return schoolClassDto;
     }
 
+    @Transactional
     public SchoolClass update(SchoolClass schoolClass) {
         SchoolClassDto schoolClassDto = getSchoolClassDto(schoolClass);
         return new SchoolClass(schoolClassDao.update(schoolClassDto));
@@ -101,8 +103,6 @@ public class SchoolClassService {
 
     @Transactional
     public SchoolClass getByName(int course, char letter) {
-//        int course = (int) name.charAt(0);
-//        char letter = name.charAt(1);
         return new SchoolClass(schoolClassDao.getSchoolClassByName(course, letter));
     }
 

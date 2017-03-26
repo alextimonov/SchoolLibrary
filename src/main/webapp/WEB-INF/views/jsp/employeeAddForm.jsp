@@ -36,7 +36,7 @@
                             });
                         }
                         else {
-                            alert('Server error. HTTP status: ' + jqXHR.status);
+                            alert("Server error. HTTP status: " + jqXHR.status + ", response: " + jqXHR.responseText);
                         }
                     }
                 });

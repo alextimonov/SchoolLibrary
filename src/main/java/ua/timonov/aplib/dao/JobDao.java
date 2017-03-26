@@ -9,7 +9,6 @@ import java.util.List;
  * DAO interface for Job
  */
 public interface JobDao {
-    @Deprecated
     JobDto getJobByPosition(String position);
     Position getPositionById(int id);
     List<String> getAllPositions();
