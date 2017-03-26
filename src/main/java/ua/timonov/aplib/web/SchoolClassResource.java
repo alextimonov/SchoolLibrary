@@ -5,7 +5,9 @@ import org.glassfish.jersey.server.mvc.Template;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import ua.timonov.aplib.exceptions.ForbidToAddException;
 import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
+import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.service.EmployeeService;
 import ua.timonov.aplib.service.SchoolClassService;
@@ -72,8 +74,34 @@ public class SchoolClassResource {
     @Path("/{id}")
     @ErrorTemplate(name = "/errorMessage.jsp")
     public SchoolClass updateSchoolClass(@PathParam("id") int id, SchoolClass schoolClass) {
-        SchoolClass schoolClassEdited = schoolClassService.update(id, schoolClass);
-        return schoolClassEdited;
+        schoolClass.setId(id);
+        if (foundClassWithSameName(schoolClass) || foundClassWithSameTeacher(schoolClass)) {
+            throw new ForbidToAddException("PUT. Class is already in school or teacher is already curator of another class.");
+        }
+        else {
+            return schoolClassService.update(schoolClass);
+        }
+    }
+
+    private boolean foundClassWithSameName(SchoolClass newSchoolClass) {
+        SchoolClass foundSchoolClass = schoolClassService.getByName(newSchoolClass.getCourse(), newSchoolClass.getLetter());
+        return foundClassHasAnotherId(newSchoolClass, foundSchoolClass);
+    }
+
+    private boolean foundClassHasAnotherId(SchoolClass newSchoolClass, SchoolClass foundSchoolClass) {
+        return foundSchoolClass.getId() != 0 && newSchoolClass.getId() != foundSchoolClass.getId();
+    }
+
+    private boolean foundClassWithSameTeacher(SchoolClass newSchoolClass) {
+        SchoolClass foundSchoolClass = schoolClassService.getByTeacherId(newSchoolClass.getTeacher().getId());
+        return foundClassHasSameTeacher(newSchoolClass, foundSchoolClass);
+    }
+
+    private boolean foundClassHasSameTeacher(SchoolClass newClass, SchoolClass foundClass) {
+        Employee newClassTeacher = newClass.getTeacher();
+        Employee foundClassTeacher = foundClass.getTeacher();
+        return foundClassTeacher != null && newClass.getId() != foundClass.getId() &&
+                newClassTeacher.getId() == foundClassTeacher.getId();
     }
 
     @DELETE

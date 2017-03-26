@@ -45,7 +45,7 @@ public class EmployeeResource {
     @Template(name = "/employee.jsp")
     public Response getEmployeeById(@PathParam("id") int id) {
         Employee employee = employeeService.getById(id);
-        SchoolClass schoolClass = employeeService.getSchoolClass(employee);
+        SchoolClass schoolClass = employeeService.getSchoolClass(id);
         Map<String, Object> map = new HashMap<>();
         map.put("employee", employee);
         map.put("schoolClass", schoolClass);

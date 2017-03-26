@@ -102,9 +102,8 @@ public class EmployeeService {
     }
 
     @Transactional
-    public SchoolClass getSchoolClass(Employee employee) {
-        EmployeeDto employeeDto = getEmployeeDto(employee);
-        SchoolClassDto schoolClassDto = schoolClassDao.getSchoolClassByEmployee(employeeDto);
-        return new SchoolClass(); // schoolClassDto);
+    public SchoolClass getSchoolClass(int employeeId) {
+        SchoolClassDto schoolClassDto = schoolClassDao.getSchoolClassByTeacherId(employeeId);
+        return new SchoolClass(schoolClassDto);
     }
 }
