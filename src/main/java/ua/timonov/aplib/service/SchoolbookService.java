@@ -34,8 +34,8 @@ public class SchoolbookService {
 
     @Transactional
     public Schoolbook add(Schoolbook schoolbook) {
-        SchoolbookDto schoolbookDb = getSchoolbookDto(schoolbook);
-        return new Schoolbook(schoolbookDao.add(schoolbookDb));
+        SchoolbookDto schoolbookDto = getSchoolbookDto(schoolbook);
+        return new Schoolbook(schoolbookDao.add(schoolbookDto));
     }
 
     @Transactional
@@ -54,8 +54,8 @@ public class SchoolbookService {
     @Transactional
     public Schoolbook update(int id, Schoolbook schoolbook) {
         schoolbook.setId(id);
-        SchoolbookDto schoolbookDb = getSchoolbookDto(schoolbook);
-        return new Schoolbook(schoolbookDao.update(schoolbookDb));
+        SchoolbookDto schoolbookDto = getSchoolbookDto(schoolbook);
+        return new Schoolbook(schoolbookDao.update(schoolbookDto));
     }
 
     @Transactional
@@ -66,29 +66,29 @@ public class SchoolbookService {
     @Transactional
     public List<Schoolbook> getAll() {
         List<Schoolbook> schoolbooks = new ArrayList<>();
-        for (SchoolbookDto schoolbookDb : schoolbookDao.getAll()) {
-            schoolbooks.add(new Schoolbook(schoolbookDb));
+        for (SchoolbookDto schoolbookDto : schoolbookDao.getAll()) {
+            schoolbooks.add(new Schoolbook(schoolbookDto));
         }
         return schoolbooks;
     }
 
     @Transactional
     public Schoolbook getById(int id) {
-        SchoolbookDto schoolbookDb = schoolbookDao.getById(id);
-        return new Schoolbook(schoolbookDb);
+        SchoolbookDto schoolbookDto = schoolbookDao.getById(id);
+        return new Schoolbook(schoolbookDto);
     }
 
     @Transactional
     public Schoolbook getByName(String name) {
-        SchoolbookDto schoolbookDb = schoolbookDao.getByName(name);
-        return new Schoolbook(schoolbookDb);
+        SchoolbookDto schoolbookDto = schoolbookDao.getByName(name);
+        return new Schoolbook(schoolbookDto);
     }
 
     @Transactional
     public BookInClassDto getBookInClassDto(BookInClass bookInClass) {
         BookInClassDto bookInClassDto = new BookInClassDto();
         bookInClassDto.setnBooksInClass(bookInClass.getBooksNumber());
-//        bookInClassDto.setSchoolbook(getSchoolbookDto(bookInClass.getSchoolbook()));
+        bookInClassDto.setSchoolbook(getSchoolbookDto(bookInClass.getSchoolbook()));
         return bookInClassDto;
     }
 

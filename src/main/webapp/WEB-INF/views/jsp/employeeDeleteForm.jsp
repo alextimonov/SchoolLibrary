@@ -72,12 +72,12 @@
         <div class="container">
             <c:choose>
                 <c:when test="${it.errorId == -1}">
-                    <h3>${it.errorMessage}</h3>
+                    <h4>${it.errorMessage}</h4>
                 </c:when>
                 <c:otherwise>
                     <c:choose>
                         <c:when test="${it.errorId == -2}">
-                            <h3>${it.errorMessage}</h3>
+                            <h4>${it.errorMessage}</h4>
                             <form class="form-inline" action="/library/employees/${it.employee.id}" method="GET">
                                 <button class="btn btn-primary" type="submit">
                                     <span class="glyphicon glyphicon-triangle-right"></span> Employee details</button>
