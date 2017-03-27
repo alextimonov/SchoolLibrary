@@ -41,13 +41,12 @@
                         })
             });
         });
-
     </script>
 </head>
 <body>
 <div class="container">
     <header>
-        <h1>School library Web application</h1>
+        <h2>School library Web application</h2>
         <h3>Edit schoolbook:</h3>
     </header>
 

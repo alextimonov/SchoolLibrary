@@ -73,6 +73,11 @@
                     </c:forEach>
                 </table>
             </c:if>
+            <br>
+            <form class="form-inline" action="/library/employees" method="GET">
+                <button class="btn btn-primary" type="submit">
+                    <span class="glyphicon glyphicon-triangle-left"></span> Return to employees</button>
+            </form>
         </div>
     </article>
 

@@ -147,13 +147,13 @@ public class SchoolClassResource {
             SchoolClass schoolClass = schoolClassService.delete(id);
             return Response.ok(schoolClass).build();
         }
+        catch (NoItemInDatabaseException e) {
+            SchoolClass schoolClass = new SchoolClass(id);
+            return Response.ok(schoolClass).build();
+        }
         catch (HibernateException | DataAccessException e) {
             SchoolClass schoolClass = schoolClassService.getById(id);
             schoolClass.setId(ERROR_ID);
-            return Response.ok(schoolClass).build();
-        }
-        catch (NoItemInDatabaseException e) {
-            SchoolClass schoolClass = new SchoolClass(id);
             return Response.ok(schoolClass).build();
         }
     }

@@ -16,7 +16,7 @@ public interface EmployeeDao {
 
     List<EmployeeDto> getAll();
 
-    EmployeeDto getById(int id);
+    EmployeeDto getEmployeeById(int id);
 
     EmployeeDto getBySurname(String surname);
 }

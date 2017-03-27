@@ -46,7 +46,7 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
     }
 
     @Override
-    @Transactional // (propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public SchoolClassDto update(SchoolClassDto schoolClassEdited) {
         Session session = sessionFactory.getCurrentSession();
         session.update(schoolClassEdited);

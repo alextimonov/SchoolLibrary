@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.SchoolbookDao;
+import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
 
 import java.util.List;
@@ -65,5 +66,13 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
         Query query = session.createQuery("select book from SchoolbookDto book where book.id like :param");
         query.setParameter("param", name);
         return (SchoolbookDto) query.getSingleResult();
+    }
+
+    @Override
+    public List<SchoolbookDto> getSchoolbookByLibrarianId(int librarianId) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select schoolbook from SchoolbookDto schoolbook where schoolbook.librarian.id = :param");
+        query.setParameter("param", librarianId);
+        return query.getResultList();
     }
 }
