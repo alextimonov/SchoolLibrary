@@ -6,6 +6,7 @@ import ua.timonov.aplib.dao.JobDao;
 import ua.timonov.aplib.dao.SchoolClassDao;
 import ua.timonov.aplib.dao.SchoolbookDao;
 import ua.timonov.aplib.dto.EmployeeDto;
+import ua.timonov.aplib.dto.Position;
 import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
 import ua.timonov.aplib.model.Employee;
@@ -72,25 +73,25 @@ public class EmployeeService {
 
     @Transactional
     public List<Employee> getAll() {
-        List<Employee> employees = new ArrayList<>();
-        for (EmployeeDto employeeDto : employeeDao.getAll()) {
-            employees.add(new Employee(employeeDto));
-        }
-        return employees;
+        return getEmployeesFromDto(employeeDao.getAll());
     }
 
     @Transactional
     public List<Employee> getLibrarians() {
-        List<Employee> librarians = getAll();
-        // TODO
-        return librarians;
+        return getEmployeesFromDto(employeeDao.getEmployeesByPosition(Position.LIBRARIAN));
     }
 
     @Transactional
     public List<Employee> getTeachers() {
-        List<Employee> teachers = getAll();
-        // TODO
-        return teachers;
+        return getEmployeesFromDto(employeeDao.getEmployeesByPosition(Position.TEACHER));
+    }
+
+    private List<Employee> getEmployeesFromDto(List<EmployeeDto> employeesDto) {
+        List<Employee> employees = new ArrayList<>();
+        for (EmployeeDto employeeDto : employeesDto) {
+            employees.add(new Employee(employeeDto));
+        }
+        return employees;
     }
 
     @Transactional

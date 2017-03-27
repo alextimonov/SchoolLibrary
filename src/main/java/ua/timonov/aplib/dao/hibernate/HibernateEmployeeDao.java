@@ -8,10 +8,12 @@ import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.dao.SchoolClassDao;
 import ua.timonov.aplib.dao.SchoolbookDao;
 import ua.timonov.aplib.dto.EmployeeDto;
+import ua.timonov.aplib.dto.Position;
 import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
 import ua.timonov.aplib.exceptions.ForbidToDeleteException;
 import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
+import ua.timonov.aplib.model.Employee;
 
 import java.util.List;
 
@@ -97,5 +99,21 @@ public class HibernateEmployeeDao implements EmployeeDao {
         Query query = session.createQuery("select employee from EmployeeDto employee where employee.surname like :param");
         query.setParameter("param", surname);
         return (EmployeeDto) query.uniqueResult();
+    }
+
+    @Override
+    public List<EmployeeDto> getTeachers() {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select employee from EmployeeDto employee where employee.job.position like :param");
+        query.setParameter("param", "TEACHER");
+        return query.getResultList();
+    }
+
+    @Override
+    public List<EmployeeDto> getEmployeesByPosition(Position position) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select employee from EmployeeDto employee where employee.job.position like :param");
+        query.setParameter("param", position);
+        return query.getResultList();
     }
 }
