@@ -5,9 +5,8 @@ import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.dao.JobDao;
 import ua.timonov.aplib.dao.SchoolClassDao;
 import ua.timonov.aplib.dto.EmployeeDto;
-import ua.timonov.aplib.dto.JobDto;
-import ua.timonov.aplib.dto.Position;
 import ua.timonov.aplib.dto.SchoolClassDto;
+import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
 
@@ -36,8 +35,8 @@ public class EmployeeService {
 
     @Transactional
     public Employee add(Employee employee) {
-        EmployeeDto employeeDb = getEmployeeDto(employee);
-        return new Employee(employeeDao.add(employeeDb));
+        EmployeeDto employeeDto = getEmployeeDto(employee);
+        return new Employee(employeeDao.add(employeeDto));
     }
 
     @Transactional
@@ -54,8 +53,9 @@ public class EmployeeService {
         employeeDto.setName(employee.getName());
         employeeDto.setSurname(employee.getSurname());
         String employeePosition = employee.getPosition();
-        employeeDto.setJob(new JobDto(Position.byName(employeePosition.toUpperCase())));
+        employeeDto.setJob(jobDao.getJobByPosition(employeePosition));
         return employeeDto;
+//        employeeDto.setJob(new JobDto(Position.byName(employeePosition.toUpperCase())));
     }
 
     @Transactional
@@ -66,8 +66,8 @@ public class EmployeeService {
     @Transactional
     public List<Employee> getAll() {
         List<Employee> employees = new ArrayList<>();
-        for (EmployeeDto employeeDb : employeeDao.getAll()) {
-            employees.add(new Employee(employeeDb));
+        for (EmployeeDto employeeDto : employeeDao.getAll()) {
+            employees.add(new Employee(employeeDto));
         }
         return employees;
     }
@@ -87,8 +87,14 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee getById(int id) {
-        return new Employee(employeeDao.getById(id));
+    public Employee getById(int employeeId) {
+        EmployeeDto employeeDto = employeeDao.getEmployeeById(employeeId);
+        if (employeeDto != null) {
+            return new Employee(employeeDto);
+        }
+        else {
+            throw new NoItemInDatabaseException("There is no class with id = " + employeeId + " in database!");
+        }
     }
 
     @Transactional

@@ -36,7 +36,7 @@
                             });
                         }
                         else {
-                            alert('Server error. HTTP status: ' + jqXHR.status);
+                            alert("Server error. HTTP status: " + jqXHR.status + ", response: " + jqXHR.responseText);
                         }
                     }
                 });
@@ -47,7 +47,7 @@
 <body>
 <div class="container">
     <header>
-        <h1>School library Web application</h1>
+        <h2>School library Web application</h2>
         <h3>Create new employee:</h3>
     </header>
 
@@ -92,15 +92,11 @@
                         <label class="control-label" for="position">Position:</label>
                     </div>
                     <div class="col-sm-4">
-                        <select id="position" name="position" class="form-control">
-                            <option selected disabled hidden>Choose from available positions</option>
-                            <option value="director">director</option>
-                            <option value="deputy_director">deputy director</option>
-                            <option value="librarian">librarian</option>
-                            <option value="teacher">teacher</option>
-                            <option value="tutor">tutor</option>
-                            <option value="security">security</option>
-                            <option value="cleaner">cleaner</option>
+                        <select id="position" class="form-control" name="position">
+                            <option selected disabled hidden>Choose from positions:</option>
+                            <c:forEach var="position" items="${it.positions}">
+                                <option value="${position}">${position}</option>
+                            </c:forEach>
                         </select>
                     </div>
                     <%--<div class="col-sm-4">

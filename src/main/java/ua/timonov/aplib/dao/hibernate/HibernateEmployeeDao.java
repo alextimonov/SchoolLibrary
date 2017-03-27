@@ -1,16 +1,17 @@
 package ua.timonov.aplib.dao.hibernate;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.EmployeeDao;
+import ua.timonov.aplib.dao.SchoolClassDao;
+import ua.timonov.aplib.dao.SchoolbookDao;
 import ua.timonov.aplib.dto.EmployeeDto;
+import ua.timonov.aplib.dto.SchoolClassDto;
+import ua.timonov.aplib.dto.SchoolbookDto;
 import ua.timonov.aplib.exceptions.ForbidToDeleteException;
+import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 
 import java.util.List;
 
@@ -18,11 +19,20 @@ import java.util.List;
  * Hibernate implementation of EmployeeDao
  */
 public class HibernateEmployeeDao implements EmployeeDao {
-
     private SessionFactory sessionFactory;
+    private SchoolClassDao schoolClassDao;
+    private SchoolbookDao schoolbookDao;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    public void setSchoolClassDao(SchoolClassDao schoolClassDao) {
+        this.schoolClassDao = schoolClassDao;
+    }
+
+    public void setSchoolbookDao(SchoolbookDao schoolbookDao) {
+        this.schoolbookDao = schoolbookDao;
     }
 
     @Override
@@ -44,10 +54,23 @@ public class HibernateEmployeeDao implements EmployeeDao {
     @Override
     @Transactional
     public EmployeeDto delete(int id) {
-        EmployeeDto employee = getById(id);
-        Session session = sessionFactory.getCurrentSession();
-        session.delete(employee);
-        return employee;
+        EmployeeDto employeeDto = getEmployeeById(id);
+        if (employeeDto == null) {
+            throw new NoItemInDatabaseException("There is no employee with id = " + id + " in database.");
+        }
+        SchoolClassDto schoolClassDto = schoolClassDao.getSchoolClassByTeacherId(id);
+        if (schoolClassDto != null) {
+            throw new ForbidToDeleteException("Employee " + employeeDto.getName() + " " + employeeDto.getSurname() +
+                    " cannot be deleted as he(she) is a curator of class " + schoolClassDto.getCourse() + "-" +
+                    schoolClassDto.getLetter() + ". See details.");
+        }
+        List<SchoolbookDto> schoolbooks = schoolbookDao.getSchoolbookByLibrarianId(id);
+        if (schoolbooks.size() > 0) {
+            throw new ForbidToDeleteException("Employee " + employeeDto.getName() + " " + employeeDto.getSurname() +
+                    " cannot be deleted as he(she) is responsible librarian for some books. See details.");
+        }
+        sessionFactory.getCurrentSession().delete(employeeDto);
+        return employeeDto;
     }
 
     @Override
@@ -59,7 +82,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
 
     @Override
     @Transactional
-    public EmployeeDto getById(int id) {
+    public EmployeeDto getEmployeeById(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select employee from EmployeeDto employee where employee.id = :param");
         query.setParameter("param", id);

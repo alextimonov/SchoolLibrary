@@ -29,8 +29,7 @@ public class HibernateJobDao implements JobDao {
         Query query = session.createQuery("select job from JobDto job where job.position like :param");
         Position positionByName = Position.byName(positionName.toUpperCase());
         query.setParameter("param", positionByName);
-        JobDto job = (JobDto) query.uniqueResult();
-        return job;
+        return (JobDto) query.uniqueResult();
     }
 
     @Override

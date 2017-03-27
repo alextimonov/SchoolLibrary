@@ -53,14 +53,14 @@ public class SchoolbookResource {
         Map<String, Object> map = new HashMap<>();
         Schoolbook schoolbook = schoolbookService.getById(id);
         List<BookInClass> booksInClass = schoolbookService.getBooksInClass(schoolbook);
-        int residue = getBookResudue(schoolbook, booksInClass);
+        int residue = getBookResidue(schoolbook, booksInClass);
         map.put("schoolbook", schoolbook);
         map.put("booksInClass", booksInClass);
         map.put("residue", residue);
         return Response.ok(map).build();
     }
 
-    private int getBookResudue(Schoolbook schoolbook, List<BookInClass> booksInClass) {
+    private int getBookResidue(Schoolbook schoolbook, List<BookInClass> booksInClass) {
         int amountTotal = schoolbook.getAmountTotal();
         int amountInClasses = 0;
         for (BookInClass bookInClass : booksInClass) {

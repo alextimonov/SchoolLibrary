@@ -17,12 +17,17 @@ public class Employee {
     public Employee() {
     }
 
+    public Employee(int id) {
+        this.id = id;
+    }
+
     public Employee(EmployeeDto employeeDto) {
         this.id = employeeDto.getId();
         this.name = employeeDto.getName();
         this.surname = employeeDto.getSurname();
         this.position = employeeDto.getJob().getPosition().toString().toLowerCase();
     }
+
 
     public int getId() {
         return id;

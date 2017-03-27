@@ -55,7 +55,7 @@
 <body>
 <div class="container">
     <header>
-        <h1>School library Web application</h1>
+        <h2>School library Web application</h2>
         <h3>Edit employee:</h3>
     </header>
 
@@ -70,52 +70,59 @@
 
     <article>
         <div class="container">
-            <form id="form" class="form-horizontal" action="/library/employees">
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="id">ID:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="id" name="id" value="${it.employee.id}" disabled="true" type="text"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="name">Name:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="name" name="name" value="${it.employee.name}" type="text"/>
-                    </div>
-                </div>
+            <c:choose>
+                <c:when test="${it.errorId == -1}">
+                    <h3>There is no employee with id = ${it.employee.id} in database. You cannot edit it.</h3>
+                </c:when>
+                <c:otherwise>
+                    <form id="form" class="form-horizontal" action="/library/employees">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="id">ID:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="id" name="id" value="${it.employee.id}" disabled="true" type="text"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="name">Name:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="name" name="name" value="${it.employee.name}" type="text"/>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="surname">Surname:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="surname" name="surname" value="${it.employee.surname}" type="text"/>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="surname">Surname:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="surname" name="surname" value="${it.employee.surname}" type="text"/>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="position">Position:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <select id="position" class="form-control" name="position">
-                            <option disabled>Choose from positions:</option>
-                            <c:forEach var="position" items="${it.positions}">
-                                <option <c:if test="${position == it.employee.position}">selected</c:if>
-                                        value="${position}">${position}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="position">Position:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <select id="position" class="form-control" name="position">
+                                    <option disabled>Choose from positions:</option>
+                                    <c:forEach var="position" items="${it.positions}">
+                                        <option <c:if test="${position == it.employee.position}">selected</c:if>
+                                                value="${position}">${position}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
 
-                <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span> Save edited employee
-                </button>
-            </form>
+                        <button id="submit" class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-floppy-disk"></span> Save edited employee
+                        </button>
+                    </form>
+                </c:otherwise>
+            </c:choose>
             <br>
             <form class="form-inline" action="/library/employees" method="GET">
                 <button class="btn btn-primary" type="submit">
