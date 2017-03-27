@@ -70,65 +70,72 @@
     </nav>
 
     <article>
-        <c:set var="schoolbook" value="${it.schoolbook}"/>
+        <c:set var="book" value="${it.schoolbook}"/>
         <div class="container">
-            <form id="form" class="form-horizontal" action="/library/books">
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="id">ID:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="id" name="id" value="${schoolbook.id}" disabled="true" type="text"/>
-                    </div>
-                </div>
+            <c:choose>
+                <c:when test="${it.errorId == -1}">
+                    <h3>There is no schoolbook with id = ${book.id} in database. You cannot edit it.</h3>
+                </c:when>
+                <c:otherwise>
+                    <form id="form" class="form-horizontal" action="/library/books">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="id">ID:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="id" name="id" value="${book.id}" disabled="true" type="text"/>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="name">Name:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="name" name="name" value="${schoolbook.name}" type="text"/>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="name">Name:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="name" name="name" value="${book.name}" type="text"/>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="course">Course:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="course" name="course" value="${schoolbook.course}" type="text"/>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="course">Course:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="course" name="course" value="${book.course}" type="text"/>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="amount">Amount:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control" id="amount" name="amount" value="${schoolbook.amountTotal}" type="text"/>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="amount">Amount:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="amount" name="amount" value="${book.amountTotal}" type="text"/>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-2">
-                        <label class="control-label" for="librarian">Librarian:</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <select id="librarian" name="librarian" class="form-control">
-                            <option disabled>Choose from employees:</option>
-                            <c:forEach var="employee" items="${it.librarians}">
-                                <option <c:if test="${employee.id == schoolbook.librarian.id}">selected</c:if>
-                                        value=${employee.id}>${employee.position} ${employee.name} ${employee.surname}
-                                </option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="librarian">Librarian:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <select id="librarian" name="librarian" class="form-control">
+                                    <option disabled>Choose from employees:</option>
+                                    <c:forEach var="employee" items="${it.librarians}">
+                                        <option <c:if test="${employee.id == book.librarian.id}">selected</c:if>
+                                                value=${employee.id}>${employee.position} ${employee.name} ${employee.surname}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
 
-                <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span> Save edited schoolbook
-                </button>
-            </form>
+                        <button id="submit" class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-floppy-disk"></span> Save edited schoolbook
+                        </button>
+                    </form>
+                </c:otherwise>
+            </c:choose>
             <br>
             <form class="form-inline" action="/library/books" method="GET">
                 <button class="btn btn-primary" type="submit">

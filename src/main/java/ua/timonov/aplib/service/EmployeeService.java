@@ -8,7 +8,6 @@ import ua.timonov.aplib.dao.SchoolbookDao;
 import ua.timonov.aplib.dto.EmployeeDto;
 import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
-import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.model.Schoolbook;
@@ -97,12 +96,7 @@ public class EmployeeService {
     @Transactional
     public Employee getById(int employeeId) {
         EmployeeDto employeeDto = employeeDao.getEmployeeById(employeeId);
-        if (employeeDto != null) {
-            return new Employee(employeeDto);
-        }
-        else {
-            throw new NoItemInDatabaseException("There is no class with id = " + employeeId + " in database!");
-        }
+        return new Employee(employeeDto);
     }
 
     @Transactional

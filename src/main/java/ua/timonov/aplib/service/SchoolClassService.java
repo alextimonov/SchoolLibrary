@@ -97,7 +97,7 @@ public class SchoolClassService {
             schoolClassDto.setBooksInClass(booksInClassDto);
             return new SchoolClass(schoolClassDto);
         }
-        else
+        else // TODO
             throw new NoItemInDatabaseException("There is no class with id = " + classId + " in database!");
     }
 

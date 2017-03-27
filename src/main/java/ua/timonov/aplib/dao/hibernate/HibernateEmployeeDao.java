@@ -55,9 +55,6 @@ public class HibernateEmployeeDao implements EmployeeDao {
     @Transactional
     public EmployeeDto delete(int id) {
         EmployeeDto employeeDto = getEmployeeById(id);
-        if (employeeDto == null) {
-            throw new NoItemInDatabaseException("There is no employee with id = " + id + " in database.");
-        }
         SchoolClassDto schoolClassDto = schoolClassDao.getSchoolClassByTeacherId(id);
         if (schoolClassDto != null) {
             throw new ForbidToDeleteException("Employee " + employeeDto.getName() + " " + employeeDto.getSurname() +
@@ -87,7 +84,10 @@ public class HibernateEmployeeDao implements EmployeeDao {
         Query query = session.createQuery("select employee from EmployeeDto employee where employee.id = :param");
         query.setParameter("param", id);
         EmployeeDto employeeDto = (EmployeeDto) query.uniqueResult();
-        return employeeDto;
+        if (employeeDto != null)
+            return employeeDto;
+        else
+            throw new NoItemInDatabaseException("There is no employee with id = " + id + " in database.");
     }
 
     @Override

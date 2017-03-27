@@ -1,9 +1,9 @@
 package ua.timonov.aplib.web;
 
 import org.glassfish.jersey.server.mvc.Template;
-import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
+import ua.timonov.aplib.exceptions.ForbidToDeleteException;
+import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.BookInClass;
 import ua.timonov.aplib.model.Schoolbook;
 import ua.timonov.aplib.service.EmployeeService;
@@ -23,7 +23,8 @@ import java.util.Map;
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class SchoolbookResource {
-    private static final int ERROR_ID = -1;
+    private static final int NO_SCHOOLBOOK_IN_DB = -1;
+    public static final int FORBID_TO_DELETE = -2;
     private SchoolbookService schoolbookService;
     private EmployeeService employeeService;
 
@@ -107,25 +108,44 @@ public class SchoolbookResource {
     @Path("/editForm")
     @Template(name = "/schoolbookEditForm.jsp")
     public Response formEditEmployee(@QueryParam("id") int id) {
-        Schoolbook schoolbook = schoolbookService.getById(id);
         Map<String, Object> map = new HashMap<>();
-        map.put("schoolbook", schoolbook);
-        map.put("librarians", employeeService.getLibrarians());
-        return Response.ok(map).build();
+        try {
+            Schoolbook schoolbook = schoolbookService.getById(id);
+            map.put("schoolbook", schoolbook);
+            map.put("librarians", employeeService.getLibrarians());
+            return Response.ok(map).build();
+        }
+        catch (NoItemInDatabaseException e) {
+            Schoolbook schoolbook = new Schoolbook(id);
+            map.put("schoolbook", schoolbook);
+            map.put("errorId", NO_SCHOOLBOOK_IN_DB);
+            return Response.ok(map).build();
+        }
     }
 
     @GET
     @Path("/deleteForm")
     @Template(name = "/schoolbookDeleteForm.jsp")
     public Response formDeleteEmployee(@QueryParam("id") int id) {
+        Map<String, Object> map = new HashMap<>();
         try {
             Schoolbook schoolbook = schoolbookService.delete(id);
-            return Response.ok(schoolbook).build();
+            map.put("schoolbook", schoolbook);
+            return Response.ok(map).build();
         }
-        catch (HibernateException| DataAccessException e) {
+        catch (NoItemInDatabaseException e) {
+            Schoolbook schoolbook = new Schoolbook(id);
+            map.put("schoolbook", schoolbook);
+            map.put("errorId", NO_SCHOOLBOOK_IN_DB);
+            map.put("errorMessage", e.getMessage());
+            return Response.ok(map).build();
+        }
+        catch (ForbidToDeleteException e) {
             Schoolbook schoolbook = schoolbookService.getById(id);
-            schoolbook.setId(ERROR_ID);
-            return Response.ok(schoolbook).build();
+            map.put("schoolbook", schoolbook);
+            map.put("errorId", FORBID_TO_DELETE);
+            map.put("errorMessage", e.getMessage());
+            return Response.ok(map).build();
         }
     }
 }

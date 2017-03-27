@@ -37,16 +37,6 @@
                         else {
                             alert(jqXHR.responseText);
                         }
-                        /*{
-                            if (jqXHR.status == 400) {
-                                var messages = JSON.parse(jqXHR.responseText);
-                                $('#messages').empty();
-                                $.each(messages, function (i, v) {
-                                    var item = $('<li>').append(v);
-                                    $('#messages').append(item);
-                                });
-                            }
-                            else {*/
                     }
                 });
             });
@@ -120,7 +110,7 @@
                             <br>
                         </c:when>
                         <c:otherwise>
-                            <h3>Class cannot be deleted while it has some schoolbooks</h3>
+                            <h3>Class cannot be deleted while it has some schoolbooks. See details</h3>
                             <form id="form" class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-2">
@@ -150,6 +140,10 @@
                                     </div>
                                 </div>
                             </form>
+                            <form class="form-inline" action="/library/classes/${schoolClass.id}" method="GET">
+                                <button class="btn btn-primary" type="submit">
+                                    <span class="glyphicon glyphicon-triangle-right"></span> Class details</button>
+                            </form>
                         </c:otherwise>
                     </c:choose>
                 </c:when>
@@ -157,6 +151,7 @@
                     <h3>There is no class with id = ${it.id} in database. You cannot delete it.</h3>
                 </c:otherwise>
             </c:choose>
+            <br>
             <form class="form-inline" action="/library/classes" method="GET">
                 <button class="btn btn-primary" type="submit">
                     <span class="glyphicon glyphicon-triangle-left"></span> Return to classes</button>

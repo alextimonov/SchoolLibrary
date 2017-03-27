@@ -39,18 +39,18 @@
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
-                <c:set var="schoolbook" value="${it.schoolbook}"/>
+                <c:set var="book" value="${it.schoolbook}"/>
                 <c:url var="addUrl" value="/library/books/addForm"/>
-                <c:url var="editUrl" value="/library/books/editForm?id=${schoolbook.id}"/>
-                <c:url var="deleteUrl" value="/library/books/deleteForm?id=${schoolbook.id}"/>
+                <c:url var="editUrl" value="/library/books/editForm?id=${book.id}"/>
+                <c:url var="deleteUrl" value="/library/books/deleteForm?id=${book.id}"/>
                 <tr>
-                    <td>${schoolbook.id}</td>
-                    <td>${schoolbook.name}</td>
-                    <td>${schoolbook.course}</td>
-                    <td>${schoolbook.amountTotal}</td>
+                    <td>${book.id}</td>
+                    <td>${book.name}</td>
+                    <td>${book.course}</td>
+                    <td>${book.amountTotal}</td>
                     <td>${it.residue}</td>
-                    <td>${schoolbook.librarian.position}</td>
-                    <td>${schoolbook.librarian.name} ${schoolbook.librarian.surname}</td>
+                    <td>${book.librarian.position}</td>
+                    <td>${book.librarian.name} ${book.librarian.surname}</td>
                     <td><a href="${addUrl}">Add</a></td>
                     <td><a href="${editUrl}">Edit</a></td>
                     <td><a href="${deleteUrl}">Delete</a></td>
@@ -73,6 +73,11 @@
                     </tr>
                 </c:forEach>
             </table>
+            <br>
+            <form class="form-inline" action="/library/books" method="GET">
+                <button class="btn btn-primary" type="submit">
+                    <span class="glyphicon glyphicon-triangle-left"></span> Return to schoolbooks</button>
+            </form>
         </div>
     </article>
 

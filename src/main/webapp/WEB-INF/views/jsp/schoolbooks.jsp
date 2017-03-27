@@ -43,18 +43,18 @@
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
-                    <c:forEach var="schoolbook" items="${it.schoolbooks}">
-                        <c:url var="detailsUrl" value="/library/books/${schoolbook.id}"/>
+                    <c:forEach var="book" items="${it.schoolbooks}">
+                        <c:url var="detailsUrl" value="/library/books/${book.id}"/>
                         <c:url var="addUrl" value="/library/books/addForm"/>
-                        <c:url var="editUrl" value="/library/books/editForm?id=${schoolbook.id}"/>
-                        <c:url var="deleteUrl" value="/library/books/deleteForm?id=${schoolbook.id}"/>
+                        <c:url var="editUrl" value="/library/books/editForm?id=${book.id}"/>
+                        <c:url var="deleteUrl" value="/library/books/deleteForm?id=${book.id}"/>
                         <tr>
-                            <td>${schoolbook.id}</td>
-                            <td>${schoolbook.name}</td>
-                            <td>${schoolbook.course}</td>
-                            <td>${schoolbook.amountTotal}</td>
-                            <td>${schoolbook.librarian.position}</td>
-                            <td>${schoolbook.librarian.name} ${schoolbook.librarian.surname} </td>
+                            <td>${book.id}</td>
+                            <td>${book.name}</td>
+                            <td>${book.course}</td>
+                            <td>${book.amountTotal}</td>
+                            <td>${book.librarian.position}</td>
+                            <td>${book.librarian.name} ${book.librarian.surname} </td>
                             <td><a href="${detailsUrl}">Details</a></td>
                             <td><a href="${addUrl}">Add</a></td>
                             <td><a href="${editUrl}">Edit</a></td>
@@ -85,7 +85,7 @@
                             <label class="control-label">Edit schoolbook. Input ID:</label>
                         </div>
                         <div class="col-sm-4">
-                            <input class="form-control" type="number" name="id" title="id">
+                            <input class="form-control" type="number" name="id">
                         </div>
                         <div class="col-sm-3">
                             <button class="btn btn-primary" type="submit">
@@ -100,7 +100,7 @@
                             <label class="control-label">Delete schoolbook. Input ID:</label>
                         </div>
                         <div class="col-sm-4">
-                            <input class="form-control" type="number" name="id" title="id">
+                            <input class="form-control" type="number" name="id">
                         </div>
                         <div class="col-sm-3">
                             <button class="btn btn-primary" type="submit">

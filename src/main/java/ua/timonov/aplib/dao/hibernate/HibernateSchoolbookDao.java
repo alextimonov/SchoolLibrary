@@ -4,9 +4,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
+import ua.timonov.aplib.dao.BookInClassDao;
 import ua.timonov.aplib.dao.SchoolbookDao;
-import ua.timonov.aplib.dto.SchoolClassDto;
+import ua.timonov.aplib.dto.BookInClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
+import ua.timonov.aplib.exceptions.ForbidToDeleteException;
+import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 
 import java.util.List;
 
@@ -16,9 +19,14 @@ import java.util.List;
 public class HibernateSchoolbookDao implements SchoolbookDao {
 
     private SessionFactory sessionFactory;
+    private BookInClassDao bookInClassDao;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    public void setBookInClassDao(BookInClassDao bookInClassDao) {
+        this.bookInClassDao = bookInClassDao;
     }
 
     @Override
@@ -38,9 +46,27 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
     @Override
     @Transactional
     public SchoolbookDto delete(int id) {
-        SchoolbookDto schoolbook = getById(id);
-        sessionFactory.getCurrentSession().delete(schoolbook);
-        return schoolbook;
+        SchoolbookDto schoolbookDto = getById(id);
+        if (schoolbookDto == null)
+            throw new NoItemInDatabaseException("There is no schoolbook with id = " + id + " in database.");
+        List<BookInClassDto> booksInClass = bookInClassDao.getByBook(schoolbookDto);
+        if (booksInClass.size() > 0) {
+            StringBuilder sb = makeClassList(booksInClass);
+            throw new ForbidToDeleteException("Schoolbook \"" + schoolbookDto.getName() + "\" for course " +
+                    schoolbookDto.getCourse() + " cannot be deleted as it is being used in classes:" + sb + ". See details");
+        }
+        sessionFactory.getCurrentSession().delete(schoolbookDto);
+        return schoolbookDto;
+    }
+
+    private StringBuilder makeClassList(List<BookInClassDto> booksInClass) {
+        StringBuilder sb = new StringBuilder();
+        for (BookInClassDto bookInClass : booksInClass) {
+            sb.append(" ").append(bookInClass.getSchoolClass().getCourse()).append("-")
+                    .append(bookInClass.getSchoolClass().getLetter()).append(",");
+        }
+        sb.delete(sb.length() - 1, sb.length());
+        return sb;
     }
 
     @Override
@@ -56,7 +82,11 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select book from SchoolbookDto book where book.id = :param");
         query.setParameter("param", id);
-        return (SchoolbookDto) query.getSingleResult();
+        SchoolbookDto schoolbookDto = (SchoolbookDto) query.uniqueResult();
+        if (schoolbookDto != null)
+            return schoolbookDto;
+        else
+            throw new NoItemInDatabaseException("There is no schoolbook with id = " + id + " in database.");
     }
 
     @Override
