@@ -26,7 +26,6 @@ import java.util.Map;
 public class EmployeeResource {
     public static final int NO_EMPLOYEE_IN_DB = -1;
     public static final int FORBID_TO_DELETE = -2;
-    public static final int OK = 0;
     private EmployeeService employeeService;
 
     @Autowired
@@ -118,7 +117,6 @@ public class EmployeeResource {
         try {
             Employee employee = employeeService.delete(id);
             map.put("employee", employee);
-            map.put("errorId", OK);
             return Response.ok(map).build();
         }
         catch (NoItemInDatabaseException e) {

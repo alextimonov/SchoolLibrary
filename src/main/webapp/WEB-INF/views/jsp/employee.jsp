@@ -82,13 +82,13 @@
                         <th>Amount</th>
                         <th>Details</th>
                     </tr>
-                    <c:forEach var="schoolbook" items="${it.schoolbooks}">
-                        <c:url var="detailsUrl" value="/library/books/${schoolbook.id}"/>
+                    <c:forEach var="book" items="${it.schoolbooks}">
+                        <c:url var="detailsUrl" value="/library/books/${book.id}"/>
                         <tr>
-                            <td>${schoolbook.id}</td>
-                            <td>${schoolbook.name}</td>
-                            <td>${schoolbook.course}</td>
-                            <td>${schoolbook.amountTotal}</td>
+                            <td>${book.id}</td>
+                            <td>${book.name}</td>
+                            <td>${book.course}</td>
+                            <td>${book.amountTotal}</td>
                             <td><a href="${detailsUrl}">Details</a></td>
                         </tr>
                     </c:forEach>

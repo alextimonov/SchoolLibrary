@@ -2,10 +2,9 @@ package ua.timonov.aplib.web;
 
 import org.glassfish.jersey.server.mvc.ErrorTemplate;
 import org.glassfish.jersey.server.mvc.Template;
-import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import ua.timonov.aplib.exceptions.ForbidToAddException;
+import ua.timonov.aplib.exceptions.ForbidToDeleteException;
 import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
@@ -26,6 +25,8 @@ import java.util.Map;
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class SchoolClassResource {
     private static final int ERROR_ID = -1;
+    public static final int NO_SCHOOLCLASS_IN_DB = -1;
+    public static final int FORBID_TO_DELETE = -2;
     private SchoolClassService schoolClassService;
     private EmployeeService employeeService;
 
@@ -143,18 +144,25 @@ public class SchoolClassResource {
     @Path("/deleteForm")
     @Template(name = "/schoolClassDeleteForm.jsp")
     public Response formDeleteEmployee(@QueryParam("id") int id) {
+        Map<String, Object> map = new HashMap<>();
         try {
             SchoolClass schoolClass = schoolClassService.delete(id);
-            return Response.ok(schoolClass).build();
+            map.put("schoolClass", schoolClass);
+            return Response.ok(map).build();
         }
         catch (NoItemInDatabaseException e) {
             SchoolClass schoolClass = new SchoolClass(id);
-            return Response.ok(schoolClass).build();
+            map.put("schoolClass", schoolClass);
+            map.put("errorId", NO_SCHOOLCLASS_IN_DB);
+            map.put("errorMessage", e.getMessage());
+            return Response.ok(map).build();
         }
-        catch (HibernateException | DataAccessException e) {
+        catch (ForbidToDeleteException e) {
             SchoolClass schoolClass = schoolClassService.getById(id);
-            schoolClass.setId(ERROR_ID);
-            return Response.ok(schoolClass).build();
+            map.put("schoolClass", schoolClass);
+            map.put("errorId", FORBID_TO_DELETE);
+            map.put("errorMessage", e.getMessage());
+            return Response.ok(map).build();
         }
     }
 }

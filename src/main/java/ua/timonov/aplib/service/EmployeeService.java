@@ -6,9 +6,9 @@ import ua.timonov.aplib.dao.JobDao;
 import ua.timonov.aplib.dao.SchoolClassDao;
 import ua.timonov.aplib.dao.SchoolbookDao;
 import ua.timonov.aplib.dto.EmployeeDto;
+import ua.timonov.aplib.dto.Position;
 import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
-import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.model.Schoolbook;
@@ -73,36 +73,31 @@ public class EmployeeService {
 
     @Transactional
     public List<Employee> getAll() {
+        return getEmployeesFromDto(employeeDao.getAll());
+    }
+
+    @Transactional
+    public List<Employee> getLibrarians() {
+        return getEmployeesFromDto(employeeDao.getEmployeesByPosition(Position.LIBRARIAN));
+    }
+
+    @Transactional
+    public List<Employee> getTeachers() {
+        return getEmployeesFromDto(employeeDao.getEmployeesByPosition(Position.TEACHER));
+    }
+
+    private List<Employee> getEmployeesFromDto(List<EmployeeDto> employeesDto) {
         List<Employee> employees = new ArrayList<>();
-        for (EmployeeDto employeeDto : employeeDao.getAll()) {
+        for (EmployeeDto employeeDto : employeesDto) {
             employees.add(new Employee(employeeDto));
         }
         return employees;
     }
 
     @Transactional
-    public List<Employee> getLibrarians() {
-        List<Employee> librarians = getAll();
-        // TODO
-        return librarians;
-    }
-
-    @Transactional
-    public List<Employee> getTeachers() {
-        List<Employee> teachers = getAll();
-        // TODO
-        return teachers;
-    }
-
-    @Transactional
     public Employee getById(int employeeId) {
         EmployeeDto employeeDto = employeeDao.getEmployeeById(employeeId);
-        if (employeeDto != null) {
-            return new Employee(employeeDto);
-        }
-        else {
-            throw new NoItemInDatabaseException("There is no class with id = " + employeeId + " in database!");
-        }
+        return new Employee(employeeDto);
     }
 
     @Transactional

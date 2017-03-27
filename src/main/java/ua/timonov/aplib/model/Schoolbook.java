@@ -12,6 +12,10 @@ public class Schoolbook {
     public Schoolbook() {
     }
 
+    public Schoolbook(int id) {
+        this.id = id;
+    }
+
     public Schoolbook(SchoolbookDto schoolbookDb) {
         this.id = schoolbookDb.getId();
         this.name = schoolbookDb.getName();

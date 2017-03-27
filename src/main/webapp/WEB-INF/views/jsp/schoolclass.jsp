@@ -48,8 +48,8 @@
                     <td><a href="${deleteUrl}">Delete</a></td>
                 </tr>
             </table>
-            <br>
             <table class="table table-striped">
+                <caption>School books in class:</caption>
                 <tr>
                     <th>ID</th>
                     <th>School book</th>
@@ -65,6 +65,11 @@
                     </tr>
                 </c:forEach>
             </table>
+            <br>
+            <form class="form-inline" action="/library/classes" method="GET">
+                <button class="btn btn-primary" type="submit">
+                    <span class="glyphicon glyphicon-triangle-left"></span> Return to classes</button>
+            </form>
         </div>
     </article>
 

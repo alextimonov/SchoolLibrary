@@ -1,6 +1,7 @@
 package ua.timonov.aplib.dao;
 
 import ua.timonov.aplib.dto.EmployeeDto;
+import ua.timonov.aplib.dto.Position;
 
 import java.util.List;
 
@@ -19,4 +20,8 @@ public interface EmployeeDao {
     EmployeeDto getEmployeeById(int id);
 
     EmployeeDto getBySurname(String surname);
+
+    List<EmployeeDto> getTeachers();
+
+    List<EmployeeDto> getEmployeesByPosition(Position position);
 }

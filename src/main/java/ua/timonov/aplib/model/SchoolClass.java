@@ -25,7 +25,6 @@ public class SchoolClass {
     }
 
     public SchoolClass(SchoolClassDto schoolClassDto) {
-        // TODO
         if (schoolClassDto != null) {
             this.id = schoolClassDto.getId();
             this.course = schoolClassDto.getCourse();

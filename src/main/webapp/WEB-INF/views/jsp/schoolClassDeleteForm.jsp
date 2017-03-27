@@ -37,16 +37,6 @@
                         else {
                             alert(jqXHR.responseText);
                         }
-                        /*{
-                            if (jqXHR.status == 400) {
-                                var messages = JSON.parse(jqXHR.responseText);
-                                $('#messages').empty();
-                                $.each(messages, function (i, v) {
-                                    var item = $('<li>').append(v);
-                                    $('#messages').append(item);
-                                });
-                            }
-                            else {*/
                     }
                 });
             });
@@ -72,16 +62,27 @@
     <article>
         <div class="container">
             <c:choose>
-                <c:when test="${it.course > 0}">
+                <c:when test="${it.errorId == -1}">
+                    <h4>${it.errorMessage}</h4>
+                </c:when>
+                <c:otherwise>
                     <c:choose>
-                        <c:when test="${it.id > 0}">
+                        <c:when test="${it.errorId == -2}">
+                            <h4>${it.errorMessage}</h4>
+                            <form class="form-inline" action="/library/classes/${it.schoolClass.id}" method="GET">
+                                <button class="btn btn-primary" type="submit">
+                                    <span class="glyphicon glyphicon-triangle-right"></span> Class details</button>
+                            </form>
+                        </c:when>
+                        <c:otherwise>
                             <form id="form" class="form-horizontal" action="/library/classes">
+                                <c:set var="schoolClass" value="${it.schoolClass}"/>
                                 <div class="form-group">
                                     <div class="col-sm-2">
                                         <label class="control-label">ID:</label>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label class="control-label">${it.id}</label>
+                                        <label class="control-label">${schoolClass.id}</label>
                                     </div>
                                 </div>
 
@@ -90,7 +91,7 @@
                                         <label class="control-label">Course:</label>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label class="control-label">${it.course}</label>
+                                        <label class="control-label">${schoolClass.course}</label>
                                     </div>
                                 </div>
 
@@ -99,7 +100,7 @@
                                         <label class="control-label">Letter:</label>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label class="control-label">${it.letter}</label>
+                                        <label class="control-label">${schoolClass.letter}</label>
                                     </div>
                                 </div>
 
@@ -108,8 +109,8 @@
                                         <label class="control-label">Teacher:</label>
                                     </div>
                                     <div class="col-sm-9">
-                                        <label class="control-label">${it.teacher.position}
-                                                ${it.teacher.name} ${it.teacher.surname}</label>
+                                        <label class="control-label">${schoolClass.teacher.position}
+                                                ${schoolClass.teacher.name} ${schoolClass.teacher.surname}</label>
                                     </div>
                                 </div>
 
@@ -118,45 +119,11 @@
                                 </button>
                             </form>
                             <br>
-                        </c:when>
-                        <c:otherwise>
-                            <h3>Class cannot be deleted while it has some schoolbooks</h3>
-                            <form id="form" class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-sm-2">
-                                        <label class="control-label">Course:</label>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <label class="control-label">${it.course}</label>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-2">
-                                        <label class="control-label">Letter:</label>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <label class="control-label">${it.letter}</label>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-2">
-                                        <label class="control-label">Teacher:</label>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <label class="control-label">${it.teacher.position}
-                                                ${it.teacher.name} ${it.teacher.surname}</label>
-                                    </div>
-                                </div>
-                            </form>
                         </c:otherwise>
                     </c:choose>
-                </c:when>
-                <c:otherwise>
-                    <h3>There is no class with id = ${it.id} in database. You cannot delete it.</h3>
                 </c:otherwise>
             </c:choose>
+            <br>
             <form class="form-inline" action="/library/classes" method="GET">
                 <button class="btn btn-primary" type="submit">
                     <span class="glyphicon glyphicon-triangle-left"></span> Return to classes</button>
