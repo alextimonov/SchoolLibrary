@@ -4,10 +4,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
+import ua.timonov.aplib.dao.BookInClassDao;
 import ua.timonov.aplib.dao.SchoolClassDao;
+import ua.timonov.aplib.dto.BookInClassDto;
 import ua.timonov.aplib.dto.EmployeeDto;
 import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.exceptions.ForbidToAddException;
+import ua.timonov.aplib.exceptions.ForbidToDeleteException;
 import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 
 import java.util.List;
@@ -17,9 +20,14 @@ import java.util.List;
  */
 public class HibernateSchoolClassDao implements SchoolClassDao {
     private SessionFactory sessionFactory;
+    private BookInClassDao bookInClassDao;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    public void setBookInClassDao(BookInClassDao bookInClassDao) {
+        this.bookInClassDao = bookInClassDao;
     }
 
     @Override
@@ -71,13 +79,11 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
     @Transactional
     public SchoolClassDto delete(int id) {
         SchoolClassDto schoolClass = getSchoolClassById(id);
-        if (schoolClass != null) {
-            sessionFactory.getCurrentSession().delete(schoolClass);
-            return schoolClass;
-        }
-        else {
-            throw new NoItemInDatabaseException("There is no class with id = " + id + " in database!");
-        }
+        List<BookInClassDto> booksInClass = bookInClassDao.getByClass(schoolClass);
+        if (booksInClass.size() > 0)
+            throw new ForbidToDeleteException("Class cannot be deleted while it has some schoolbooks. See details");
+        sessionFactory.getCurrentSession().delete(schoolClass);
+        return schoolClass;
     }
 
     @Override
@@ -93,8 +99,11 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select schoolClass from SchoolClassDto schoolClass where schoolClass.id = :param");
         query.setParameter("param", id);
-        SchoolClassDto foundSchoolClassDto = (SchoolClassDto) query.uniqueResult();
-        return foundSchoolClassDto;
+        SchoolClassDto schoolClassDto = (SchoolClassDto) query.uniqueResult();
+        if (schoolClassDto != null)
+            return schoolClassDto;
+        else
+            throw new NoItemInDatabaseException("There is no class with id = " + id + " in database!");
     }
 
     @Override

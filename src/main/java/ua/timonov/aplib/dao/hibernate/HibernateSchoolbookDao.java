@@ -47,8 +47,6 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
     @Transactional
     public SchoolbookDto delete(int id) {
         SchoolbookDto schoolbookDto = getById(id);
-        if (schoolbookDto == null)
-            throw new NoItemInDatabaseException("There is no schoolbook with id = " + id + " in database.");
         List<BookInClassDto> booksInClass = bookInClassDao.getByBook(schoolbookDto);
         if (booksInClass.size() > 0) {
             StringBuilder sb = makeClassList(booksInClass);
