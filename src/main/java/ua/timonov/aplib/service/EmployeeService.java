@@ -4,11 +4,14 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.dao.JobDao;
 import ua.timonov.aplib.dao.SchoolClassDao;
+import ua.timonov.aplib.dao.SchoolbookDao;
 import ua.timonov.aplib.dto.EmployeeDto;
 import ua.timonov.aplib.dto.SchoolClassDto;
+import ua.timonov.aplib.dto.SchoolbookDto;
 import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
+import ua.timonov.aplib.model.Schoolbook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
 public class EmployeeService {
     private EmployeeDao employeeDao;
     private SchoolClassDao schoolClassDao;
+    private SchoolbookDao schoolbookDao;
     private JobDao jobDao;
 
     public void setEmployeeDao(EmployeeDao employeeDao) {
@@ -31,6 +35,10 @@ public class EmployeeService {
 
     public void setSchoolClassDao(SchoolClassDao schoolClassDao) {
         this.schoolClassDao = schoolClassDao;
+    }
+
+    public void setSchoolbookDao(SchoolbookDao schoolbookDao) {
+        this.schoolbookDao = schoolbookDao;
     }
 
     @Transactional
@@ -111,5 +119,14 @@ public class EmployeeService {
     public SchoolClass getSchoolClass(int employeeId) {
         SchoolClassDto schoolClassDto = schoolClassDao.getSchoolClassByTeacherId(employeeId);
         return new SchoolClass(schoolClassDto);
+    }
+
+    @Transactional
+    public List<Schoolbook> getSchoolbooks(int employeeId) {
+        List<Schoolbook> schoolbooks = new ArrayList<>();
+        for (SchoolbookDto schoolbookDto : schoolbookDao.getSchoolbooksByEmployeeId(employeeId)) {
+            schoolbooks.add(new Schoolbook(schoolbookDto));
+        }
+        return schoolbooks;
     }
 }

@@ -6,12 +6,14 @@ import ua.timonov.aplib.exceptions.ForbidToDeleteException;
 import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
+import ua.timonov.aplib.model.Schoolbook;
 import ua.timonov.aplib.service.EmployeeService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,7 +24,6 @@ import java.util.Map;
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class EmployeeResource {
-    public static final int ERROR_ID = -1;
     public static final int NO_EMPLOYEE_IN_DB = -1;
     public static final int FORBID_TO_DELETE = -2;
     public static final int OK = 0;
@@ -49,9 +50,11 @@ public class EmployeeResource {
     public Response getEmployeeById(@PathParam("id") int id) {
         Employee employee = employeeService.getById(id);
         SchoolClass schoolClass = employeeService.getSchoolClass(id);
+        List<Schoolbook> schoolbooks = employeeService.getSchoolbooks(id);
         Map<String, Object> map = new HashMap<>();
         map.put("employee", employee);
         map.put("schoolClass", schoolClass);
+        map.put("schoolbooks", schoolbooks);
         return Response.ok(map).build();
     }
 

@@ -69,7 +69,7 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
     }
 
     @Override
-    public List<SchoolbookDto> getSchoolbookByLibrarianId(int librarianId) {
+    public List<SchoolbookDto> getSchoolbooksByEmployeeId(int librarianId) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select schoolbook from SchoolbookDto schoolbook where schoolbook.librarian.id = :param");
         query.setParameter("param", librarianId);

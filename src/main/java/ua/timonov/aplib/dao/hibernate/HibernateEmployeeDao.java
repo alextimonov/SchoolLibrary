@@ -64,7 +64,7 @@ public class HibernateEmployeeDao implements EmployeeDao {
                     " cannot be deleted as he(she) is a curator of class " + schoolClassDto.getCourse() + "-" +
                     schoolClassDto.getLetter() + ". See details.");
         }
-        List<SchoolbookDto> schoolbooks = schoolbookDao.getSchoolbookByLibrarianId(id);
+        List<SchoolbookDto> schoolbooks = schoolbookDao.getSchoolbooksByEmployeeId(id);
         if (schoolbooks.size() > 0) {
             throw new ForbidToDeleteException("Employee " + employeeDto.getName() + " " + employeeDto.getSurname() +
                     " cannot be deleted as he(she) is responsible librarian for some books. See details.");

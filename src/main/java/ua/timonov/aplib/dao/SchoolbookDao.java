@@ -20,5 +20,5 @@ public interface SchoolbookDao {
 
     SchoolbookDto getByName(String name);
 
-    List<SchoolbookDto> getSchoolbookByLibrarianId(int librarianId);
+    List<SchoolbookDto> getSchoolbooksByEmployeeId(int librarianId);
 }
