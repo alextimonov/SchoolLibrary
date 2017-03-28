@@ -12,8 +12,7 @@
 <body>
 <div class="container">
     <header>
-        <h1>School library Web application</h1>
-        <h2>Found class by ID:</h2>
+        <h3>School library Web application. School class details</h3>
     </header>
 
     <nav>

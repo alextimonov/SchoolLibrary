@@ -28,9 +28,15 @@ public class BookInClassDto {
     private SchoolbookDto schoolbook;
 
     @Column(name = "number_books")
-    private int nBooksInClass;
+    private int booksNumber;
 
     public BookInClassDto() {
+    }
+
+    public BookInClassDto(SchoolClassDto schoolClass, SchoolbookDto schoolbook, int booksNumber) {
+        this.schoolClass = schoolClass;
+        this.schoolbook = schoolbook;
+        this.booksNumber = booksNumber;
     }
 
     public int getId() {
@@ -57,25 +63,13 @@ public class BookInClassDto {
         this.schoolbook = schoolbook;
     }
 
-    public int getnBooksInClass() {
-        return nBooksInClass;
+    public int getBooksNumber() {
+        return booksNumber;
     }
 
-    public void setnBooksInClass(int nBooksInClass) {
-        this.nBooksInClass = nBooksInClass;
+    public void setBooksNumber(int booksNumber) {
+        this.booksNumber = booksNumber;
     }
-
-    /*public BookInClass getBookInClass() {
-        BookInClass bookInClass = new BookInClass();
-        bookInClass.setSchoolbook(new Schoolbook(schoolbook));
-        bookInClass.setSchoolClassId(schoolClass.getId());
-        bookInClass.setSchoolClassCourse(schoolClass.getCourse());
-        bookInClass.setSchoolClassLetter(schoolClass.getLetter());
-        bookInClass.setSchoolClassTeacherName(schoolClass.getTeacher().getName());
-        bookInClass.setSchoolClassTeacherSurname(schoolClass.getTeacher().getSurname());
-        bookInClass.setBooksNumber(nBooksInClass);
-        return bookInClass;
-    }*/
 
     @Override
     public String toString() {
@@ -83,7 +77,7 @@ public class BookInClassDto {
                 "id=" + id +
                 ", schoolClass=" + schoolClass +
                 ", schoolbook=" + schoolbook +
-                ", nBooksInClass=" + nBooksInClass +
+                ", booksNumber=" + booksNumber +
                 '}';
     }
 
@@ -94,7 +88,7 @@ public class BookInClassDto {
 
         BookInClassDto that = (BookInClassDto) o;
 
-        if (nBooksInClass != that.nBooksInClass) return false;
+        if (booksNumber != that.booksNumber) return false;
         if (schoolClass != null ? !schoolClass.equals(that.schoolClass) : that.schoolClass != null) return false;
         return schoolbook != null ? schoolbook.equals(that.schoolbook) : that.schoolbook == null;
 
@@ -104,7 +98,7 @@ public class BookInClassDto {
     public int hashCode() {
         int result = schoolClass != null ? schoolClass.hashCode() : 0;
         result = 31 * result + (schoolbook != null ? schoolbook.hashCode() : 0);
-        result = 31 * result + nBooksInClass;
+        result = 31 * result + booksNumber;
         return result;
     }
 }

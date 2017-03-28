@@ -15,4 +15,10 @@ public interface BookInClassDao {
     List<BookInClassDto> getByClass(SchoolClassDto schoolClassDto);
 
     List<BookInClassDto> getByBook(SchoolbookDto schoolbookDto);
+
+    BookInClassDto getByClassAndBook(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto);
+
+    BookInClassDto handoutSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToHandout);
+
+    BookInClassDto returnSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToCollect);
 }

@@ -24,7 +24,16 @@ public class BookInClass {
         this.schoolClassLetter = bookInClassDto.getSchoolClass().getLetter();
         this.schoolClassTeacherName = bookInClassDto.getSchoolClass().getTeacher().getName();
         this.schoolClassTeacherSurname = bookInClassDto.getSchoolClass().getTeacher().getSurname();
-        this.booksNumber = bookInClassDto.getnBooksInClass();
+        this.booksNumber = bookInClassDto.getBooksNumber();
+    }
+
+    public BookInClass(Schoolbook schoolbook, SchoolClass schoolClass) {
+        this.schoolbook = schoolbook;
+        this.schoolClassId = schoolClass.getId();
+        this.schoolClassCourse = schoolClass.getCourse();
+        this.schoolClassLetter = schoolClass.getLetter();
+        this.schoolClassTeacherName = schoolClass.getTeacher().getName();
+        this.schoolClassTeacherSurname = schoolClass.getTeacher().getSurname();
     }
 
     public Schoolbook getSchoolbook() {

@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.BookInClassDao;
 import ua.timonov.aplib.dao.SchoolbookDao;
 import ua.timonov.aplib.dto.BookInClassDto;
+import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
+import ua.timonov.aplib.exceptions.ForbidToAddException;
 import ua.timonov.aplib.exceptions.ForbidToDeleteException;
 import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 
@@ -97,10 +99,24 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
     }
 
     @Override
+    @Transactional
     public List<SchoolbookDto> getSchoolbooksByEmployeeId(int librarianId) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select schoolbook from SchoolbookDto schoolbook where schoolbook.librarian.id = :param");
         query.setParameter("param", librarianId);
         return query.getResultList();
     }
+
+    @Transactional
+    public BookInClassDto returnSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToCollect) {
+        BookInClassDto bookInClassDto = bookInClassDao.getByClassAndBook(schoolClassDto, schoolbookDto);
+        int currentAmount = bookInClassDto.getBooksNumber();
+        if (amountToCollect <= currentAmount)
+            return bookInClassDao.returnSchoolbooks(schoolClassDto, schoolbookDto, amountToCollect);
+        else
+            throw new ForbidToAddException(schoolClassDto.getCourse() + "-" + schoolClassDto.getLetter() + " class has only " +
+                    amountToCollect + " books \"" + schoolbookDto.getName() + "\". Do you agree to return " +
+                    currentAmount + " books to library?");
+    }
+
 }

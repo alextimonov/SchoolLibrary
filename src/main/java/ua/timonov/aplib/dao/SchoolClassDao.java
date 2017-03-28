@@ -5,7 +5,7 @@ import ua.timonov.aplib.dto.SchoolClassDto;
 import java.util.List;
 
 /**
- * Created by Alex on 23.12.2016.
+ *
  */
 public interface SchoolClassDao {
     SchoolClassDto add(SchoolClassDto schoolClass);
@@ -21,4 +21,6 @@ public interface SchoolClassDao {
     SchoolClassDto getSchoolClassByName(int course, char letter);
 
     SchoolClassDto getSchoolClassByTeacherId(int teacherId);
+
+    List<SchoolClassDto> getClassesByCourse(int course);
 }
