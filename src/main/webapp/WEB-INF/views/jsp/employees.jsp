@@ -11,8 +11,7 @@
 <body>
 <div class="container">
     <header>
-        <h1>School library Web application</h1>
-        <h2>Employees page</h2>
+        <h3>School library Web application. Employees page</h3>
     </header>
 
     <nav>

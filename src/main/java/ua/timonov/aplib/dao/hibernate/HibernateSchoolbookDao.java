@@ -107,39 +107,16 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
         return query.getResultList();
     }
 
-    @Override
     @Transactional
-    public BookInClassDto handoutSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToHandout) {
-        List<BookInClassDto> booksInClassDto = bookInClassDao.getByBook(schoolbookDto);
-        int residue = getBookResidue(schoolbookDto, booksInClassDto);
-        // TODO move to BookInClassDao
-        if (residue >= amountToHandout)
-            return bookInClassDao.handoutSchoolbooks(schoolClassDto, schoolbookDto, amountToHandout);
-        else
-            throw new ForbidToAddException("There are not enough books \"" + schoolbookDto.getName() + "\" in the library. " +
-                    residue + " books are available, while you need " + amountToHandout + ". Do you agree to hand out only " +
-                    residue + " books to " + schoolClassDto.getCourse() + "-" + schoolClassDto.getLetter() + " class?");
-    }
-
-    @Override
-    @Transactional
-    public BookInClassDto collectSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToCollect) {
+    public BookInClassDto returnSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToCollect) {
         BookInClassDto bookInClassDto = bookInClassDao.getByClassAndBook(schoolClassDto, schoolbookDto);
         int currentAmount = bookInClassDto.getBooksNumber();
         if (amountToCollect <= currentAmount)
-            return bookInClassDao.collectSchoolbooks(schoolClassDto, schoolbookDto, amountToCollect);
+            return bookInClassDao.returnSchoolbooks(schoolClassDto, schoolbookDto, amountToCollect);
         else
             throw new ForbidToAddException(schoolClassDto.getCourse() + "-" + schoolClassDto.getLetter() + " class has only " +
                     amountToCollect + " books \"" + schoolbookDto.getName() + "\". Do you agree to return " +
                     currentAmount + " books to library?");
     }
 
-    private int getBookResidue(SchoolbookDto schoolbook, List<BookInClassDto> booksInClass) {
-        int amountTotal = schoolbook.getAmountTotal();
-        int amountInClasses = 0;
-        for (BookInClassDto bookInClass : booksInClass) {
-            amountInClasses += bookInClass.getBooksNumber();
-        }
-        return amountTotal - amountInClasses;
-    }
 }

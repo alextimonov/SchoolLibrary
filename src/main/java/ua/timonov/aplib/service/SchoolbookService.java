@@ -116,14 +116,14 @@ public class SchoolbookService {
     public BookInClass handoutSchoolbooks(SchoolClass schoolClass, Schoolbook schoolbook, int amountToHandout) {
         SchoolbookDto schoolbookDto = getSchoolbookDto(schoolbook);
         SchoolClassDto schoolClassDto = schoolClassService.getSchoolClassDto(schoolClass);
-        return new BookInClass(schoolbookDao.handoutSchoolbooks(schoolClassDto, schoolbookDto, amountToHandout));
+        return new BookInClass(bookInClassDao.handoutSchoolbooks(schoolClassDto, schoolbookDto, amountToHandout));
     }
 
     @Transactional
-    public BookInClass collectSchoolbooks(SchoolClass schoolClass, Schoolbook schoolbook, int amountToCollect) {
+    public BookInClass returnSchoolbooks(SchoolClass schoolClass, Schoolbook schoolbook, int amountToCollect) {
         SchoolbookDto schoolbookDto = getSchoolbookDto(schoolbook);
         SchoolClassDto schoolClassDto = schoolClassService.getSchoolClassDto(schoolClass);
-        return new BookInClass(schoolbookDao.collectSchoolbooks(schoolClassDto, schoolbookDto, amountToCollect));
+        return new BookInClass(bookInClassDao.returnSchoolbooks(schoolClassDto, schoolbookDto, amountToCollect));
     }
 
     @Transactional

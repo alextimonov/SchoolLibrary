@@ -29,7 +29,7 @@ public class SchoolbookResource {
     private static final int NO_SCHOOLBOOK_IN_DB = -1;
     public static final int FORBID_TO_DELETE = -2;
     public static final int FORBID_TO_HANDOUT = -1;
-    public static final int FORBID_TO_COLLECT = -2;
+    public static final int FORBID_TO_RETURN = -2;
     private SchoolbookService schoolbookService;
     private EmployeeService employeeService;
     private SchoolClassService schoolClassService;
@@ -66,9 +66,8 @@ public class SchoolbookResource {
         Schoolbook schoolbook = schoolbookService.getById(id);
         List<BookInClass> booksInClass = schoolbookService.getBooksInClass(schoolbook);
         int residue = getBookResidue(schoolbook, booksInClass);
-        List<SchoolClass> schoolClasses = schoolClassService.getAll();
-        // TODO getByCourse
-        // List<SchoolClass> schoolClasses = schoolClassService.getClassesByCourse();
+//        List<SchoolClass> schoolClasses = schoolClassService.getAll();
+        List<SchoolClass> schoolClasses = schoolClassService.getClassesByCourse(schoolbook.getCourse());
         map.put("schoolbook", schoolbook);
         map.put("booksInClass", booksInClass);
         map.put("residue", residue);
@@ -192,25 +191,26 @@ public class SchoolbookResource {
     }
 
     @GET
-    @Path("/collectForm")
-    @Template(name = "/schoolbookCollectForm.jsp")
-    public Response formCollectSchoolbook(@QueryParam("bookId") int id, @QueryParam("classId") int classId,
-                                          @QueryParam("booksAmount") int amountToCollect) {
+    @Path("/returnForm")
+    @Template(name = "/schoolbookReturnForm.jsp")
+    public Response formReturnSchoolbook(@QueryParam("bookId") int id, @QueryParam("classId") int classId,
+                                         @QueryParam("booksAmount") int amountToReturn) {
         Map<String, Object> map = new HashMap<>();
         Schoolbook schoolbook = schoolbookService.getById(id);
         SchoolClass schoolClass = schoolClassService.getById(classId);
         try {
-            BookInClass bookInClass = schoolbookService.collectSchoolbooks(schoolClass, schoolbook, amountToCollect);
+            BookInClass bookInClass = schoolbookService.returnSchoolbooks(schoolClass, schoolbook, amountToReturn);
             map.put("bookInClass", bookInClass);
-            map.put("amountToCollect", amountToCollect);
+            map.put("amountToReturn", amountToReturn);
             return Response.ok(map).build();
-        } catch (ForbidToAddException e) {
+        }
+        catch (ForbidToAddException e) {
             BookInClass bookInClass = schoolbookService.getByClassAndBook(schoolClass, schoolbook);
             int currentAmount = bookInClass.getBooksNumber();
             map.put("bookInClass", bookInClass);
-            map.put("amountToCollect", amountToCollect);
+            map.put("amountToReturn", amountToReturn);
             map.put("currentAmount", currentAmount);
-            map.put("errorId", FORBID_TO_COLLECT);
+            map.put("errorId", FORBID_TO_RETURN);
             map.put("errorMessage", e.getMessage());
             return Response.ok(map).build();
         }

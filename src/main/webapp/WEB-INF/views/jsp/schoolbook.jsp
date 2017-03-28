@@ -11,8 +11,7 @@
 <body>
 <div class="container">
     <header>
-        <h3>School library Web application</h3>
-        <h4>Schoolbook details</h4>
+        <h3>School library Web application. Schoolbook details</h3>
     </header>
 
     <nav>
@@ -55,16 +54,16 @@
                 </tr>
             </table>
 
-            <form class="form-horizontal" action="/library/books/collectForm" method="GET">
+            <form class="form-horizontal" action="/library/books/returnForm" method="GET">
                 <div class="form-group">
                     <div class="col-sm-0">
                         <input class="form-control" name="bookId" value="${book.id}" type="hidden"/>
                     </div>
                     <div class="col-sm-3">
-                        <label class="control-label" for="classIdCollect">Collect schoolbooks:</label>
+                        <label class="control-label" for="classIdReturn">Return schoolbooks:</label>
                     </div>
                     <div class="col-sm-3">
-                        <select id="classIdCollect" class="form-control" name="classId">
+                        <select id="classIdReturn" class="form-control" name="classId">
                             <option selected disabled hidden>Choose class:</option>
                             <c:forEach var="schoolClass" items="${it.schoolClasses}">
                                 <option value="${schoolClass.id}">${schoolClass.course}-${schoolClass.letter}</option>
@@ -72,14 +71,14 @@
                         </select>
                     </div>
                     <div class="col-sm-2">
-                        <label class="control-label" for="booksAmountCollect">Input amount:</label>
+                        <label class="control-label" for="booksAmountReturn">Input amount:</label>
                     </div>
                     <div class="col-sm-2">
-                        <input class="form-control" id="booksAmountCollect" type="number" name="booksAmount">
+                        <input class="form-control" id="booksAmountReturn" type="number" name="booksAmount">
                     </div>
                     <div class="col-sm-2">
                         <button class="btn btn-primary" type="submit">
-                            <span class="glyphicon glyphicon-triangle-top"></span> Collect</button>
+                            <span class="glyphicon glyphicon-triangle-top"></span> Return</button>
                     </div>
                 </div>
             </form>

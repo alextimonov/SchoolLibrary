@@ -125,4 +125,13 @@ public class HibernateSchoolClassDao implements SchoolClassDao {
         query.setParameter("param", teacherId);
         return (SchoolClassDto) query.uniqueResult();
     }
+
+    @Override
+    @Transactional
+    public List<SchoolClassDto> getClassesByCourse(int course) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select schoolClass from SchoolClassDto schoolClass where schoolClass.course = :course");
+        query.setParameter("course", course);
+        return query.getResultList();
+    }
 }
