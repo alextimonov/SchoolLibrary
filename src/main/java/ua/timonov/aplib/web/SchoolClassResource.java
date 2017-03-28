@@ -115,7 +115,7 @@ public class SchoolClassResource {
     @GET
     @Path("/addForm")
     @Template(name = "/schoolClassAddForm.jsp")
-    public Response formAddSchoolbook() {
+    public Response formAddSchoolClass() {
         Map<String, Object> map = new HashMap<>();
         map.put("schoolClass", new SchoolClass());
         map.put("teachers", employeeService.getTeachers());
@@ -125,7 +125,7 @@ public class SchoolClassResource {
     @GET
     @Path("/editForm")
     @Template(name = "/schoolClassEditForm.jsp")
-    public Response formEditEmployee(@QueryParam("id") int id) {
+    public Response formEditSchoolClass(@QueryParam("id") int id) {
         Map<String, Object> map = new HashMap<>();
         try {
             SchoolClass schoolClass = schoolClassService.getById(id);
@@ -143,7 +143,7 @@ public class SchoolClassResource {
     @GET
     @Path("/deleteForm")
     @Template(name = "/schoolClassDeleteForm.jsp")
-    public Response formDeleteEmployee(@QueryParam("id") int id) {
+    public Response formDeleteSchoolClass(@QueryParam("id") int id) {
         Map<String, Object> map = new HashMap<>();
         try {
             SchoolClass schoolClass = schoolClassService.delete(id);

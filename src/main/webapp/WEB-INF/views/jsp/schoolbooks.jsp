@@ -13,8 +13,8 @@
 
 <div class="container">
     <header>
-        <h1>School library Web application</h1>
-        <h2>Schoolbook page</h2>
+        <h2>School library Web application</h2>
+        <h3>Schoolbook page</h3>
     </header>
 
     <nav>

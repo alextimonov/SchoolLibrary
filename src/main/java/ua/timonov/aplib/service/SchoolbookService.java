@@ -2,11 +2,14 @@ package ua.timonov.aplib.service;
 
 import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.BookInClassDao;
+import ua.timonov.aplib.dao.EmployeeDao;
 import ua.timonov.aplib.dao.SchoolbookDao;
 import ua.timonov.aplib.dto.BookInClassDto;
+import ua.timonov.aplib.dto.EmployeeDto;
+import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
 import ua.timonov.aplib.model.BookInClass;
-import ua.timonov.aplib.model.Employee;
+import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.model.Schoolbook;
 
 import java.util.ArrayList;
@@ -16,9 +19,14 @@ import java.util.List;
  * Web service for SchoolbookDao
  */
 public class SchoolbookService {
+    private SchoolClassService schoolClassService;
     private SchoolbookDao schoolbookDao;
     private BookInClassDao bookInClassDao;
-    private EmployeeService employeeService;
+    private EmployeeDao employeeDao;
+
+    public void setSchoolClassService(SchoolClassService schoolClassService) {
+        this.schoolClassService = schoolClassService;
+    }
 
     public void setSchoolbookDao(SchoolbookDao schoolbookDao) {
         this.schoolbookDao = schoolbookDao;
@@ -28,9 +36,10 @@ public class SchoolbookService {
         this.bookInClassDao = bookInClassDao;
     }
 
-    public void setEmployeeService(EmployeeService employeeService) {
-        this.employeeService = employeeService;
+    public void setEmployeeDao(EmployeeDao employeeDao) {
+        this.employeeDao = employeeDao;
     }
+
 
     @Transactional
     public Schoolbook add(Schoolbook schoolbook) {
@@ -46,8 +55,8 @@ public class SchoolbookService {
         schoolbookDto.setCourse(schoolbook.getCourse());
         schoolbookDto.setAmountTotal(schoolbook.getAmountTotal());
         int librarianId = schoolbook.getLibrarian().getId();
-        Employee librarian = employeeService.getById(librarianId);
-        schoolbookDto.setLibrarian(employeeService.getEmployeeDto(librarian));
+        EmployeeDto librarian = employeeDao.getEmployeeById(librarianId);
+        schoolbookDto.setLibrarian(librarian);
         return schoolbookDto;
     }
 
@@ -87,7 +96,7 @@ public class SchoolbookService {
     @Transactional
     public BookInClassDto getBookInClassDto(BookInClass bookInClass) {
         BookInClassDto bookInClassDto = new BookInClassDto();
-        bookInClassDto.setnBooksInClass(bookInClass.getBooksNumber());
+        bookInClassDto.setBooksNumber(bookInClass.getBooksNumber());
         bookInClassDto.setSchoolbook(getSchoolbookDto(bookInClass.getSchoolbook()));
         return bookInClassDto;
     }
@@ -101,5 +110,26 @@ public class SchoolbookService {
             booksInClass.add(new BookInClass(bookInClassDto));
         }
         return booksInClass;
+    }
+
+    @Transactional
+    public BookInClass handoutSchoolbooks(SchoolClass schoolClass, Schoolbook schoolbook, int amountToHandout) {
+        SchoolbookDto schoolbookDto = getSchoolbookDto(schoolbook);
+        SchoolClassDto schoolClassDto = schoolClassService.getSchoolClassDto(schoolClass);
+        return new BookInClass(schoolbookDao.handoutSchoolbooks(schoolClassDto, schoolbookDto, amountToHandout));
+    }
+
+    @Transactional
+    public BookInClass collectSchoolbooks(SchoolClass schoolClass, Schoolbook schoolbook, int amountToCollect) {
+        SchoolbookDto schoolbookDto = getSchoolbookDto(schoolbook);
+        SchoolClassDto schoolClassDto = schoolClassService.getSchoolClassDto(schoolClass);
+        return new BookInClass(schoolbookDao.collectSchoolbooks(schoolClassDto, schoolbookDto, amountToCollect));
+    }
+
+    @Transactional
+    public BookInClass getByClassAndBook(SchoolClass schoolClass, Schoolbook schoolbook) {
+        SchoolbookDto schoolbookDto = getSchoolbookDto(schoolbook);
+        SchoolClassDto schoolClassDto = schoolClassService.getSchoolClassDto(schoolClass);
+        return new BookInClass(bookInClassDao.getByClassAndBook(schoolClassDto, schoolbookDto));
     }
 }

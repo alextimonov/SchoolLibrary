@@ -45,7 +45,7 @@ public class SchoolClassService {
     }
 
     @Transactional
-    private SchoolClassDto getSchoolClassDto(SchoolClass schoolClass) {
+    public SchoolClassDto getSchoolClassDto(SchoolClass schoolClass) {
         SchoolClassDto schoolClassDto = new SchoolClassDto();
         schoolClassDto.setId(schoolClass.getId());
         schoolClassDto.setCourse(schoolClass.getCourse());

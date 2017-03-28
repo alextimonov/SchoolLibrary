@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.timonov.aplib.dao.BookInClassDao;
 import ua.timonov.aplib.dao.SchoolbookDao;
 import ua.timonov.aplib.dto.BookInClassDto;
+import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
+import ua.timonov.aplib.exceptions.ForbidToAddException;
 import ua.timonov.aplib.exceptions.ForbidToDeleteException;
 import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 
@@ -97,10 +99,47 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
     }
 
     @Override
+    @Transactional
     public List<SchoolbookDto> getSchoolbooksByEmployeeId(int librarianId) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select schoolbook from SchoolbookDto schoolbook where schoolbook.librarian.id = :param");
         query.setParameter("param", librarianId);
         return query.getResultList();
+    }
+
+    @Override
+    @Transactional
+    public BookInClassDto handoutSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToHandout) {
+        List<BookInClassDto> booksInClassDto = bookInClassDao.getByBook(schoolbookDto);
+        int residue = getBookResidue(schoolbookDto, booksInClassDto);
+        // TODO move to BookInClassDao
+        if (residue >= amountToHandout)
+            return bookInClassDao.handoutSchoolbooks(schoolClassDto, schoolbookDto, amountToHandout);
+        else
+            throw new ForbidToAddException("There are not enough books \"" + schoolbookDto.getName() + "\" in the library. " +
+                    residue + " books are available, while you need " + amountToHandout + ". Do you agree to hand out only " +
+                    residue + " books to " + schoolClassDto.getCourse() + "-" + schoolClassDto.getLetter() + " class?");
+    }
+
+    @Override
+    @Transactional
+    public BookInClassDto collectSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToCollect) {
+        BookInClassDto bookInClassDto = bookInClassDao.getByClassAndBook(schoolClassDto, schoolbookDto);
+        int currentAmount = bookInClassDto.getBooksNumber();
+        if (amountToCollect <= currentAmount)
+            return bookInClassDao.collectSchoolbooks(schoolClassDto, schoolbookDto, amountToCollect);
+        else
+            throw new ForbidToAddException(schoolClassDto.getCourse() + "-" + schoolClassDto.getLetter() + " class has only " +
+                    amountToCollect + " books \"" + schoolbookDto.getName() + "\". Do you agree to return " +
+                    currentAmount + " books to library?");
+    }
+
+    private int getBookResidue(SchoolbookDto schoolbook, List<BookInClassDto> booksInClass) {
+        int amountTotal = schoolbook.getAmountTotal();
+        int amountInClasses = 0;
+        for (BookInClassDto bookInClass : booksInClass) {
+            amountInClasses += bookInClass.getBooksNumber();
+        }
+        return amountTotal - amountInClasses;
     }
 }

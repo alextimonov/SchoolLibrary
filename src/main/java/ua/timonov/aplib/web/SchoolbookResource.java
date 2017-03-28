@@ -2,11 +2,14 @@ package ua.timonov.aplib.web;
 
 import org.glassfish.jersey.server.mvc.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import ua.timonov.aplib.exceptions.ForbidToAddException;
 import ua.timonov.aplib.exceptions.ForbidToDeleteException;
 import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.BookInClass;
+import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.model.Schoolbook;
 import ua.timonov.aplib.service.EmployeeService;
+import ua.timonov.aplib.service.SchoolClassService;
 import ua.timonov.aplib.service.SchoolbookService;
 
 import javax.ws.rs.*;
@@ -25,8 +28,11 @@ import java.util.Map;
 public class SchoolbookResource {
     private static final int NO_SCHOOLBOOK_IN_DB = -1;
     public static final int FORBID_TO_DELETE = -2;
+    public static final int FORBID_TO_HANDOUT = -1;
+    public static final int FORBID_TO_COLLECT = -2;
     private SchoolbookService schoolbookService;
     private EmployeeService employeeService;
+    private SchoolClassService schoolClassService;
 
     @Autowired
     public void setSchoolbookService(SchoolbookService schoolbookService) {
@@ -36,6 +42,11 @@ public class SchoolbookResource {
     @Autowired
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
+    }
+
+    @Autowired
+    public void setSchoolClassService(SchoolClassService schoolClassService) {
+        this.schoolClassService = schoolClassService;
     }
 
     @GET
@@ -55,9 +66,13 @@ public class SchoolbookResource {
         Schoolbook schoolbook = schoolbookService.getById(id);
         List<BookInClass> booksInClass = schoolbookService.getBooksInClass(schoolbook);
         int residue = getBookResidue(schoolbook, booksInClass);
+        List<SchoolClass> schoolClasses = schoolClassService.getAll();
+        // TODO getByCourse
+        // List<SchoolClass> schoolClasses = schoolClassService.getClassesByCourse();
         map.put("schoolbook", schoolbook);
         map.put("booksInClass", booksInClass);
         map.put("residue", residue);
+        map.put("schoolClasses", schoolClasses);
         return Response.ok(map).build();
     }
 
@@ -107,7 +122,7 @@ public class SchoolbookResource {
     @GET
     @Path("/editForm")
     @Template(name = "/schoolbookEditForm.jsp")
-    public Response formEditEmployee(@QueryParam("id") int id) {
+    public Response formEditSchoolbook(@QueryParam("id") int id) {
         Map<String, Object> map = new HashMap<>();
         try {
             Schoolbook schoolbook = schoolbookService.getById(id);
@@ -126,7 +141,7 @@ public class SchoolbookResource {
     @GET
     @Path("/deleteForm")
     @Template(name = "/schoolbookDeleteForm.jsp")
-    public Response formDeleteEmployee(@QueryParam("id") int id) {
+    public Response formDeleteSchoolbook(@QueryParam("id") int id) {
         Map<String, Object> map = new HashMap<>();
         try {
             Schoolbook schoolbook = schoolbookService.delete(id);
@@ -144,6 +159,58 @@ public class SchoolbookResource {
             Schoolbook schoolbook = schoolbookService.getById(id);
             map.put("schoolbook", schoolbook);
             map.put("errorId", FORBID_TO_DELETE);
+            map.put("errorMessage", e.getMessage());
+            return Response.ok(map).build();
+        }
+    }
+
+    @GET
+    @Path("/handoutForm")
+    @Template(name = "/schoolbookHandoutForm.jsp")
+    public Response formHandoutSchoolbook(@QueryParam("bookId") int id, @QueryParam("classId") int classId,
+                                          @QueryParam("booksAmount") int amountToHandout) {
+        Map<String, Object> map = new HashMap<>();
+        Schoolbook schoolbook = schoolbookService.getById(id);
+        SchoolClass schoolClass = schoolClassService.getById(classId);
+        try {
+            BookInClass bookInClass = schoolbookService.handoutSchoolbooks(schoolClass, schoolbook, amountToHandout);
+            map.put("bookInClass", bookInClass);
+            map.put("amountToHandout", amountToHandout);
+            return Response.ok(map).build();
+        }
+        catch (ForbidToAddException e) {
+            List<BookInClass> booksInClass = schoolbookService.getBooksInClass(schoolbook);
+            int residue = getBookResidue(schoolbook, booksInClass);
+            BookInClass bookInClass = new BookInClass(schoolbook, schoolClass);
+            map.put("bookInClass", bookInClass);
+            map.put("amountToHandout", amountToHandout);
+            map.put("residue", residue);
+            map.put("errorId", FORBID_TO_HANDOUT);
+            map.put("errorMessage", e.getMessage());
+            return Response.ok(map).build();
+        }
+    }
+
+    @GET
+    @Path("/collectForm")
+    @Template(name = "/schoolbookCollectForm.jsp")
+    public Response formCollectSchoolbook(@QueryParam("bookId") int id, @QueryParam("classId") int classId,
+                                          @QueryParam("booksAmount") int amountToCollect) {
+        Map<String, Object> map = new HashMap<>();
+        Schoolbook schoolbook = schoolbookService.getById(id);
+        SchoolClass schoolClass = schoolClassService.getById(classId);
+        try {
+            BookInClass bookInClass = schoolbookService.collectSchoolbooks(schoolClass, schoolbook, amountToCollect);
+            map.put("bookInClass", bookInClass);
+            map.put("amountToCollect", amountToCollect);
+            return Response.ok(map).build();
+        } catch (ForbidToAddException e) {
+            BookInClass bookInClass = schoolbookService.getByClassAndBook(schoolClass, schoolbook);
+            int currentAmount = bookInClass.getBooksNumber();
+            map.put("bookInClass", bookInClass);
+            map.put("amountToCollect", amountToCollect);
+            map.put("currentAmount", currentAmount);
+            map.put("errorId", FORBID_TO_COLLECT);
             map.put("errorMessage", e.getMessage());
             return Response.ok(map).build();
         }
