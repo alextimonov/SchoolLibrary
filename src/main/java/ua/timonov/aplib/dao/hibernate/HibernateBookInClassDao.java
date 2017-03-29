@@ -96,8 +96,8 @@ public class HibernateBookInClassDao implements BookInClassDao {
             return returnChosenBooksAmount(schoolClassDto, schoolbookDto, amountToCollect);
         else
             throw new ForbidToAddException(schoolClassDto.getCourse() + "-" + schoolClassDto.getLetter() + " class has only " +
-                    amountToCollect + " books \"" + schoolbookDto.getName() + "\". Do you agree to return " +
-                    currentAmount + " books to library?");
+                    currentAmount + " books while you try to return " + amountToCollect + " books \"" + schoolbookDto.getName() +
+                    "\". Do you agree to return " + currentAmount + " books to library?");
     }
 
     @Transactional

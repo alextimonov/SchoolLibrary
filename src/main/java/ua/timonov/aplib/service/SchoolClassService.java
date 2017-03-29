@@ -115,4 +115,15 @@ public class SchoolClassService {
         List<SchoolClassDto> schoolClassesDto = schoolClassDao.getClassesByCourse(course);
         return getListSchoolClasses(schoolClassesDto);
     }
+
+    @Transactional
+    public List<BookInClass> getBooksInClass(SchoolClass schoolClass) {
+        SchoolClassDto schoolClassDto = getSchoolClassDto(schoolClass);
+        List<BookInClassDto> booksInClassDto = bookInClassDao.getByClass(schoolClassDto);
+        List<BookInClass> booksInClass = new ArrayList<>();
+        for (BookInClassDto bookInClassDto : booksInClassDto) {
+            booksInClass.add(new BookInClass(bookInClassDto));
+        }
+        return booksInClass;
+    }
 }

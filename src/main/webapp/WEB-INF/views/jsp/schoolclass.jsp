@@ -28,8 +28,8 @@
         <div class="container">
             <table class="table table-striped">
                 <c:url var="addUrl" value="/library/classes/addForm"/>
-                <c:url var="editUrl" value="/library/classes/editForm?id=${it.id}"/>
-                <c:url var="deleteUrl" value="/library/classes/deleteForm?id=${it.id}"/>
+                <c:url var="editUrl" value="/library/classes/editForm?id=${it.schoolClass.id}"/>
+                <c:url var="deleteUrl" value="/library/classes/deleteForm?id=${it.schoolClass.id}"/>
                 <tr>
                     <th>ID</th>
                     <th>Class</th>
@@ -39,9 +39,9 @@
                     <th>Delete</th>
                 </tr>
                 <tr>
-                    <td>${it.id}</td>
-                    <td>${it.course}-${it.letter}</td>
-                    <td>${it.teacher.name} ${it.teacher.surname} </td>
+                    <td>${it.schoolClass.id}</td>
+                    <td>${it.schoolClass.course}-${it.schoolClass.letter}</td>
+                    <td>${it.schoolClass.teacher.name} ${it.schoolClass.teacher.surname} </td>
                     <td><a href="${addUrl}">Add</a></td>
                     <td><a href="${editUrl}">Edit</a></td>
                     <td><a href="${deleteUrl}">Delete</a></td>
@@ -55,7 +55,7 @@
                     <th>Amount in class</th>
                     <th>TOTAL</th>
                 </tr>
-                <c:forEach var="bookInClass" items="${it.booksInClass}">
+                <c:forEach var="bookInClass" items="${it.schoolClass.booksInClass}">
                     <tr>
                         <td>${bookInClass.schoolbook.id}</td>
                         <td>${bookInClass.schoolbook.name}</td>
@@ -64,7 +64,67 @@
                     </tr>
                 </c:forEach>
             </table>
-            <br>
+
+            <form class="form-horizontal" action="/library/books/handoutForm" method="GET">
+                <div class="form-group">
+                    <div class="col-sm-0">
+                        <input class="form-control" name="classId" value="${it.schoolClass.id}" type="hidden"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="control-label" for="bookId">Hand out schoolbooks:</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <select id="bookId" class="form-control" name="bookId">
+                            <option selected disabled hidden>Choose schoolbook:</option>
+                            <c:forEach var="bookInClass" items="${it.schoolClass.booksInClass}">
+                                <option value="${bookInClass.schoolbook.id}">
+                                    ${bookInClass.schoolbook.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="control-label" for="booksAmount">Input amount:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input class="form-control" id="booksAmount" type="number" name="booksAmount">
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-triangle-left"></span> Hand out</button>
+                    </div>
+                </div>
+            </form>
+
+            <form class="form-horizontal" action="/library/books/returnForm" method="GET">
+                <div class="form-group">
+                    <div class="col-sm-0">
+                        <input class="form-control" name="classId" value="${it.schoolClass.id}" type="hidden"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="control-label" for="bookIdReturn">Return schoolbooks:</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <select id="bookIdReturn" class="form-control" name="bookId">
+                            <option selected disabled hidden>Choose schoolbook:</option>
+                            <c:forEach var="bookInClass" items="${it.schoolClass.booksInClass}">
+                                <option value="${bookInClass.schoolbook.id}">
+                                        ${bookInClass.schoolbook.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="control-label" for="booksAmountReturn">Input amount:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <input class="form-control" id="booksAmountReturn" type="number" name="booksAmount">
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-triangle-right"></span> Return</button>
+                    </div>
+                </div>
+            </form>
+
             <form class="form-inline" action="/library/classes" method="GET">
                 <button class="btn btn-primary" type="submit">
                     <span class="glyphicon glyphicon-triangle-left"></span> Return to classes</button>

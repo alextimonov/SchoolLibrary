@@ -66,7 +66,6 @@ public class SchoolbookResource {
         Schoolbook schoolbook = schoolbookService.getById(id);
         List<BookInClass> booksInClass = schoolbookService.getBooksInClass(schoolbook);
         int residue = getBookResidue(schoolbook, booksInClass);
-//        List<SchoolClass> schoolClasses = schoolClassService.getAll();
         List<SchoolClass> schoolClasses = schoolClassService.getClassesByCourse(schoolbook.getCourse());
         map.put("schoolbook", schoolbook);
         map.put("booksInClass", booksInClass);
