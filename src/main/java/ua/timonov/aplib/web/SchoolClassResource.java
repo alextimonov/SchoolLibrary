@@ -10,6 +10,7 @@ import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.service.EmployeeService;
 import ua.timonov.aplib.service.SchoolClassService;
+import ua.timonov.aplib.service.SchoolbookService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -24,11 +25,11 @@ import java.util.Map;
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class SchoolClassResource {
-    private static final int ERROR_ID = -1;
     public static final int NO_SCHOOLCLASS_IN_DB = -1;
     public static final int FORBID_TO_DELETE = -2;
     private SchoolClassService schoolClassService;
     private EmployeeService employeeService;
+    private SchoolbookService schoolbookService;
 
     @Autowired
     public void setSchoolClassService(SchoolClassService schoolClassService) {
@@ -38,6 +39,11 @@ public class SchoolClassResource {
     @Autowired
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
+    }
+
+    @Autowired
+    public void setSchoolbookService(SchoolbookService schoolbookService) {
+        this.schoolbookService = schoolbookService;
     }
 
     @GET
@@ -53,8 +59,18 @@ public class SchoolClassResource {
     @GET
     @Path("/{id}")
     @Template(name = "/schoolclass.jsp")
-    public SchoolClass getSchoolClassById(@PathParam("id") int id) {
-        return schoolClassService.getById(id);
+    public Response getSchoolClassById(@PathParam("id") int id) {
+        Map<String, Object> map = new HashMap<>();
+        SchoolClass schoolClass = schoolClassService.getById(id);
+//        List<BookInClass> booksInClass = schoolClassService.getBooksInClass(schoolClass);
+
+//        map.put("schoolbook", schoolbook);
+//        map.put("residue", residue);
+//        map.put("schoolClasses", schoolClasses);
+
+//        map.put("booksInClass", booksInClass);
+        map.put("schoolClass", schoolClass);
+        return Response.ok(map).build();
     }
 
     /*@GET
