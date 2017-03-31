@@ -18,6 +18,7 @@
                 <li><a href="/library/employees">Employees</a></li>
                 <li><a href="/library/books">Books</a></li>
                 <li><a href="/library/classes">Classes</a></li>
+                <li><a href="/library/protected/start">Protected</a></li>
             </ul>
         </nav>
 

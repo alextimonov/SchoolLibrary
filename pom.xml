@@ -13,6 +13,7 @@
         <mavenPluginVersion>2.5</mavenPluginVersion>
         <hibernateJpaApiVersion>1.0.0.Final</hibernateJpaApiVersion>
         <springVersion>4.3.6.RELEASE</springVersion>
+        <springSecurityVersion>4.2.2.RELEASE</springSecurityVersion>
         <hibernateVersion>5.2.1.Final</hibernateVersion>
         <comMchangeC3p0Version>0.9.5.2</comMchangeC3p0Version>
         <postgresqlVersion>9.1-901-1.jdbc4</postgresqlVersion>
@@ -85,19 +86,16 @@
             <artifactId>spring-context</artifactId>
             <version>${springVersion}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
             <version>${springVersion}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
             <version>${springVersion}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
@@ -121,25 +119,44 @@
             <version>${springVersion}</version>
         </dependency>
 
+        <!--Spring security-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${springSecurityVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${springSecurityVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${springSecurityVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${springSecurityVersion}</version>
+        </dependency>
+
         <!--Jersey-->
         <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
             <version>${jerseyVersion}</version>
         </dependency>
-
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
             <version>${jerseyVersion}</version>
         </dependency>
-
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
             <artifactId>jersey-mvc-jsp</artifactId>
             <version>${jerseyVersion}</version>
         </dependency>
-
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
             <artifactId>jersey-spring3</artifactId>
