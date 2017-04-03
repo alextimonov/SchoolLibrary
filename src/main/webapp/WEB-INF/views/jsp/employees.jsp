@@ -17,7 +17,7 @@
     <nav>
         <div class="container">
             <ul>
-                <li><a href="/index.jsp"><p>Main page</p></a></li>
+                <li><a href="/index.jsp">Main page</a></li>
                 <li><a href="/library/employees">Employees</a></li>
                 <li><a href="/library/books">Books</a></li>
                 <li><a href="/library/classes">Classes</a></li>

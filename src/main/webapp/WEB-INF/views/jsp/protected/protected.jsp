@@ -23,7 +23,7 @@
     </nav>
 
     <article>
-        <h2>START SECURITY PAGE</h2>
+        <h2>PROTECTED PAGE</h2>
         <h3>${it}</h3>
     </article>
 

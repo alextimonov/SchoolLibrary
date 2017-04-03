@@ -11,12 +11,25 @@
     </welcome-file-list>
 
     <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+                                    <!--<init-param>
+                                        <param-name>com.sun.jersey.spi.container.ResourceFilters</param-name>
+                                        <param-value>com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory</param-value>
+                                    </init-param>-->
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>JerseySpringFilter</filter-name>
         <filter-class>org.glassfish.jersey.servlet.ServletContainer</filter-class>
 
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>ua.timonov.aplib, ua.timonov.aplib.provider</param-value>
+            <param-value>ua.timonov.aplib, com.jersey.series.spring.security.service</param-value>
         </init-param>
 
         <init-param>
@@ -31,31 +44,24 @@
             <param-name>jersey.config.servlet.filter.staticContentRegex</param-name>
             <param-value>/(scripts|styles|resources|(WEB-INF/views/jsp))/*.jsp</param-value>
         </init-param>
-        <!--<init-param>
-            <param-name>jersey.config.servlet.filter.forwardOn404</param-name>
-            <param-value>true</param-value>
-        </init-param>-->
+                            <!--<init-param>
+                                <param-name>jersey.config.servlet.filter.forwardOn404</param-name>
+                                <param-value>true</param-value>
+                            </init-param>-->
     </filter>
     <filter-mapping>
         <filter-name>JerseySpringFilter</filter-name>
         <url-pattern>/library/*</url-pattern>
+                            <!--<dispatcher>REQUEST</dispatcher>
+                            <dispatcher>FORWARD</dispatcher>
+                            <dispatcher>INCLUDE</dispatcher>
+                            <dispatcher>ERROR</dispatcher>-->
     </filter-mapping>
 
-    <!--<filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
-
     <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-
-    <listener>
-        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
     </listener>
 
     <context-param>
@@ -63,15 +69,19 @@
         <param-value>
             classpath:application-context.xml
             classpath:hibernate-context.xml
-            <!--classpath:spring-security.xml-->
+            classpath:spring-security.xml
         </param-value>
     </context-param>
 
-    <session-config>
+    <!--<listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>-->
+
+    <!--<session-config>
         <session-timeout>30</session-timeout>
         <cookie-config>
             <name>SESSIONID</name>
         </cookie-config>
-    </session-config>
+    </session-config>-->
 
 </web-app>

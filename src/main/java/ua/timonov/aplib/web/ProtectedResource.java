@@ -18,21 +18,14 @@ public class ProtectedResource {
     @GET
     @Path("/start")
     @Template(name = "/protected/start.jsp")
-    public Response getProtectedPage() {
+    public Response getStartPage() {
         return Response.ok("Security pages").build();
     }
 
     @GET
-    @Path("/signin")
-    @Template(name = "/protected/signin.jsp")
-    public Response getSignInPage() {
-        return Response.ok("signin").build();
-    }
-
-    @GET
-    @Path("/signin-failure")
-    @Template(name = "/protected/signinFailure.jsp")
-    public Response getSignInFailurePage() {
-        return Response.ok("signinFailure").build();
+    @Path("/protected")
+    @Template(name = "/protected/protected.jsp")
+    public Response getProtectedPage() {
+        return Response.ok("Security pages").build();
     }
 }
