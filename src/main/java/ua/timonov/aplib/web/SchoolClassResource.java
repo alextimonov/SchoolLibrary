@@ -10,8 +10,8 @@ import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.service.EmployeeService;
 import ua.timonov.aplib.service.SchoolClassService;
-import ua.timonov.aplib.service.SchoolbookService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -29,7 +29,6 @@ public class SchoolClassResource {
     public static final int FORBID_TO_DELETE = -2;
     private SchoolClassService schoolClassService;
     private EmployeeService employeeService;
-    private SchoolbookService schoolbookService;
 
     @Autowired
     public void setSchoolClassService(SchoolClassService schoolClassService) {
@@ -39,11 +38,6 @@ public class SchoolClassResource {
     @Autowired
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
-    }
-
-    @Autowired
-    public void setSchoolbookService(SchoolbookService schoolbookService) {
-        this.schoolbookService = schoolbookService;
     }
 
     @GET
@@ -62,13 +56,6 @@ public class SchoolClassResource {
     public Response getSchoolClassById(@PathParam("id") int id) {
         Map<String, Object> map = new HashMap<>();
         SchoolClass schoolClass = schoolClassService.getById(id);
-//        List<BookInClass> booksInClass = schoolClassService.getBooksInClass(schoolClass);
-
-//        map.put("schoolbook", schoolbook);
-//        map.put("residue", residue);
-//        map.put("schoolClasses", schoolClasses);
-
-//        map.put("booksInClass", booksInClass);
         map.put("schoolClass", schoolClass);
         return Response.ok(map).build();
     }
@@ -81,6 +68,7 @@ public class SchoolClassResource {
     }*/
     
     @POST
+    @RolesAllowed("ROLE_ADMIN")
     @ErrorTemplate(name = "/errorMessage.jsp")
     public SchoolClass addSchoolClass(SchoolClass schoolClass) {
         return schoolClassService.add(schoolClass);
@@ -88,6 +76,7 @@ public class SchoolClassResource {
     }
 
     @PUT
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/{id}")
     @ErrorTemplate(name = "/errorMessage.jsp")
     public SchoolClass updateSchoolClass(@PathParam("id") int id, SchoolClass schoolClass) {
@@ -122,6 +111,7 @@ public class SchoolClassResource {
     }
 
     @DELETE
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/{id}")
     @ErrorTemplate(name = "/errorMessage.jsp")
     public SchoolClass deleteSchoolClass(@PathParam("id") int id) {
@@ -129,6 +119,7 @@ public class SchoolClassResource {
     }
 
     @GET
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/addForm")
     @Template(name = "/schoolClassAddForm.jsp")
     public Response formAddSchoolClass() {
@@ -139,6 +130,7 @@ public class SchoolClassResource {
     }
 
     @GET
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/editForm")
     @Template(name = "/schoolClassEditForm.jsp")
     public Response formEditSchoolClass(@QueryParam("id") int id) {
@@ -157,6 +149,7 @@ public class SchoolClassResource {
     }
 
     @GET
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/deleteForm")
     @Template(name = "/schoolClassDeleteForm.jsp")
     public Response formDeleteSchoolClass(@QueryParam("id") int id) {

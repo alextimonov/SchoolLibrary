@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -12,6 +14,9 @@
 <div class="container">
     <header>
         <h3>School library Web application. Employee details</h3>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <h3>You signed in as <sec:authentication property="principal.username"/></h3>
+        </sec:authorize>
     </header>
 
     <nav>
@@ -20,6 +25,19 @@
             <li><a href="/library/employees">Employees</a></li>
             <li><a href="/library/books">Books</a></li>
             <li><a href="/library/classes">Classes</a></li>
+            <li>
+                <sec:authorize access="isAnonymous()">
+                    <a href="/library/protected/login">Sign in</a>
+                </sec:authorize>
+            </li>
+            <li>
+                <sec:authorize access="isAuthenticated()">
+                    <form:form  class="form-horizontal" method="POST" action="/j_spring_security_logout">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-hand-left"></span> Sign out</button>
+                    </form:form>
+                </sec:authorize>
+            </li>
         </ul>
     </nav>
 
@@ -32,9 +50,11 @@
                     <th>Last name</th>
                     <th>Position</th>
                     <th>Class</th>
-                    <th>Add</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <th>Add</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </sec:authorize>
                 </tr>
                 <c:url var="addUrl" value="/library/employees/addForm"/>
                 <c:url var="editUrl" value="/library/employees/editForm?id=${it.employee.id}"/>
@@ -47,9 +67,11 @@
                     <td>
                         <c:if test="${it.schoolClass.course > 0}">${it.schoolClass.course}-${it.schoolClass.letter}</c:if>
                     </td>
-                    <td><a href="${addUrl}">Add</a></td>
-                    <td><a href="${editUrl}">Edit</a></td>
-                    <td><a href="${deleteUrl}">Delete</a></td>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <td><a href="${addUrl}">Add</a></td>
+                        <td><a href="${editUrl}">Edit</a></td>
+                        <td><a href="${deleteUrl}">Delete</a></td>
+                    </sec:authorize>
                 </tr>
             </table>
             <c:if test="${it.schoolClass.course > 0}">
