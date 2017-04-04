@@ -13,6 +13,7 @@
 <div class="container">
     <header>
         <h2>School library Web application. Protected pages</h2>
+        <h3>Hello, <sec:authentication property="principal.username"/>!</h3>
     </header>
 
     <nav>
@@ -21,6 +22,7 @@
             <li><a href="/library/employees">Employees</a></li>
             <li><a href="/library/books">Books</a></li>
             <li><a href="/library/classes">Classes</a></li>
+            <li><a href="/library/protected/protected">Protected</a></li>
         </ul>
     </nav>
 
