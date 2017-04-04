@@ -12,9 +12,10 @@
 		    http://www.springframework.org/schema/beans
 		    http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <sec:global-method-security pre-post-annotations="enabled"/>
+    <sec:global-method-security jsr250-annotations="enabled" secured-annotations="enabled"/>
 
     <sec:http auto-config="true" use-expressions="true">
+        <sec:csrf disabled="true"/>
         <sec:intercept-url pattern="/library/protected/**" access="hasRole('ROLE_ADMIN')"/>
                                                             <!--requires-channel="https"-->
         <sec:intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>

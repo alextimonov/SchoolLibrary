@@ -5,36 +5,38 @@
 
 <html>
 <head>
-    <title>School library</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>School library. Login page</title>
 </head>
 
 <body>
 <div class="container">
     <header>
-        <h2>School library Web application. Protected pages</h2>
+        <h2>School library Web application</h2>
         <h3>Hello, <sec:authentication property="principal.username"/>!</h3>
     </header>
 
     <nav>
         <ul>
-            <li><a href="/index.jsp">Main page</a></li>
             <li><a href="/library/employees">Employees</a></li>
             <li><a href="/library/books">Books</a></li>
             <li><a href="/library/classes">Classes</a></li>
-            <li><a href="/library/protected/protected">Protected</a></li>
+            <li>
+                <sec:authorize access="isAuthenticated()">
+                    <form:form  class="form-horizontal" method="POST" action="/j_spring_security_logout">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-hand-left"></span> Sign out</button>
+                    </form:form>
+                </sec:authorize>
+            </li>
         </ul>
     </nav>
 
     <article>
-        <h2>START SECURITY PAGE</h2>
-        <h3>${it}</h3>
-        <sec:authorize access="isAuthenticated()">
-            <form:form  class="form-horizontal" method="POST" action="/j_spring_security_logout">
-                <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-hand-left"></span> Logout POST</button>
-            </form:form>
-        </sec:authorize>
+        <h3>You signed in to ${it}</h3>
+        <h3>You can add, update & delete items here</h3>
     </article>
 
     <footer>Copyright &copy; Alexey Timonov</footer>

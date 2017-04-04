@@ -2,6 +2,7 @@ package ua.timonov.aplib.web;
 
 import org.glassfish.jersey.server.mvc.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import ua.timonov.aplib.exceptions.ForbidToDeleteException;
 import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.Employee;
@@ -9,6 +10,7 @@ import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.model.Schoolbook;
 import ua.timonov.aplib.service.EmployeeService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -20,7 +22,6 @@ import java.util.Map;
  * REST resource class for Employee
  */
 @Path("/employees")
-
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class EmployeeResource {
@@ -64,23 +65,27 @@ public class EmployeeResource {
     }*/
 
     @POST
+    @RolesAllowed("ROLE_ADMIN")
     public Employee addEmployee(Employee employee) {
         return employeeService.add(employee);
     }
 
     @PUT
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/{id}")
     public Employee updateEmployee(@PathParam("id") int id, Employee employee) {
         return employeeService.update(id, employee);
     }
 
     @DELETE
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/{id}")
     public Employee deleteEmployee(@PathParam("id") int id) {
         return employeeService.delete(id);
     }
 
     @GET
+    @Secured("ROLE_ADMIN")
     @Path("/addForm")
     @Template(name = "/employeeAddForm.jsp")
     public Response formAddEmployee() {
@@ -91,6 +96,7 @@ public class EmployeeResource {
     }
 
     @GET
+    @Secured("ROLE_ADMIN")
     @Path("/editForm")
     @Template(name = "/employeeEditForm.jsp")
     public Response formEditEmployee(@QueryParam("id") int id) {
@@ -110,6 +116,7 @@ public class EmployeeResource {
     }
 
     @GET
+    @Secured("ROLE_ADMIN")
     @Path("/deleteForm")
     @Template(name = "/employeeDeleteForm.jsp")
     public Response formDeleteEmployee(@QueryParam("id") int id) {

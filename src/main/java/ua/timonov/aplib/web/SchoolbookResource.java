@@ -12,6 +12,7 @@ import ua.timonov.aplib.service.EmployeeService;
 import ua.timonov.aplib.service.SchoolClassService;
 import ua.timonov.aplib.service.SchoolbookService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -91,23 +92,27 @@ public class SchoolbookResource {
     }*/
 
     @POST
+    @RolesAllowed("ROLE_ADMIN")
     public Schoolbook addSchoolbook(Schoolbook schoolbook) {
         return schoolbookService.add(schoolbook);
     }
 
     @PUT
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/{id}")
     public Schoolbook updateSchoolbook(@PathParam("id") int id, Schoolbook schoolbook) {
         return schoolbookService.update(id, schoolbook);
     }
 
     @DELETE
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/{id}")
     public Schoolbook deleteSchoolbook(@PathParam("id") int id) {
         return schoolbookService.delete(id);
     }
 
     @GET
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/addForm")
     @Template(name = "/schoolbookAddForm.jsp")
     public Response formAddSchoolbook() {
@@ -118,6 +123,7 @@ public class SchoolbookResource {
     }
 
     @GET
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/editForm")
     @Template(name = "/schoolbookEditForm.jsp")
     public Response formEditSchoolbook(@QueryParam("id") int id) {
@@ -137,6 +143,7 @@ public class SchoolbookResource {
     }
 
     @GET
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/deleteForm")
     @Template(name = "/schoolbookDeleteForm.jsp")
     public Response formDeleteSchoolbook(@QueryParam("id") int id) {
@@ -163,6 +170,7 @@ public class SchoolbookResource {
     }
 
     @GET
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/handoutForm")
     @Template(name = "/schoolbookHandoutForm.jsp")
     public Response formHandoutSchoolbook(@QueryParam("bookId") int id, @QueryParam("classId") int classId,
@@ -190,6 +198,7 @@ public class SchoolbookResource {
     }
 
     @GET
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/returnForm")
     @Template(name = "/schoolbookReturnForm.jsp")
     public Response formReturnSchoolbook(@QueryParam("bookId") int id, @QueryParam("classId") int classId,

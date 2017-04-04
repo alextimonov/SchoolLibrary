@@ -11,6 +11,7 @@ import ua.timonov.aplib.model.SchoolClass;
 import ua.timonov.aplib.service.EmployeeService;
 import ua.timonov.aplib.service.SchoolClassService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -67,6 +68,7 @@ public class SchoolClassResource {
     }*/
     
     @POST
+    @RolesAllowed("ROLE_ADMIN")
     @ErrorTemplate(name = "/errorMessage.jsp")
     public SchoolClass addSchoolClass(SchoolClass schoolClass) {
         return schoolClassService.add(schoolClass);
@@ -74,6 +76,7 @@ public class SchoolClassResource {
     }
 
     @PUT
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/{id}")
     @ErrorTemplate(name = "/errorMessage.jsp")
     public SchoolClass updateSchoolClass(@PathParam("id") int id, SchoolClass schoolClass) {
@@ -108,6 +111,7 @@ public class SchoolClassResource {
     }
 
     @DELETE
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/{id}")
     @ErrorTemplate(name = "/errorMessage.jsp")
     public SchoolClass deleteSchoolClass(@PathParam("id") int id) {
@@ -115,6 +119,7 @@ public class SchoolClassResource {
     }
 
     @GET
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/addForm")
     @Template(name = "/schoolClassAddForm.jsp")
     public Response formAddSchoolClass() {
@@ -125,6 +130,7 @@ public class SchoolClassResource {
     }
 
     @GET
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/editForm")
     @Template(name = "/schoolClassEditForm.jsp")
     public Response formEditSchoolClass(@QueryParam("id") int id) {
@@ -143,6 +149,7 @@ public class SchoolClassResource {
     }
 
     @GET
+    @RolesAllowed("ROLE_ADMIN")
     @Path("/deleteForm")
     @Template(name = "/schoolClassDeleteForm.jsp")
     public Response formDeleteSchoolClass(@QueryParam("id") int id) {

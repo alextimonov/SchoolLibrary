@@ -16,16 +16,9 @@ import javax.ws.rs.core.Response;
 public class ProtectedResource {
 
     @GET
-    @Path("/start")
-    @Template(name = "/protected/start.jsp")
+    @Path("/login")
+    @Template(name = "/protected/loginPage.jsp")
     public Response getStartPage() {
-        return Response.ok("Security pages").build();
-    }
-
-    @GET
-    @Path("/protected")
-    @Template(name = "/protected/protected.jsp")
-    public Response getProtectedPage() {
-        return Response.ok("Security pages").build();
+        return Response.ok("secured pages").build();
     }
 }

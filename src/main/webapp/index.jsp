@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -20,7 +22,19 @@
                 <li><a href="/library/employees">Employees</a></li>
                 <li><a href="/library/books">Books</a></li>
                 <li><a href="/library/classes">Classes</a></li>
-                <li><a href="/library/protected/start">Protected</a></li>
+                <li>
+                    <sec:authorize access="isAnonymous()">
+                        <a href="/library/protected/login">Sign in</a>
+                    </sec:authorize>
+                </li>
+                <li>
+                    <sec:authorize access="isAuthenticated()">
+                        <form:form  class="form-horizontal" method="POST" action="/j_spring_security_logout">
+                            <button class="btn btn-primary" type="submit">
+                                <span class="glyphicon glyphicon-hand-left"></span> Sign out</button>
+                        </form:form>
+                    </sec:authorize>
+                </li>
             </ul>
         </nav>
 
