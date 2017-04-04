@@ -15,6 +15,9 @@
     <div class="container">
         <header>
             <h1>School library Web application</h1>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <h3>You signed in as <sec:authentication property="principal.username"/></h3>
+            </sec:authorize>
         </header>
 
         <nav>
