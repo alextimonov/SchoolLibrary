@@ -2,7 +2,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%--isELIgnored="false"--%>
 <%@ page session="true"%>
 
 <c:url var="loginUrl" value="/j_spring_security_check"/>
@@ -42,8 +41,6 @@
                 </div>
             </div>
         </div>
-
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
         <button class="btn btn-primary" type="submit">
             <span class="glyphicon glyphicon-hand-right"></span> Login</button>

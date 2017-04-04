@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -25,6 +27,12 @@
     <article>
         <h2>START SECURITY PAGE</h2>
         <h3>${it}</h3>
+        <sec:authorize access="isAuthenticated()">
+            <form:form  class="form-horizontal" method="POST" action="/j_spring_security_logout">
+                <button class="btn btn-primary" type="submit">
+                    <span class="glyphicon glyphicon-hand-left"></span> Logout POST</button>
+            </form:form>
+        </sec:authorize>
     </article>
 
     <footer>Copyright &copy; Alexey Timonov</footer>
