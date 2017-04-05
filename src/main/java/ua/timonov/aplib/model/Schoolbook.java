@@ -18,12 +18,14 @@ public class Schoolbook {
         this.id = id;
     }
 
-    public Schoolbook(SchoolbookDto schoolbookDb) {
-        this.id = schoolbookDb.getId();
-        this.name = schoolbookDb.getName();
-        this.course = schoolbookDb.getCourse();
-        this.amountTotal = schoolbookDb.getAmountTotal();
-        this.librarian = new Employee(schoolbookDb.getLibrarian());
+    public Schoolbook(SchoolbookDto schoolbookDto) {
+        this.id = schoolbookDto.getId();
+        this.course = schoolbookDto.getCourse();
+        this.name = schoolbookDto.getName();
+        this.author = schoolbookDto.getAuthor();
+        this.publisher = schoolbookDto.getPublisher();
+        this.amountTotal = schoolbookDto.getAmountTotal();
+        this.librarian = new Employee(schoolbookDto.getLibrarian());
     }
 
     public int getId() {

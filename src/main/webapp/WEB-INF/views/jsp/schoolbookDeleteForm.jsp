@@ -118,6 +118,24 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-2">
+                                        <label class="control-label">Author:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label">${book.author}</label>/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <label class="control-label">Publisher:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label">${book.publisher}</label>/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-2">
                                         <label class="control-label">Amount:</label>
                                     </div>
                                     <div class="col-sm-4">
@@ -139,7 +157,6 @@
                                     <span class="glyphicon glyphicon-trash"></span> Delete schoolbook
                                 </button>
                             </form>
-                            <br>
                         </c:otherwise>
                     </c:choose>
                 </c:otherwise>

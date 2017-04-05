@@ -21,10 +21,16 @@ public class SchoolbookDto {
     private int id;
 
     @Column
+    private int course;
+
+    @Column
     private String name;
 
     @Column
-    private int course;
+    private String author;
+
+    @Column
+    private String publisher;
 
     @Column
     private int amountTotal;
@@ -58,6 +64,22 @@ public class SchoolbookDto {
 
     public void setCourse(int course) {
         this.course = course;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 
     public int getAmountTotal() {

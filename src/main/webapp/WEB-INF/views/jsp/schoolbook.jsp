@@ -34,29 +34,30 @@
             <table class="table table-striped">
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
                     <th>Course</th>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
                     <th>Total</th>
                     <th>Residue</th>
                     <th>Librarian</th>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <th>Add</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </sec:authorize>
                 </tr>
-                <c:url var="addUrl" value="/library/books/addForm"/>
                 <c:url var="editUrl" value="/library/books/editForm?id=${book.id}"/>
                 <c:url var="deleteUrl" value="/library/books/deleteForm?id=${book.id}"/>
                 <tr>
                     <td>${book.id}</td>
-                    <td>${book.name}</td>
                     <td>${book.course}</td>
+                    <td>${book.name}</td>
+                    <td>${book.author}</td>
+                    <td>${book.publisher}</td>
                     <td>${book.amountTotal}</td>
                     <td>${it.residue}</td>
                     <td>${book.librarian.name} ${book.librarian.surname}</td>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <td><a href="${addUrl}">Add</a></td>
                         <td><a href="${editUrl}">Edit</a></td>
                         <td><a href="${deleteUrl}">Delete</a></td>
                     </sec:authorize>
@@ -156,9 +157,10 @@
                     <th>Amount in class</th>
                 </tr>
                 <c:forEach var="bookInClass" items="${it.booksInClass}">
+                    <c:url var="classUrl" value="/library/classes/${bookInClass.schoolClassId}"/>
                     <tr>
                         <td>${bookInClass.schoolClassId}</td>
-                        <td>${bookInClass.schoolClassCourse}-${bookInClass.schoolClassLetter}</td>
+                        <td><a href="${classUrl}">${bookInClass.schoolClassCourse}-${bookInClass.schoolClassLetter}</a></td>
                         <td>${bookInClass.schoolClassTeacherName} ${bookInClass.schoolClassTeacherSurname}</td>
                         <td>${bookInClass.booksNumber}</td>
                     </tr>

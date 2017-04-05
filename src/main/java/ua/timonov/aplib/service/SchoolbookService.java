@@ -51,8 +51,10 @@ public class SchoolbookService {
     public SchoolbookDto getSchoolbookDto(Schoolbook schoolbook) {
         SchoolbookDto schoolbookDto = new SchoolbookDto();
         schoolbookDto.setId(schoolbook.getId());
-        schoolbookDto.setName(schoolbook.getName());
         schoolbookDto.setCourse(schoolbook.getCourse());
+        schoolbookDto.setName(schoolbook.getName());
+        schoolbookDto.setAuthor(schoolbook.getAuthor());
+        schoolbookDto.setPublisher(schoolbook.getPublisher());
         schoolbookDto.setAmountTotal(schoolbook.getAmountTotal());
         int librarianId = schoolbook.getLibrarian().getId();
         EmployeeDto librarian = employeeDao.getEmployeeById(librarianId);
