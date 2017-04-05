@@ -88,6 +88,36 @@
             </table>
 
             <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <form class="form-horizontal" action="/library/books/returnForm" method="GET">
+                    <div class="form-group">
+                        <div class="col-sm-0">
+                            <input class="form-control" name="classId" value="${it.schoolClass.id}" type="hidden"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="control-label" for="bookIdReturn">Return schoolbooks:</label>
+                        </div>
+                        <div class="col-sm-3">
+                            <select id="bookIdReturn" class="form-control" name="bookId">
+                                <option selected disabled hidden>Choose schoolbook:</option>
+                                <c:forEach var="bookInClass" items="${it.schoolClass.booksInClass}">
+                                    <option value="${bookInClass.schoolbook.id}">
+                                            ${bookInClass.schoolbook.course} course, ${bookInClass.schoolbook.name}, author ${bookInClass.schoolbook.author}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="control-label" for="booksAmountReturn">Input amount:</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <input class="form-control" id="booksAmountReturn" type="number" name="booksAmount">
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-primary" type="submit">
+                                <span class="glyphicon glyphicon-triangle-right"></span> Return</button>
+                        </div>
+                    </div>
+                </form>
+
                 <form class="form-horizontal" action="/library/books/handoutForm" method="GET">
                     <div class="form-group">
                         <div class="col-sm-0">
@@ -99,9 +129,9 @@
                         <div class="col-sm-3">
                             <select id="bookId" class="form-control" name="bookId">
                                 <option selected disabled hidden>Choose schoolbook:</option>
-                                <c:forEach var="bookInClass" items="${it.schoolClass.booksInClass}">
-                                    <option value="${bookInClass.schoolbook.id}">
-                                        ${bookInClass.schoolbook.name}</option>
+                                <c:forEach var="schoolbook" items="${it.schoolbooks}">
+                                    <option value="${schoolbook.id}">
+                                        ${schoolbook.course} course, ${schoolbook.name}, author ${schoolbook.author}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -118,37 +148,30 @@
                     </div>
                 </form>
 
-                <form class="form-horizontal" action="/library/books/returnForm" method="GET">
-                    <div class="form-group">
-                        <div class="col-sm-0">
-                            <input class="form-control" name="classId" value="${it.schoolClass.id}" type="hidden"/>
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="control-label" for="bookIdReturn">Return schoolbooks:</label>
-                        </div>
-                        <div class="col-sm-3">
-                            <select id="bookIdReturn" class="form-control" name="bookId">
-                                <option selected disabled hidden>Choose schoolbook:</option>
-                                <c:forEach var="bookInClass" items="${it.schoolClass.booksInClass}">
-                                    <option value="${bookInClass.schoolbook.id}">
-                                            ${bookInClass.schoolbook.name}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="col-sm-2">
-                            <label class="control-label" for="booksAmountReturn">Input amount:</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <input class="form-control" id="booksAmountReturn" type="number" name="booksAmount">
-                        </div>
-                        <div class="col-sm-2">
-                            <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-triangle-right"></span> Return</button>
-                        </div>
+                <form class="form-horizontal" action="/library/classes/${it.schoolClass.id}" method="GET">
+                    <div class="col-sm-3">
+                        <label class="control-label">Book selection for hand out:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <input type="radio" name="booksSelection" value="byCourse"
+                                   <c:if test="${it.booksSelectionAll == false}">checked</c:if> > by course
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <input type="radio" name="booksSelection" value="all"
+                                   <c:if test="${it.booksSelectionAll == true}">checked</c:if> > all
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-triangle-right"></span> Change books for hand out</button>
                     </div>
                 </form>
+                <br>
             </sec:authorize>
-
+            <br>
             <form class="form-inline" action="/library/classes" method="GET">
                 <button class="btn btn-primary" type="submit">
                     <span class="glyphicon glyphicon-triangle-left"></span> Return to classes</button>

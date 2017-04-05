@@ -107,6 +107,15 @@ public class HibernateSchoolbookDao implements SchoolbookDao {
         return query.getResultList();
     }
 
+    @Override
+    @Transactional
+    public List<SchoolbookDto> getSchoolbooksByCourse(int course) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select schoolbook from SchoolbookDto schoolbook where schoolbook.course = :param");
+        query.setParameter("param", course);
+        return query.getResultList();
+    }
+
     @Transactional
     public BookInClassDto returnSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToCollect) {
         BookInClassDto bookInClassDto = bookInClassDao.getByClassAndBook(schoolClassDto, schoolbookDto);

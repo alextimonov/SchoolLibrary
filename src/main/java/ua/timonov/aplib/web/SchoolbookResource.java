@@ -62,16 +62,24 @@ public class SchoolbookResource {
     @GET
     @Path("/{id}")
     @Template(name = "/schoolbook.jsp")
-    public Response getSchoolbookById(@PathParam("id") int id) {
+    public Response getSchoolbookById(@PathParam("id") int id, @QueryParam("classesSelection") String classesSelection) {
         Map<String, Object> map = new HashMap<>();
         Schoolbook schoolbook = schoolbookService.getById(id);
         List<BookInClass> booksInClass = schoolbookService.getBooksInClass(schoolbook);
         int residue = getBookResidue(schoolbook, booksInClass);
-        List<SchoolClass> schoolClasses = schoolClassService.getClassesByCourse(schoolbook.getCourse());
+        List<SchoolClass> schoolClassesByCourse = schoolClassService.getClassesByCourse(schoolbook.getCourse());
+        List<SchoolClass> schoolClassesAll = schoolClassService.getAll();
         map.put("schoolbook", schoolbook);
         map.put("booksInClass", booksInClass);
         map.put("residue", residue);
-        map.put("schoolClasses", schoolClasses);
+        if (classesSelection != null && classesSelection.equals("all")) {
+            map.put("schoolClasses", schoolClassesAll);
+            map.put("classesSelectionAll", true);
+        }
+        else {
+            map.put("schoolClasses", schoolClassesByCourse);
+            map.put("classesSelectionAll", false);
+        }
         return Response.ok(map).build();
     }
 

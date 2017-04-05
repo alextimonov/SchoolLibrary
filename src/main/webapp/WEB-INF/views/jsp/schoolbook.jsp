@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -74,8 +75,8 @@
                         <div class="col-sm-3">
                             <select id="classIdReturn" class="form-control" name="classId">
                                 <option selected disabled hidden>Choose class:</option>
-                                <c:forEach var="schoolClass" items="${it.schoolClasses}">
-                                    <option value="${schoolClass.id}">${schoolClass.course}-${schoolClass.letter}</option>
+                                <c:forEach var="bookInClass" items="${it.booksInClass}">
+                                    <option value="${bookInClass.schoolClassId}">${bookInClass.schoolClassCourse}-${bookInClass.schoolClassLetter}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -100,6 +101,7 @@
                         <div class="col-sm-3">
                             <label class="control-label" for="classId">Hand out schoolbooks:</label>
                         </div>
+
                         <div class="col-sm-3">
                             <select id="classId" class="form-control" name="classId">
                                 <option selected disabled hidden>Choose class:</option>
@@ -120,6 +122,29 @@
                         </div>
                     </div>
                 </form>
+
+                <form class="form-horizontal" action="/library/books/${book.id}" method="GET">
+                    <div class="col-sm-3">
+                        <label class="control-label">Classes selection for hand out:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <input type="radio" name="classesSelection" value="byCourse"
+                                   <c:if test="${it.classesSelectionAll == false}">checked</c:if> > by course
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <input type="radio" name="classesSelection" value="all"
+                               <c:if test="${it.classesSelectionAll == true}">checked</c:if> > all
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-triangle-right"></span> Change classes for hand out</button>
+                    </div>
+                </form>
+                <br>
             </sec:authorize>
 
             <table class="table table-striped">

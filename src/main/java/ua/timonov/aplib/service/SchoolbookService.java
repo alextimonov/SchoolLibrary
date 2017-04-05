@@ -82,6 +82,15 @@ public class SchoolbookService {
     }
 
     @Transactional
+    public List<Schoolbook> getBookByCourse(int course) {
+        List<Schoolbook> schoolbooks = new ArrayList<>();
+        for (SchoolbookDto schoolbookDto : schoolbookDao.getSchoolbooksByCourse(course)) {
+            schoolbooks.add(new Schoolbook(schoolbookDto));
+        }
+        return schoolbooks;
+    }
+
+    @Transactional
     public Schoolbook getById(int id) {
         SchoolbookDto schoolbookDto = schoolbookDao.getById(id);
         return new Schoolbook(schoolbookDto);
