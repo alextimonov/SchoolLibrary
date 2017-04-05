@@ -96,6 +96,7 @@ public class SchoolbookService {
     @Transactional
     public BookInClassDto getBookInClassDto(BookInClass bookInClass) {
         BookInClassDto bookInClassDto = new BookInClassDto();
+        bookInClassDto.setId(bookInClass.getId());
         bookInClassDto.setBooksNumber(bookInClass.getBooksNumber());
         bookInClassDto.setSchoolbook(getSchoolbookDto(bookInClass.getSchoolbook()));
         return bookInClassDto;
@@ -120,10 +121,10 @@ public class SchoolbookService {
     }
 
     @Transactional
-    public BookInClass returnSchoolbooks(SchoolClass schoolClass, Schoolbook schoolbook, int amountToCollect) {
+    public BookInClass returnSchoolbooks(SchoolClass schoolClass, Schoolbook schoolbook, int amountToReturn) {
         SchoolbookDto schoolbookDto = getSchoolbookDto(schoolbook);
         SchoolClassDto schoolClassDto = schoolClassService.getSchoolClassDto(schoolClass);
-        return new BookInClass(bookInClassDao.returnSchoolbooks(schoolClassDto, schoolbookDto, amountToCollect));
+        return new BookInClass(bookInClassDao.returnSchoolbooks(schoolClassDto, schoolbookDto, amountToReturn));
     }
 
     @Transactional
@@ -131,11 +132,6 @@ public class SchoolbookService {
         SchoolbookDto schoolbookDto = getSchoolbookDto(schoolbook);
         SchoolClassDto schoolClassDto = schoolClassService.getSchoolClassDto(schoolClass);
         return new BookInClass(bookInClassDao.getByClassAndBook(schoolClassDto, schoolbookDto));
-    }
-
-    @Transactional
-    public BookInClass deleteBookInClass(SchoolClass schoolClass, Schoolbook schoolbook) {
-        return new BookInClass(bookInClassDao.deleteBookInClass(schoolClass, schoolbook));
     }
 
     @Transactional

@@ -6,6 +6,7 @@ import ua.timonov.aplib.dto.BookInClassDto;
  *
  */
 public class BookInClass {
+    private int id;
     private Schoolbook schoolbook;
     private int schoolClassId;
     private int schoolClassCourse;
@@ -18,6 +19,7 @@ public class BookInClass {
     }
 
     public BookInClass(BookInClassDto bookInClassDto) {
+        this.id = bookInClassDto.getId();
         this.schoolbook = new Schoolbook(bookInClassDto.getSchoolbook());
         this.schoolClassId = bookInClassDto.getSchoolClass().getId();
         this.schoolClassCourse = bookInClassDto.getSchoolClass().getCourse();
@@ -34,6 +36,18 @@ public class BookInClass {
         this.schoolClassLetter = schoolClass.getLetter();
         this.schoolClassTeacherName = schoolClass.getTeacher().getName();
         this.schoolClassTeacherSurname = schoolClass.getTeacher().getSurname();
+    }
+
+    public BookInClass(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Schoolbook getSchoolbook() {

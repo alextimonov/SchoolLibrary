@@ -129,20 +129,13 @@
                     <th>Class</th>
                     <th>Teacher</th>
                     <th>Amount in class</th>
-                    <th>Delete record</th>
                 </tr>
                 <c:forEach var="bookInClass" items="${it.booksInClass}">
                     <tr>
-                        <c:url var="deleteRecordUrl" value="/library/books/${bookInClass.id}/deleteBookInClass"/>
                         <td>${bookInClass.schoolClassId}</td>
                         <td>${bookInClass.schoolClassCourse}-${bookInClass.schoolClassLetter}</td>
                         <td>${bookInClass.schoolClassTeacherName} ${bookInClass.schoolClassTeacherSurname}</td>
                         <td>${bookInClass.booksNumber}</td>
-                        <td>
-                            <c:if test="${bookInClass.booksNumber} > 0">
-                                <a href="${deleteRecordUrl}">Delete</a>
-                            </c:if>
-                        </td>
                     </tr>
                 </c:forEach>
             </table>

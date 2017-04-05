@@ -27,7 +27,7 @@ import java.util.Map;
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class SchoolbookResource {
-    private static final int NO_SCHOOLBOOK_IN_DB = -1;
+    private static final int NO_ITEM_IN_DB = -1;
     public static final int FORBID_TO_DELETE = -2;
     public static final int FORBID_TO_HANDOUT = -1;
     public static final int FORBID_TO_RETURN = -2;
@@ -137,7 +137,7 @@ public class SchoolbookResource {
         catch (NoItemInDatabaseException e) {
             Schoolbook schoolbook = new Schoolbook(id);
             map.put("schoolbook", schoolbook);
-            map.put("errorId", NO_SCHOOLBOOK_IN_DB);
+            map.put("errorId", NO_ITEM_IN_DB);
             return Response.ok(map).build();
         }
     }
@@ -156,7 +156,7 @@ public class SchoolbookResource {
         catch (NoItemInDatabaseException e) {
             Schoolbook schoolbook = new Schoolbook(id);
             map.put("schoolbook", schoolbook);
-            map.put("errorId", NO_SCHOOLBOOK_IN_DB);
+            map.put("errorId", NO_ITEM_IN_DB);
             map.put("errorMessage", e.getMessage());
             return Response.ok(map).build();
         }
@@ -219,44 +219,6 @@ public class SchoolbookResource {
             map.put("amountToReturn", amountToReturn);
             map.put("currentAmount", currentAmount);
             map.put("errorId", FORBID_TO_RETURN);
-            map.put("errorMessage", e.getMessage());
-            return Response.ok(map).build();
-        }
-    }
-
-    @GET
-    @RolesAllowed("ROLE_ADMIN")
-    @Path("/returnForm")
-    @Template(name = "/deleteBookInClass.jsp")
-    public Response deleteBookInClass(@QueryParam("bookId") int id, @QueryParam("classId") int classId,
-                                         @QueryParam("booksAmount") int amountToReturn) {
-        Map<String, Object> map = new HashMap<>();
-        Schoolbook schoolbook = schoolbookService.getById(id);
-        SchoolClass schoolClass = schoolClassService.getById(classId);
-        try {
-            BookInClass bookInClass = schoolbookService.deleteBookInClass(schoolClass, schoolbook);
-            map.put("bookInClass", bookInClass);
-            return Response.ok(map).build();
-        }
-        catch (ForbidToDeleteException e) {
-            map.put("errorId", FORBID_TO_DELETE);
-            map.put("errorMessage", e.getMessage());
-            return Response.ok(map).build();
-        }
-    }
-
-    @GET
-    @RolesAllowed("ROLE_ADMIN")
-    @Path("/${id}/deleteBookInClass")
-    @Template(name = "/deleteBookInClass.jsp")
-    public Response deleteBookInClass(@QueryParam("id") int bookInClassId) {
-        Map<String, Object> map = new HashMap<>();
-        try {
-            BookInClass bookInClass = schoolbookService.deleteBookInClass(bookInClassId);
-            map.put("bookInClass", bookInClass);
-            return Response.ok(map).build();
-        } catch (ForbidToDeleteException e) {
-            map.put("errorId", FORBID_TO_DELETE);
             map.put("errorMessage", e.getMessage());
             return Response.ok(map).build();
         }
