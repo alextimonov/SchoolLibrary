@@ -34,7 +34,7 @@
                         <input name="bookId" value="${it.bookInClass.schoolbook.id}" type="hidden"/>
                         <input name="classId" value="${it.bookInClass.schoolClassId}" type="hidden"/>
                         <input name="booksAmount" value="${it.residue}" type="hidden"/>
-                        <button class="btn btn-primary" type="submit">
+                        <button class="btn btn-primary" type="submit" autofocus>
                             <span class="glyphicon glyphicon-triangle-right"></span> Hand out schoolbooks</button>
                     </form>
                 </c:when>

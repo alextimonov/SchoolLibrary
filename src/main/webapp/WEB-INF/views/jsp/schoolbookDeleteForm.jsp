@@ -135,7 +135,7 @@
                                     </div>
                                 </div>
 
-                                <button id="submit" class="btn btn-primary" type="submit">
+                                <button id="submit" class="btn btn-primary" type="submit" autofocus>
                                     <span class="glyphicon glyphicon-trash"></span> Delete schoolbook
                                 </button>
                             </form>

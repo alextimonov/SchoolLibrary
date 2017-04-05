@@ -83,7 +83,7 @@
                                 <label class="control-label" for="id">ID:</label>
                             </div>
                             <div class="col-sm-4">
-                                <input class="form-control" id="id" name="id" value="${book.id}" disabled="true" type="text"/>
+                                <input class="form-control" id="id" name="id" value="${book.id}" disabled="true" type="text" autofocus/>
                             </div>
                         </div>
 
