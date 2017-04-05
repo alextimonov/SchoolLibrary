@@ -9,6 +9,7 @@ import ua.timonov.aplib.dto.BookInClassDto;
 import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
 import ua.timonov.aplib.exceptions.ForbidToAddException;
+import ua.timonov.aplib.exceptions.ForbidToDeleteException;
 
 import java.util.List;
 
@@ -123,5 +124,27 @@ public class HibernateBookInClassDao implements BookInClassDao {
             amountInClasses += bookInClass.getBooksNumber();
         }
         return amountTotal - amountInClasses;
+    }
+
+    @Override
+    @Transactional
+    public BookInClassDto deleteBookInClass(int bookInClassId) {
+        Session session = sessionFactory.getCurrentSession();
+        BookInClassDto bookInClassDto = getById(bookInClassId);
+        if (bookInClassDto == null) {
+            throw new ForbidToDeleteException("There's no record with id = " + bookInClassId);
+        }
+        if (bookInClassDto.getBooksNumber() > 0) {
+            throw new ForbidToDeleteException("Class " + schoolClassDto.getCourse() + "-" + schoolClassDto.getLetter() +
+                    " has " + bookInClassDto.getBooksNumber() + " books " + schoolbookDto.getName() +
+                    " Record cannot be deleted!");
+        }
+        session.delete(getByClassAndBook(schoolClassDto, schoolbookDto));
+        return bookInClassDto;
+    }
+
+    private BookInClassDto getById(int bookInClassId) {
+        //TODO
+        return null;
     }
 }

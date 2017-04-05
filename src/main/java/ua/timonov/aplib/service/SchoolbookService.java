@@ -132,4 +132,14 @@ public class SchoolbookService {
         SchoolClassDto schoolClassDto = schoolClassService.getSchoolClassDto(schoolClass);
         return new BookInClass(bookInClassDao.getByClassAndBook(schoolClassDto, schoolbookDto));
     }
+
+    @Transactional
+    public BookInClass deleteBookInClass(SchoolClass schoolClass, Schoolbook schoolbook) {
+        return new BookInClass(bookInClassDao.deleteBookInClass(schoolClass, schoolbook));
+    }
+
+    @Transactional
+    public BookInClass deleteBookInClass(int bookInClassId) {
+        return new BookInClass(bookInClassDao.deleteBookInClass(bookInClassId));
+    }
 }

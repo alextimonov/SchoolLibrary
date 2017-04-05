@@ -62,6 +62,7 @@
                             <th>Delete</th>
                         </sec:authorize>
                     </tr>
+                    <c:set var="totalNumber" value="0"/>
                     <c:forEach var="book" items="${it.schoolbooks}">
                         <c:url var="detailsUrl" value="/library/books/${book.id}"/>
                         <c:url var="addUrl" value="/library/books/addForm"/>
@@ -81,7 +82,22 @@
                                 <td><a href="${deleteUrl}">Delete</a></td>
                             </sec:authorize>
                         </tr>
+                        <c:set var="totalNumber" value="${totalNumber + book.amountTotal}"/>
                     </c:forEach>
+                    <tr>
+                        <td></td>
+                        <td>TOTAL</td>
+                        <td></td>
+                        <td>${totalNumber}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </sec:authorize>
+                    </tr>
                 </table>
             </div>
 
