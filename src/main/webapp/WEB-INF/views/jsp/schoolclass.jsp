@@ -45,7 +45,6 @@
     <article>
         <div class="container">
             <table class="table table-striped">
-                <c:url var="addUrl" value="/library/classes/addForm"/>
                 <c:url var="editUrl" value="/library/classes/editForm?id=${it.schoolClass.id}"/>
                 <c:url var="deleteUrl" value="/library/classes/deleteForm?id=${it.schoolClass.id}"/>
                 <tr>
@@ -53,7 +52,6 @@
                     <th>Class</th>
                     <th>Teacher</th>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <th>Add</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </sec:authorize>
@@ -63,7 +61,6 @@
                     <td>${it.schoolClass.course}-${it.schoolClass.letter}</td>
                     <td>${it.schoolClass.teacher.name} ${it.schoolClass.teacher.surname} </td>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <td><a href="${addUrl}">Add</a></td>
                         <td><a href="${editUrl}">Edit</a></td>
                         <td><a href="${deleteUrl}">Delete</a></td>
                     </sec:authorize>
@@ -73,14 +70,19 @@
                 <caption>School books in class:</caption>
                 <tr>
                     <th>ID</th>
-                    <th>School book</th>
+                    <th>Course</th>
+                    <th>Schoolbook</th>
+                    <th>Author</th>
                     <th>Amount in class</th>
                     <th>TOTAL</th>
                 </tr>
                 <c:forEach var="bookInClass" items="${it.schoolClass.booksInClass}">
+                    <c:url var="bookUrl" value="/library/books/${bookInClass.schoolbook.id}"/>
                     <tr>
                         <td>${bookInClass.schoolbook.id}</td>
-                        <td>${bookInClass.schoolbook.name}</td>
+                        <td>${bookInClass.schoolbook.course}</td>
+                        <td><a href="${bookUrl}">${bookInClass.schoolbook.name}</a></td>
+                        <td>${bookInClass.schoolbook.author}</td>
                         <td>${bookInClass.booksNumber}</td>
                         <td>${bookInClass.schoolbook.amountTotal}</td>
                     </tr>

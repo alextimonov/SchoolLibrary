@@ -53,7 +53,6 @@
                         <th>First name</th>
                         <th>Last name</th>
                         <th>Position</th>
-                        <th>Details</th>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <th>Add</th>
                             <th>Edit</th>
@@ -61,16 +60,15 @@
                         </sec:authorize>
                     </tr>
                     <c:forEach var="employee" items="${it.employees}">
-                        <c:url var="detailsUrl" value="/library/employees/${employee.id}"/>
+                        <c:url var="employeeUrl" value="/library/employees/${employee.id}"/>
                         <c:url var="addUrl" value="/library/employees/addForm"/>
                         <c:url var="editUrl" value="/library/employees/editForm?id=${employee.id}"/>
                         <c:url var="deleteUrl" value="/library/employees/deleteForm?id=${employee.id}"/>
                         <tr>
                             <td>${employee.id}</td>
-                            <td>${employee.name}</td>
-                            <td>${employee.surname}</td>
+                            <td><a href="${employeeUrl}">${employee.name}</a></td>
+                            <td><a href="${employeeUrl}">${employee.surname}</a></td>
                             <td>${employee.position}</td>
-                            <td><a href="${detailsUrl}">Details</a></td>
                             <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 <td><a href="${addUrl}">Add</a></td>
                                 <td><a href="${editUrl}">Edit</a></td>

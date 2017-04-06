@@ -51,12 +51,10 @@
                     <th>Position</th>
                     <th>Class</th>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <th>Add</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </sec:authorize>
                 </tr>
-                <c:url var="addUrl" value="/library/employees/addForm"/>
                 <c:url var="editUrl" value="/library/employees/editForm?id=${it.employee.id}"/>
                 <c:url var="deleteUrl" value="/library/employees/deleteForm?id=${it.employee.id}"/>
                 <tr>
@@ -68,7 +66,6 @@
                         <c:if test="${it.schoolClass.course > 0}">${it.schoolClass.course}-${it.schoolClass.letter}</c:if>
                     </td>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <td><a href="${addUrl}">Add</a></td>
                         <td><a href="${editUrl}">Edit</a></td>
                         <td><a href="${deleteUrl}">Delete</a></td>
                     </sec:authorize>
@@ -79,14 +76,19 @@
                     <caption>Books in class</caption>
                     <tr>
                         <th>ID</th>
-                        <th>School book</th>
+                        <th>Course</th>
+                        <th>Schoolbook</th>
+                        <th>Author</th>
                         <th>Amount in class</th>
                         <th>TOTAL</th>
                     </tr>
                     <c:forEach var="bookInClass" items="${it.schoolClass.booksInClass}">
+                        <c:url var="bookUrl" value="/library/books/${bookInClass.schoolbook.id}"/>
                         <tr>
                             <td>${bookInClass.schoolbook.id}</td>
-                            <td>${bookInClass.schoolbook.name}</td>
+                            <td>${bookInClass.schoolbook.course}</td>
+                            <td><a href="${bookUrl}">${bookInClass.schoolbook.name}</a></td>
+                            <td>${bookInClass.schoolbook.author}</td>
                             <td>${bookInClass.booksNumber}</td>
                             <td>${bookInClass.schoolbook.amountTotal}</td>
                         </tr>
@@ -98,19 +100,19 @@
                     <caption>Responsible as librarian for books:</caption>
                     <tr>
                         <th>ID</th>
-                        <th>School book</th>
                         <th>Course</th>
+                        <th>School book</th>
+                        <th>Author</th>
                         <th>Amount</th>
-                        <th>Details</th>
                     </tr>
                     <c:forEach var="book" items="${it.schoolbooks}">
-                        <c:url var="detailsUrl" value="/library/books/${book.id}"/>
+                        <c:url var="bookUrl" value="/library/books/${book.id}"/>
                         <tr>
                             <td>${book.id}</td>
-                            <td>${book.name}</td>
                             <td>${book.course}</td>
+                            <td><a href="${bookUrl}">${book.name}</a></td>
+                            <td>${book.author}</td>
                             <td>${book.amountTotal}</td>
-                            <td><a href="${detailsUrl}">Details</a></td>
                         </tr>
                     </c:forEach>
                 </table>
