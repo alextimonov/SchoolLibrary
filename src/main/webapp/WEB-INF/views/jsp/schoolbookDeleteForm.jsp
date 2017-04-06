@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:set var="NO_ITEM_IN_DB" value="-1"/>
+<c:set var="FORBID_TO_DELETE" value="-2"/>
 
 <html>
 <head>
@@ -72,12 +74,12 @@
     <article>
         <div class="container">
             <c:choose>
-                <c:when test="${it.errorId == -1}">
+                <c:when test="${it.errorId == NO_ITEM_IN_DB}">
                     <h4>${it.errorMessage}</h4>
                 </c:when>
                 <c:otherwise>
                     <c:choose>
-                        <c:when test="${it.errorId == -2}">
+                        <c:when test="${it.errorId == FORBID_TO_DELETE}">
                             <h4>${it.errorMessage}</h4>
                             <form class="form-inline" action="/library/books/${it.schoolbook.id}" method="GET">
                                 <button class="btn btn-primary" type="submit">
@@ -116,6 +118,24 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-2">
+                                        <label class="control-label">Author:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label">${book.author}</label>/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-2">
+                                        <label class="control-label">Publisher:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="control-label">${book.publisher}</label>/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-2">
                                         <label class="control-label">Amount:</label>
                                     </div>
                                     <div class="col-sm-4">
@@ -133,11 +153,10 @@
                                     </div>
                                 </div>
 
-                                <button id="submit" class="btn btn-primary" type="submit">
+                                <button id="submit" class="btn btn-primary" type="submit" autofocus>
                                     <span class="glyphicon glyphicon-trash"></span> Delete schoolbook
                                 </button>
                             </form>
-                            <br>
                         </c:otherwise>
                     </c:choose>
                 </c:otherwise>

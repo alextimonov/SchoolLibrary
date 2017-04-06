@@ -34,7 +34,7 @@
                         <input name="bookId" value="${it.bookInClass.schoolbook.id}" type="hidden"/>
                         <input name="classId" value="${it.bookInClass.schoolClassId}" type="hidden"/>
                         <input name="booksAmount" value="${it.residue}" type="hidden"/>
-                        <button class="btn btn-primary" type="submit">
+                        <button class="btn btn-primary" type="submit" autofocus>
                             <span class="glyphicon glyphicon-triangle-right"></span> Hand out schoolbooks</button>
                     </form>
                 </c:when>
@@ -47,12 +47,12 @@
             <br>
             <form class="form-inline" action="/library/books/${it.bookInClass.schoolbook.id}" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span> Return to schoolbook details</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span> Back to schoolbook details</button>
             </form>
             <br>
             <form class="form-inline" action="/library/classes/${it.bookInClass.schoolClassId}" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span> Return to class details</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span> Back to class details</button>
             </form>
         </div>
     </article>

@@ -14,8 +14,9 @@
         $(document).ready(function() {
             $('#form').submit(function(e) {
                 e.preventDefault();
-                var formData = {"name": $("#name").val(), "course": $("#course").val(),
-                    "amountTotal": $("#amount").val(), "librarian": { "id": $("#librarian").val() } };
+                var formData = {"name": $("#name").val(), "course": $("#course").val(), "author": $("#author").val(),
+                    "publisher": $("#publisher").val(), "amountTotal": $("#amount").val(),
+                    "librarian": { "id": $("#librarian").val() } };
                 $.ajax({
                     url: ctxPath + "/library/books",
                     type: "POST",
@@ -70,7 +71,7 @@
                         <label class="control-label" for="name">Name:</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control" id="name" name="name" type="text"/>
+                        <input class="form-control" id="name" name="name" type="text" autofocus/>
                     </div>
                     <%--<div class="col-sm-4">
                         <label class="label-info">${employeeValidate.nameLabel}</label>
@@ -83,6 +84,24 @@
                     </div>
                     <div class="col-sm-4">
                         <input class="form-control" id="course" name="course" type="text"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <label class="control-label" for="author">Author:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control" id="author" name="author" type="text"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <label class="control-label" for="publisher">Publisher:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control" id="publisher" name="publisher" type="text"/>
                     </div>
                 </div>
 

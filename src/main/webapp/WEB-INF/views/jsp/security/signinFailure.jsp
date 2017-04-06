@@ -23,7 +23,7 @@
     </div>
 
     <form class="form-inline" action="/library/protected/signin" method="GET">
-        <button class="btn btn-primary" type="submit">
+        <button class="btn btn-primary" type="submit" autofocus>
             <span class="glyphicon glyphicon-hand-right"></span> Return to sign in</button>
     </form>
 

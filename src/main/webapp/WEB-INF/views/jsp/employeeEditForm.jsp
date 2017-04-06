@@ -89,7 +89,7 @@
                                 <label class="control-label" for="name">Name:</label>
                             </div>
                             <div class="col-sm-4">
-                                <input class="form-control" id="name" name="name" value="${it.employee.name}" type="text"/>
+                                <input class="form-control" id="name" name="name" value="${it.employee.name}" type="text" autofocus/>
                             </div>
                         </div>
 

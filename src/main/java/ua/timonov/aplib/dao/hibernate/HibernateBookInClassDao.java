@@ -9,6 +9,8 @@ import ua.timonov.aplib.dto.BookInClassDto;
 import ua.timonov.aplib.dto.SchoolClassDto;
 import ua.timonov.aplib.dto.SchoolbookDto;
 import ua.timonov.aplib.exceptions.ForbidToAddException;
+import ua.timonov.aplib.exceptions.ForbidToDeleteException;
+import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 
 import java.util.List;
 
@@ -89,30 +91,43 @@ public class HibernateBookInClassDao implements BookInClassDao {
 
     @Override
     @Transactional
-    public BookInClassDto returnSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToCollect) {
+    public BookInClassDto returnSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToReturn) {
         BookInClassDto bookInClassDto = getByClassAndBook(schoolClassDto, schoolbookDto);
-        int currentAmount = bookInClassDto.getBooksNumber();
-        if (amountToCollect <= currentAmount)
-            return returnChosenBooksAmount(schoolClassDto, schoolbookDto, amountToCollect);
+        if (bookInClassDto != null) {
+            return returnSchoolbooksForExistingBookInClass(bookInClassDto, amountToReturn);
+        }
         else
-            throw new ForbidToAddException(schoolClassDto.getCourse() + "-" + schoolClassDto.getLetter() + " class has only " +
-                    currentAmount + " books while you try to return " + amountToCollect + " books \"" + schoolbookDto.getName() +
-                    "\". Do you agree to return " + currentAmount + " books to library?");
+            throw new NoItemInDatabaseException("There is no books " + schoolbookDto.getName() + " in class " +
+                schoolClassDto.getCourse() + "-" + schoolClassDto.getLetter());
     }
 
     @Transactional
-    private BookInClassDto returnChosenBooksAmount(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToReturn) {
+    private BookInClassDto returnSchoolbooksForExistingBookInClass(BookInClassDto bookInClassDto, int amountToReturn) {
+        int currentAmount = bookInClassDto.getBooksNumber();
+        if (amountToReturn < currentAmount)
+            return returnChosenBooksAmount(bookInClassDto, amountToReturn);
+        if (amountToReturn == currentAmount)
+            return removeBookInClass(bookInClassDto);
+        else
+            throw new ForbidToAddException(bookInClassDto.getSchoolClass().getCourse() + "-" +
+                    bookInClassDto.getSchoolClass().getLetter() + " class has only " +
+                    currentAmount + " books while you try to return " + amountToReturn + " books \"" +
+                    bookInClassDto.getSchoolbook().getName() + "\". Do you agree to return " + currentAmount +
+                    " books to library?");
+    }
+
+    @Transactional
+    private BookInClassDto removeBookInClass(BookInClassDto bookInClassDto) {
+        sessionFactory.getCurrentSession().delete(bookInClassDto);
+        bookInClassDto.setBooksNumber(0);
+        return bookInClassDto;
+    }
+
+    @Transactional
+    private BookInClassDto returnChosenBooksAmount(BookInClassDto bookInClassDto, int amountToReturn) {
         Session session = sessionFactory.getCurrentSession();
-        BookInClassDto bookInClassDto = getByClassAndBook(schoolClassDto, schoolbookDto);
-        if (bookInClassDto != null) {
-            int currentAmount = bookInClassDto.getBooksNumber();
-            bookInClassDto.setBooksNumber(currentAmount - amountToReturn);
+            bookInClassDto.setBooksNumber(bookInClassDto.getBooksNumber() - amountToReturn);
             session.update(bookInClassDto);
-        }
-        else {
-            bookInClassDto = new BookInClassDto(schoolClassDto, schoolbookDto, amountToReturn);
-            session.save(bookInClassDto);
-        }
         return bookInClassDto;
     }
 
@@ -123,5 +138,33 @@ public class HibernateBookInClassDao implements BookInClassDao {
             amountInClasses += bookInClass.getBooksNumber();
         }
         return amountTotal - amountInClasses;
+    }
+
+    // TODO check if unnecessary
+    @Override
+    @Transactional
+    public BookInClassDto deleteBookInClass(int bookInClassId) {
+        Session session = sessionFactory.getCurrentSession();
+        BookInClassDto bookInClassDto = getById(bookInClassId);
+        if (bookInClassDto.getBooksNumber() > 0) {
+            throw new ForbidToDeleteException("Class " + bookInClassDto.getSchoolClass().getCourse() + "-" +
+                    bookInClassDto.getSchoolClass().getLetter() + " has " + bookInClassDto.getBooksNumber() +
+                    " books " + bookInClassDto.getSchoolbook().getName() + ". Record cannot be deleted!");
+        }
+        session.delete(bookInClassDto);
+        return bookInClassDto;
+    }
+
+    // TODO check if unnecessary
+    @Transactional
+    public BookInClassDto getById(int bookInClassId) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select book from BookInClassDto book where book.id = :param");
+        query.setParameter("param", bookInClassId);
+        BookInClassDto bookInClassDto = (BookInClassDto) query.uniqueResult();
+        if (bookInClassDto != null)
+            return bookInClassDto;
+        else
+            throw new NoItemInDatabaseException("There is no record with id = " + bookInClassId + " in database.");
     }
 }

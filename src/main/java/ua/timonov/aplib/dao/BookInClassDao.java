@@ -21,4 +21,10 @@ public interface BookInClassDao {
     BookInClassDto handoutSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToHandout);
 
     BookInClassDto returnSchoolbooks(SchoolClassDto schoolClassDto, SchoolbookDto schoolbookDto, int amountToCollect);
+
+    // TODO check if unnecessary
+    BookInClassDto deleteBookInClass(int bookInClassId);
+
+    // TODO check if unnecessary
+    BookInClassDto getById(int bookInClassId);
 }

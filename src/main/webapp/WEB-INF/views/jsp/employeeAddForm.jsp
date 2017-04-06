@@ -68,7 +68,7 @@
                         <label class="control-label" for="name">Name:</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control" id="name" name="name" type="text"/>
+                        <input class="form-control" id="name" name="name" type="text" autofocus/>
                     </div>
                     <%--<div class="col-sm-4">
                         <label class="label-info">${employeeValidate.nameLabel}</label>

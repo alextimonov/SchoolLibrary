@@ -14,7 +14,6 @@ public class SchoolClass {
     private int course;
     private char letter;
     private Employee teacher;
-    private int pupilsNumber;
     private List<BookInClass> booksInClass = new ArrayList<>();
 
     public SchoolClass() {
@@ -43,14 +42,6 @@ public class SchoolClass {
 
     public void setBooksInClass(List<BookInClass> booksInClass) {
         this.booksInClass = booksInClass;
-    }
-
-    public int getPupilsNumber() {
-        return pupilsNumber;
-    }
-
-    public void setPupilsNumber(int pupilsNumber) {
-        this.pupilsNumber = pupilsNumber;
     }
 
     public int getId() {
@@ -92,7 +83,6 @@ public class SchoolClass {
                 ", course=" + course +
                 ", letter=" + letter +
                 ", teacher=" + teacher +
-                ", pupilsNumber=" + pupilsNumber +
                 '}';
     }
 
@@ -105,7 +95,6 @@ public class SchoolClass {
 
         if (course != that.course) return false;
         if (letter != that.letter) return false;
-        if (pupilsNumber != that.pupilsNumber) return false;
         if (teacher != null ? !teacher.equals(that.teacher) : that.teacher != null) return false;
         return booksInClass != null ? booksInClass.equals(that.booksInClass) : that.booksInClass == null;
 
@@ -116,7 +105,6 @@ public class SchoolClass {
         int result = course;
         result = 31 * result + (int) letter;
         result = 31 * result + (teacher != null ? teacher.hashCode() : 0);
-        result = 31 * result + pupilsNumber;
         result = 31 * result + (booksInClass != null ? booksInClass.hashCode() : 0);
         return result;
     }

@@ -79,7 +79,7 @@
                                 <label class="control-label" for="course">Course:</label>
                             </div>
                             <div class="col-sm-4">
-                                <input class="form-control" id="course" name="course" value="${schoolClass.course}" type="text"/>
+                                <input class="form-control" id="course" name="course" value="${schoolClass.course}" type="text" autofocus/>
                             </div>
                         </div>
 

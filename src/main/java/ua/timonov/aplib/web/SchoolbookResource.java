@@ -27,7 +27,7 @@ import java.util.Map;
 @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_HTML})
 public class SchoolbookResource {
-    private static final int NO_SCHOOLBOOK_IN_DB = -1;
+    private static final int NO_ITEM_IN_DB = -1;
     public static final int FORBID_TO_DELETE = -2;
     public static final int FORBID_TO_HANDOUT = -1;
     public static final int FORBID_TO_RETURN = -2;
@@ -62,16 +62,24 @@ public class SchoolbookResource {
     @GET
     @Path("/{id}")
     @Template(name = "/schoolbook.jsp")
-    public Response getSchoolbookById(@PathParam("id") int id) {
+    public Response getSchoolbookById(@PathParam("id") int id, @QueryParam("classesSelection") String classesSelection) {
         Map<String, Object> map = new HashMap<>();
         Schoolbook schoolbook = schoolbookService.getById(id);
         List<BookInClass> booksInClass = schoolbookService.getBooksInClass(schoolbook);
         int residue = getBookResidue(schoolbook, booksInClass);
-        List<SchoolClass> schoolClasses = schoolClassService.getClassesByCourse(schoolbook.getCourse());
+        List<SchoolClass> schoolClassesByCourse = schoolClassService.getClassesByCourse(schoolbook.getCourse());
+        List<SchoolClass> schoolClassesAll = schoolClassService.getAll();
         map.put("schoolbook", schoolbook);
         map.put("booksInClass", booksInClass);
         map.put("residue", residue);
-        map.put("schoolClasses", schoolClasses);
+        if (classesSelection != null && classesSelection.equals("all")) {
+            map.put("schoolClasses", schoolClassesAll);
+            map.put("classesSelectionAll", true);
+        }
+        else {
+            map.put("schoolClasses", schoolClassesByCourse);
+            map.put("classesSelectionAll", false);
+        }
         return Response.ok(map).build();
     }
 
@@ -137,7 +145,7 @@ public class SchoolbookResource {
         catch (NoItemInDatabaseException e) {
             Schoolbook schoolbook = new Schoolbook(id);
             map.put("schoolbook", schoolbook);
-            map.put("errorId", NO_SCHOOLBOOK_IN_DB);
+            map.put("errorId", NO_ITEM_IN_DB);
             return Response.ok(map).build();
         }
     }
@@ -156,7 +164,7 @@ public class SchoolbookResource {
         catch (NoItemInDatabaseException e) {
             Schoolbook schoolbook = new Schoolbook(id);
             map.put("schoolbook", schoolbook);
-            map.put("errorId", NO_SCHOOLBOOK_IN_DB);
+            map.put("errorId", NO_ITEM_IN_DB);
             map.put("errorMessage", e.getMessage());
             return Response.ok(map).build();
         }

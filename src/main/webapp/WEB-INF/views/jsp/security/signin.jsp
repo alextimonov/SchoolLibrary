@@ -27,7 +27,7 @@
                     <label for="j_username">Username: </label>
                 </div>
                 <div class="col-sm-4">
-                    <input class="form-control" id="j_username" name="j_username" type="text" placeholder="Enter username"/>
+                    <input class="form-control" id="j_username" name="j_username" type="text" placeholder="Enter username" autofocus/>
                 </div>
             </div>
 

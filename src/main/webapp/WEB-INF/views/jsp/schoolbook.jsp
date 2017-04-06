@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -33,29 +34,30 @@
             <table class="table table-striped">
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
                     <th>Course</th>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
                     <th>Total</th>
                     <th>Residue</th>
                     <th>Librarian</th>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <th>Add</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </sec:authorize>
                 </tr>
-                <c:url var="addUrl" value="/library/books/addForm"/>
                 <c:url var="editUrl" value="/library/books/editForm?id=${book.id}"/>
                 <c:url var="deleteUrl" value="/library/books/deleteForm?id=${book.id}"/>
                 <tr>
                     <td>${book.id}</td>
-                    <td>${book.name}</td>
                     <td>${book.course}</td>
+                    <td>${book.name}</td>
+                    <td>${book.author}</td>
+                    <td>${book.publisher}</td>
                     <td>${book.amountTotal}</td>
                     <td>${it.residue}</td>
                     <td>${book.librarian.name} ${book.librarian.surname}</td>
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <td><a href="${addUrl}">Add</a></td>
                         <td><a href="${editUrl}">Edit</a></td>
                         <td><a href="${deleteUrl}">Delete</a></td>
                     </sec:authorize>
@@ -74,8 +76,8 @@
                         <div class="col-sm-3">
                             <select id="classIdReturn" class="form-control" name="classId">
                                 <option selected disabled hidden>Choose class:</option>
-                                <c:forEach var="schoolClass" items="${it.schoolClasses}">
-                                    <option value="${schoolClass.id}">${schoolClass.course}-${schoolClass.letter}</option>
+                                <c:forEach var="bookInClass" items="${it.booksInClass}">
+                                    <option value="${bookInClass.schoolClassId}">${bookInClass.schoolClassCourse}-${bookInClass.schoolClassLetter}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -100,6 +102,7 @@
                         <div class="col-sm-3">
                             <label class="control-label" for="classId">Hand out schoolbooks:</label>
                         </div>
+
                         <div class="col-sm-3">
                             <select id="classId" class="form-control" name="classId">
                                 <option selected disabled hidden>Choose class:</option>
@@ -120,6 +123,29 @@
                         </div>
                     </div>
                 </form>
+
+                <form class="form-horizontal" action="/library/books/${book.id}" method="GET">
+                    <div class="col-sm-3">
+                        <label class="control-label">Classes selection for hand out:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <input type="radio" name="classesSelection" value="byCourse"
+                                   <c:if test="${it.classesSelectionAll == false}">checked</c:if> > by course
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <input type="radio" name="classesSelection" value="all"
+                               <c:if test="${it.classesSelectionAll == true}">checked</c:if> > all
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary" type="submit">
+                            <span class="glyphicon glyphicon-triangle-right"></span> Change classes for hand out</button>
+                    </div>
+                </form>
+                <br>
             </sec:authorize>
 
             <table class="table table-striped">
@@ -131,9 +157,10 @@
                     <th>Amount in class</th>
                 </tr>
                 <c:forEach var="bookInClass" items="${it.booksInClass}">
+                    <c:url var="classUrl" value="/library/classes/${bookInClass.schoolClassId}"/>
                     <tr>
                         <td>${bookInClass.schoolClassId}</td>
-                        <td>${bookInClass.schoolClassCourse}-${bookInClass.schoolClassLetter}</td>
+                        <td><a href="${classUrl}">${bookInClass.schoolClassCourse}-${bookInClass.schoolClassLetter}</a></td>
                         <td>${bookInClass.schoolClassTeacherName} ${bookInClass.schoolClassTeacherSurname}</td>
                         <td>${bookInClass.booksNumber}</td>
                     </tr>

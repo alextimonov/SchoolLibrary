@@ -19,8 +19,10 @@ CREATE TABLE IF NOT EXISTS EMPLOYEE(
 
 CREATE TABLE IF NOT EXISTS BOOK(
   id INT PRIMARY KEY NOT NULL DEFAULT nextval('book_id'),
-  name VARCHAR(40) NOT NULL,
   course INT,
+  name VARCHAR(40) NOT NULL,
+  author VARCHAR(40),
+  publisher VARCHAR(30),
   amountTotal INT,
   employee_id INT NOT NULL REFERENCES EMPLOYEE(id)
 );

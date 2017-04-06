@@ -50,38 +50,54 @@
                 <table class="table table-striped">
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
                         <th>Course</th>
+                        <th>Name</th>
+                        <th>Author</th>
                         <th>Amount</th>
                         <th>Responsible</th>
                         <th>Employee</th>
-                        <th>Details</th>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <th>Add</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </sec:authorize>
                     </tr>
+                    <c:set var="totalNumber" value="0"/>
                     <c:forEach var="book" items="${it.schoolbooks}">
-                        <c:url var="detailsUrl" value="/library/books/${book.id}"/>
+                        <c:url var="bookUrl" value="/library/books/${book.id}"/>
                         <c:url var="addUrl" value="/library/books/addForm"/>
                         <c:url var="editUrl" value="/library/books/editForm?id=${book.id}"/>
                         <c:url var="deleteUrl" value="/library/books/deleteForm?id=${book.id}"/>
                         <tr>
                             <td>${book.id}</td>
-                            <td>${book.name}</td>
                             <td>${book.course}</td>
+                            <td><a href="${bookUrl}">${book.name}</a></td>
+                            <td>${book.author}</td>
                             <td>${book.amountTotal}</td>
                             <td>${book.librarian.position}</td>
                             <td>${book.librarian.name} ${book.librarian.surname} </td>
-                            <td><a href="${detailsUrl}">Details</a></td>
                             <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 <td><a href="${addUrl}">Add</a></td>
                                 <td><a href="${editUrl}">Edit</a></td>
                                 <td><a href="${deleteUrl}">Delete</a></td>
                             </sec:authorize>
                         </tr>
+                        <c:set var="totalNumber" value="${totalNumber + book.amountTotal}"/>
                     </c:forEach>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>TOTAL</td>
+                        <td></td>
+                        <td>${totalNumber}</td>
+                        <td></td>
+                        <td></td>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </sec:authorize>
+                    </tr>
                 </table>
             </div>
 

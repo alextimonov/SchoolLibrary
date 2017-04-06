@@ -52,7 +52,6 @@
                         <th>ID</th>
                         <th>Class</th>
                         <th>Teacher</th>
-                        <th>Details</th>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <th>Add</th>
                             <th>Edit</th>
@@ -60,15 +59,15 @@
                         </sec:authorize>
                     </tr>
                     <c:forEach var="schoolClass" items="${it.schoolClasses}">
-                        <c:url var="detailsUrl" value="/library/classes/${schoolClass.id}"/>
+                        <c:url var="classUrl" value="/library/classes/${schoolClass.id}"/>
+                        <c:url var="employeeUrl" value="/library/employees/${schoolClass.teacher.id}"/>
                         <c:url var="addUrl" value="/library/classes/addForm"/>
                         <c:url var="editUrl" value="/library/classes/editForm?id=${schoolClass.id}"/>
                         <c:url var="deleteUrl" value="/library/classes/deleteForm?id=${schoolClass.id}"/>
                         <tr>
                             <td>${schoolClass.id}</td>
-                            <td>${schoolClass.course}-${schoolClass.letter}</td>
-                            <td>${schoolClass.teacher.name} ${schoolClass.teacher.surname} </td>
-                            <td><a href="${detailsUrl}">Details</a></td>
+                            <td><a href="${classUrl}">${schoolClass.course}-${schoolClass.letter}</a></td>
+                            <td><a href="${employeeUrl}">${schoolClass.teacher.name} ${schoolClass.teacher.surname}</a></td>
                             <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 <td><a href="${addUrl}">Add</a></td>
                                 <td><a href="${editUrl}">Edit</a></td>

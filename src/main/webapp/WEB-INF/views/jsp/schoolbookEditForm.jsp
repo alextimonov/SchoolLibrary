@@ -16,7 +16,8 @@
                 e.preventDefault();
                 var id = $("#id").val();
                 var formData = {"id": id, "name": $("#name").val(), "course": $("#course").val(),
-                    "amountTotal": $("#amount").val(), "librarian": { "id": $("#librarian").val() } };
+                    "author": $("#author").val(), "publisher": $("#publisher").val(), "amountTotal": $("#amount").val(),
+                    "librarian": { "id": $("#librarian").val() } };
                 $.ajax({
                     url: ctxPath + "/library/books/" + id,
                     type: "PUT",
@@ -83,7 +84,7 @@
                                 <label class="control-label" for="id">ID:</label>
                             </div>
                             <div class="col-sm-4">
-                                <input class="form-control" id="id" name="id" value="${book.id}" disabled="true" type="text"/>
+                                <input class="form-control" id="id" name="id" value="${book.id}" disabled="true" type="text" autofocus/>
                             </div>
                         </div>
 
@@ -102,6 +103,24 @@
                             </div>
                             <div class="col-sm-4">
                                 <input class="form-control" id="course" name="course" value="${book.course}" type="text"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="author">Author:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="author" name="author" value="${book.author}" type="text"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label" for="publisher">Publisher:</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="publisher" name="publisher" value="${book.publisher}" type="text"/>
                             </div>
                         </div>
 

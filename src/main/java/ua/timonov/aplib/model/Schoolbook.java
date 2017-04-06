@@ -4,8 +4,10 @@ import ua.timonov.aplib.dto.SchoolbookDto;
 
 public class Schoolbook {
     private int id;
-    private String name;
     private int course;
+    private String name;
+    private String author;
+    private String publisher;
     private int amountTotal;
     private Employee librarian;
 
@@ -16,12 +18,14 @@ public class Schoolbook {
         this.id = id;
     }
 
-    public Schoolbook(SchoolbookDto schoolbookDb) {
-        this.id = schoolbookDb.getId();
-        this.name = schoolbookDb.getName();
-        this.course = schoolbookDb.getCourse();
-        this.amountTotal = schoolbookDb.getAmountTotal();
-        this.librarian = new Employee(schoolbookDb.getLibrarian());
+    public Schoolbook(SchoolbookDto schoolbookDto) {
+        this.id = schoolbookDto.getId();
+        this.course = schoolbookDto.getCourse();
+        this.name = schoolbookDto.getName();
+        this.author = schoolbookDto.getAuthor();
+        this.publisher = schoolbookDto.getPublisher();
+        this.amountTotal = schoolbookDto.getAmountTotal();
+        this.librarian = new Employee(schoolbookDto.getLibrarian());
     }
 
     public int getId() {
@@ -46,6 +50,22 @@ public class Schoolbook {
 
     public void setCourse(int course) {
         this.course = course;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 
     public int getAmountTotal() {

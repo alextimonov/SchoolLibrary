@@ -8,14 +8,17 @@ import ua.timonov.aplib.exceptions.ForbidToDeleteException;
 import ua.timonov.aplib.exceptions.NoItemInDatabaseException;
 import ua.timonov.aplib.model.Employee;
 import ua.timonov.aplib.model.SchoolClass;
+import ua.timonov.aplib.model.Schoolbook;
 import ua.timonov.aplib.service.EmployeeService;
 import ua.timonov.aplib.service.SchoolClassService;
+import ua.timonov.aplib.service.SchoolbookService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +32,7 @@ public class SchoolClassResource {
     public static final int FORBID_TO_DELETE = -2;
     private SchoolClassService schoolClassService;
     private EmployeeService employeeService;
+    private SchoolbookService schoolbookService;
 
     @Autowired
     public void setSchoolClassService(SchoolClassService schoolClassService) {
@@ -38,6 +42,11 @@ public class SchoolClassResource {
     @Autowired
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
+    }
+
+    @Autowired
+    public void setSchoolbookService(SchoolbookService schoolbookService) {
+        this.schoolbookService = schoolbookService;
     }
 
     @GET
@@ -53,10 +62,20 @@ public class SchoolClassResource {
     @GET
     @Path("/{id}")
     @Template(name = "/schoolclass.jsp")
-    public Response getSchoolClassById(@PathParam("id") int id) {
+    public Response getSchoolClassById(@PathParam("id") int id, @QueryParam("booksSelection") String booksSelection) {
         Map<String, Object> map = new HashMap<>();
         SchoolClass schoolClass = schoolClassService.getById(id);
+        List<Schoolbook> schoolbooksByCourse = schoolbookService.getBookByCourse(schoolClass.getCourse());
+        List<Schoolbook> schoolbooksAll = schoolbookService.getAll();
         map.put("schoolClass", schoolClass);
+        if (booksSelection != null && booksSelection.equals("all")) {
+            map.put("schoolbooks", schoolbooksAll);
+            map.put("booksSelectionAll", true);
+        }
+        else {
+            map.put("schoolbooks", schoolbooksByCourse);
+            map.put("booksSelectionAll", false);
+        }
         return Response.ok(map).build();
     }
 
