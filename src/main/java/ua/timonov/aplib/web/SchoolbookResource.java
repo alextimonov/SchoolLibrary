@@ -66,7 +66,7 @@ public class SchoolbookResource {
         Map<String, Object> map = new HashMap<>();
         Schoolbook schoolbook = schoolbookService.getById(id);
         List<BookInClass> booksInClass = schoolbookService.getBooksInClass(schoolbook);
-        int residue = getBookResidue(schoolbook, booksInClass);
+        int residue = getBookBalance(schoolbook, booksInClass);
         List<SchoolClass> schoolClassesByCourse = schoolClassService.getClassesByCourse(schoolbook.getCourse());
         List<SchoolClass> schoolClassesAll = schoolClassService.getAll();
         map.put("schoolbook", schoolbook);
@@ -83,7 +83,7 @@ public class SchoolbookResource {
         return Response.ok(map).build();
     }
 
-    private int getBookResidue(Schoolbook schoolbook, List<BookInClass> booksInClass) {
+    private int getBookBalance(Schoolbook schoolbook, List<BookInClass> booksInClass) {
         int amountTotal = schoolbook.getAmountTotal();
         int amountInClasses = 0;
         for (BookInClass bookInClass : booksInClass) {
@@ -146,6 +146,7 @@ public class SchoolbookResource {
             Schoolbook schoolbook = new Schoolbook(id);
             map.put("schoolbook", schoolbook);
             map.put("errorId", NO_ITEM_IN_DB);
+            map.put("errorMessage", e.getMessage());
             return Response.ok(map).build();
         }
     }
@@ -194,11 +195,11 @@ public class SchoolbookResource {
         }
         catch (ForbidToAddException e) {
             List<BookInClass> booksInClass = schoolbookService.getBooksInClass(schoolbook);
-            int residue = getBookResidue(schoolbook, booksInClass);
+            int balance = getBookBalance(schoolbook, booksInClass);
             BookInClass bookInClass = new BookInClass(schoolbook, schoolClass);
             map.put("bookInClass", bookInClass);
             map.put("amountToHandout", amountToHandout);
-            map.put("residue", residue);
+            map.put("balance", balance);
             map.put("errorId", FORBID_TO_HANDOUT);
             map.put("errorMessage", e.getMessage());
             return Response.ok(map).build();
