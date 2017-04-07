@@ -58,7 +58,6 @@
         </form>
         <div class="container">
             <div class="table">
-                <h3><fmt:message key="link.employees"/>:</h3>
                 <table class="table table-striped">
                     <tr>
                         <th><fmt:message key="allPages.id"/></th>
