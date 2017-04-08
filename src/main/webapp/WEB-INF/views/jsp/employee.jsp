@@ -92,7 +92,7 @@
                         <th><fmt:message key="schoolbook.name"/></th>
                         <th><fmt:message key="schoolbook.author"/></th>
                         <th><fmt:message key="schoolbook.amount"/></th>
-                        <th><fmt:message key="schoolbook.total"/></th>
+                        <th><fmt:message key="schoolbook.total.upperCase"/></th>
                     </tr>
                     <c:forEach var="bookInClass" items="${it.schoolClass.booksInClass}">
                         <c:url var="bookUrl" value="/library/books/${bookInClass.schoolbook.id}"/>
@@ -109,7 +109,7 @@
             </c:if>
             <c:if test="${!empty it.schoolbooks}">
                 <table class="table table-striped">
-                    <caption><fmt:message key="schoolbook.responsible"/>:</caption>
+                    <caption><fmt:message key="allPages.booksInClass"/>:</caption>
                     <tr>
                         <th><fmt:message key="allPages.id"/></th>
                         <th><fmt:message key="schoolbook.course"/></th>

@@ -164,23 +164,23 @@
 
                 <form class="form-horizontal" action="/library/classes/${it.schoolClass.id}" method="GET">
                     <div class="col-sm-3">
-                        <label class="control-label"><fmt:message key="class.selection"/>:</label>
+                        <label class="control-label"><fmt:message key="schoolbook.selection"/>:</label>
                     </div>
                     <div class="col-sm-2">
                         <label>
                             <input type="radio" name="booksSelection" value="byCourse"
-                                   <c:if test="${it.booksSelectionAll == false}">checked</c:if> > <fmt:message key="allPages.byCourse"/>
+                                   <c:if test="${it.booksSelectionAll == false}">checked</c:if> > <fmt:message key="schoolbook.byCourse"/>
                         </label>
                     </div>
                     <div class="col-sm-2">
                         <label>
                             <input type="radio" name="booksSelection" value="all"
-                                   <c:if test="${it.booksSelectionAll == true}">checked</c:if> > <fmt:message key="allPages.allСourses"/>
+                                   <c:if test="${it.booksSelectionAll == true}">checked</c:if> > <fmt:message key="schoolbook.allСourses"/>
                         </label>
                     </div>
                     <div class="col-sm-2">
                         <button class="btn btn-primary" type="submit">
-                            <span class="glyphicon glyphicon-triangle-right"></span> <fmt:message key="class.changeSelection"/></button>
+                            <span class="glyphicon glyphicon-triangle-right"></span> <fmt:message key="schoolbook.changeSelection"/></button>
                     </div>
                 </form>
                 <br>

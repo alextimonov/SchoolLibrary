@@ -132,6 +132,7 @@
                     </c:choose>
                 </c:otherwise>
             </c:choose>
+            <br>
             <form class="form-inline" action="/library/classes" method="GET">
                 <button class="btn btn-primary" type="submit">
                     <span class="glyphicon glyphicon-triangle-left"></span> <fmt:message key="link.back.classes"/></button>

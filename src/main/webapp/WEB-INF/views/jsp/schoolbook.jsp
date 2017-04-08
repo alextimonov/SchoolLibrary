@@ -157,18 +157,18 @@
                     <div class="col-sm-2">
                         <label>
                             <input type="radio" name="classesSelection" value="byCourse"
-                                   <c:if test="${it.classesSelectionAll == false}">checked</c:if> > <fmt:message key="allPages.byCourse"/>
+                                   <c:if test="${it.classesSelectionAll == false}">checked</c:if> > <fmt:message key="class.byCourse"/>
                         </label>
                     </div>
                     <div class="col-sm-2">
                         <label>
                             <input type="radio" name="classesSelection" value="all"
-                               <c:if test="${it.classesSelectionAll == true}">checked</c:if> > <fmt:message key="allPages.allСourses"/>
+                               <c:if test="${it.classesSelectionAll == true}">checked</c:if> > <fmt:message key="class.allСourses"/>
                         </label>
                     </div>
                     <div class="col-sm-2">
                         <button class="btn btn-primary" type="submit">
-                            <span class="glyphicon glyphicon-triangle-right"></span> <fmt:message key="allPages.allСourses"/></button>
+                            <span class="glyphicon glyphicon-triangle-right"></span> <fmt:message key="class.changeSelection"/></button>
                     </div>
                 </form>
                 <br>
