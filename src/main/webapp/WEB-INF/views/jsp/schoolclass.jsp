@@ -49,6 +49,12 @@
     </nav>
 
     <article>
+        <form>
+            <select id="language" name="language" onchange="submit()">
+                <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+                <option value="ua" ${language == 'ua' ? 'selected' : ''}>Ukrainian</option>
+            </select>
+        </form>
         <div class="container">
             <table class="table table-striped">
                 <c:url var="editUrl" value="/library/classes/editForm?id=${it.schoolClass.id}"/>

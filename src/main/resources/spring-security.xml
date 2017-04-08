@@ -23,7 +23,7 @@
                         login-processing-url="/j_spring_security_check"
                         username-parameter="j_username"
                         password-parameter="j_password"
-                        default-target-url="/library/protected"
+                        default-target-url="/library/protected/login"
                         authentication-failure-url="/library/security/signin-failure"/>
         <sec:logout logout-url="/j_spring_security_logout" logout-success-url="/"/>
         <!--delete-cookies="JSESSIONID"-->

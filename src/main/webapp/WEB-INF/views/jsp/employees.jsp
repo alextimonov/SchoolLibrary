@@ -143,7 +143,6 @@
     </article>
 
     <footer>Copyright &copy; Alexey Timonov</footer>
-
 </div>
 </body>
 </html>
