@@ -1,10 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<html>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="messages"/>
+
+<html lang="${language}">
 <head>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/index.css">
@@ -15,28 +20,30 @@
 
 <div class="container">
     <header>
-        <h3>School library Web application. School classes page</h3>
+        <h3><fmt:message key="allPages.header"/></h3>
+        <h3><fmt:message key="page.classes.header"/></h3>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
-            <h3>You signed in as <sec:authentication property="principal.username"/></h3>
+            <h3><fmt:message key="allPages.signedin"/> <sec:authentication property="principal.username"/></h3>
         </sec:authorize>
+
     </header>
 
     <nav>
         <ul>
-            <li><a href="/index.jsp">Main page</a></li>
-            <li><a href="/library/employees">Employees</a></li>
-            <li><a href="/library/books">Books</a></li>
-            <li><a href="/library/classes">Classes</a></li>
+            <li><a href="/index.jsp"><fmt:message key="link.mainPage"/></a></li>
+            <li><a href="/library/employees"><fmt:message key="link.employees"/></a></li>
+            <li><a href="/library/books"><fmt:message key="link.books"/></a></li>
+            <li><a href="/library/classes"><fmt:message key="link.classes"/></a></li>
             <li>
                 <sec:authorize access="isAnonymous()">
-                    <a href="/library/protected/login">Sign in</a>
+                    <a href="/library/protected/login"><fmt:message key="link.signin"/></a>
                 </sec:authorize>
             </li>
             <li>
                 <sec:authorize access="isAuthenticated()">
                     <form:form  class="form-horizontal" method="POST" action="/j_spring_security_logout">
                         <button class="btn btn-primary" type="submit">
-                            <span class="glyphicon glyphicon-hand-left"></span> Sign out</button>
+                            <span class="glyphicon glyphicon-hand-left"></span> <fmt:message key="link.signout"/></button>
                     </form:form>
                 </sec:authorize>
             </li>
@@ -44,18 +51,23 @@
     </nav>
 
     <article>
+        <form>
+            <select id="language" name="language" onchange="submit()">
+                <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+                <option value="ua" ${language == 'ua' ? 'selected' : ''}>Ukrainian</option>
+            </select>
+        </form>
         <div class="container">
             <div class="table">
-                <h3>${it.message}</h3>
                 <table class="table table-striped">
                     <tr>
-                        <th>ID</th>
-                        <th>Class</th>
-                        <th>Teacher</th>
+                        <th><fmt:message key="allPages.id"/></th>
+                        <th><fmt:message key="allPages.class"/></th>
+                        <th><fmt:message key="class.teacher"/></th>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
-                            <th>Add</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th><fmt:message key="allPages.add"/></th>
+                            <th><fmt:message key="allPages.edit"/></th>
+                            <th><fmt:message key="allPages.delete"/></th>
                         </sec:authorize>
                     </tr>
                     <c:forEach var="schoolClass" items="${it.schoolClasses}">
@@ -69,9 +81,9 @@
                             <td><a href="${classUrl}">${schoolClass.course}-${schoolClass.letter}</a></td>
                             <td><a href="${employeeUrl}">${schoolClass.teacher.name} ${schoolClass.teacher.surname}</a></td>
                             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                <td><a href="${addUrl}">Add</a></td>
-                                <td><a href="${editUrl}">Edit</a></td>
-                                <td><a href="${deleteUrl}">Delete</a></td>
+                                <td><a href="${addUrl}"><fmt:message key="allPages.add"/></a></td>
+                                <td><a href="${editUrl}"><fmt:message key="allPages.edit"/></a></td>
+                                <td><a href="${deleteUrl}"><fmt:message key="allPages.delete"/></a></td>
                             </sec:authorize>
                         </tr>
                     </c:forEach>
@@ -83,13 +95,13 @@
                     <form class="form-horizontal" action="/library/classes/addForm" method="GET">
                         <div class="form-group">
                             <div class="col-sm-5">
-                                <label class="control-label"> Add new class:</label>
+                                <label class="control-label"> <fmt:message key="class.add.new"/>:</label>
                             </div>
                             <div class="col-sm-4">
                             </div>
                             <div class="col-sm-3">
                                 <button class="btn btn-primary" type="submit">
-                                    <span class="glyphicon glyphicon-plus-sign"></span> Add new class</button>
+                                    <span class="glyphicon glyphicon-plus-sign"></span> <fmt:message key="class.add.new"/></button>
                             </div>
                         </div>
                     </form>
@@ -97,14 +109,14 @@
                     <form class="form-horizontal" action="/library/classes/editForm" method="GET">
                         <div class="form-group">
                             <div class="col-sm-5">
-                                <label class="control-label">Edit class. Input ID:</label>
+                                <label class="control-label"><fmt:message key="class.editById"/>:</label>
                             </div>
                             <div class="col-sm-4">
                                 <input class="form-control" type="number" name="id" title="id">
                             </div>
                             <div class="col-sm-2">
                                 <button class="btn btn-primary" type="submit">
-                                    <span class="glyphicon glyphicon-edit"></span> Edit by id</button>
+                                    <span class="glyphicon glyphicon-edit"></span> <fmt:message key="class.editById"/></button>
                             </div>
                         </div>
                     </form>
@@ -112,14 +124,14 @@
                     <form class="form-horizontal" action="/library/classes/deleteForm" method="GET">
                         <div class="form-group">
                             <div class="col-sm-5">
-                                <label class="control-label">Delete class. Input ID:</label>
+                                <label class="control-label"><fmt:message key="class.deleteById"/>:</label>
                             </div>
                             <div class="col-sm-4">
                                 <input class="form-control" type="number" name="id" title="id">
                             </div>
                             <div class="col-sm-2">
                                 <button class="btn btn-primary" type="submit">
-                                    <span class="glyphicon glyphicon-trash"></span> Delete by id</button>
+                                    <span class="glyphicon glyphicon-trash"></span> <fmt:message key="class.deleteById"/></button>
                             </div>
                         </div>
                     </form>

@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="messages"/>
+
 <c:set var="NO_ITEM_IN_DB" value="-1"/>
 <c:set var="FORBID_TO_DELETE" value="-2"/>
 
-<html>
+<html lang="${language}">
 <head>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/index.css">
@@ -58,16 +65,16 @@
 <body>
 <div class="container">
     <header>
-        <h1>School library Web application</h1>
-        <h3>Are you sure to delete schoolbook:</h3>
+        <h3><fmt:message key="allPages.header"/></h3>
+        <h3><fmt:message key="schoolbook.deleting"/></h3>
     </header>
 
     <nav>
         <ul>
-            <li><a href="/index.jsp">Main page</a></li>
-            <li><a href="/library/employees">Employees</a></li>
-            <li><a href="/library/books">Books</a></li>
-            <li><a href="/library/classes">Classes</a></li>
+            <li><a href="/index.jsp"><fmt:message key="link.mainPage"/></a></li>
+            <li><a href="/library/employees"><fmt:message key="link.employees"/></a></li>
+            <li><a href="/library/books"><fmt:message key="link.books"/></a></li>
+            <li><a href="/library/classes"><fmt:message key="link.classes"/></a></li>
         </ul>
     </nav>
 
@@ -83,7 +90,7 @@
                             <h4>${it.errorMessage}</h4>
                             <form class="form-inline" action="/library/books/${it.schoolbook.id}" method="GET">
                                 <button class="btn btn-primary" type="submit">
-                                    <span class="glyphicon glyphicon-triangle-right"></span> Schoolbook details</button>
+                                    <span class="glyphicon glyphicon-triangle-right"></span> <fmt:message key="link.book"/></button>
                             </form>
                         </c:when>
                         <c:otherwise>
@@ -91,7 +98,7 @@
                             <form id="form" class="form-horizontal" action="/library/books">
                                 <div class="form-group">
                                     <div class="col-sm-2">
-                                        <label class="control-label">ID:</label>
+                                        <label class="control-label"><fmt:message key="allPages.id"/>:</label>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="control-label">${book.id}</label>
@@ -100,7 +107,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-2">
-                                        <label class="control-label">Name:</label>
+                                        <label class="control-label"><fmt:message key="schoolbook.name"/>:</label>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="control-label">${book.name}</label>
@@ -109,7 +116,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-2">
-                                        <label class="control-label">Course:</label>
+                                        <label class="control-label"><fmt:message key="schoolbook.courseOfLearning"/>:</label>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="control-label">${book.course}</label>
@@ -118,25 +125,25 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-2">
-                                        <label class="control-label">Author:</label>
+                                        <label class="control-label"><fmt:message key="schoolbook.author"/>:</label>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label class="control-label">${book.author}</label>/>
+                                        <label class="control-label">${book.author}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-2">
-                                        <label class="control-label">Publisher:</label>
+                                        <label class="control-label"><fmt:message key="schoolbook.publisher"/>:</label>
                                     </div>
                                     <div class="col-sm-4">
-                                        <label class="control-label">${book.publisher}</label>/>
+                                        <label class="control-label">${book.publisher}</label>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-2">
-                                        <label class="control-label">Amount:</label>
+                                        <label class="control-label"><fmt:message key="schoolbook.amount"/>:</label>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="control-label">${book.amountTotal}</label>
@@ -145,7 +152,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-2">
-                                        <label class="control-label">Responsible:</label>
+                                        <label class="control-label"><fmt:message key="schoolbook.librarian"/>:</label>
                                     </div>
                                     <div class="col-sm-9">
                                         <label class="control-label">${book.librarian.position}
@@ -154,7 +161,7 @@
                                 </div>
 
                                 <button id="submit" class="btn btn-primary" type="submit" autofocus>
-                                    <span class="glyphicon glyphicon-trash"></span> Delete schoolbook
+                                    <span class="glyphicon glyphicon-trash"></span> <fmt:message key="schoolbook.delete"/>
                                 </button>
                             </form>
                         </c:otherwise>
@@ -164,7 +171,7 @@
             <br>
             <form class="form-inline" action="/library/books" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span> Return to schoolbooks</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span> <fmt:message key="link.back.books"/></button>
             </form>
         </div>
     </article>

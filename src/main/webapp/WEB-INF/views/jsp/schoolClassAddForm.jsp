@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<html>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="messages"/>
+
+<html lang="${language}">
 <head>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/index.css">
@@ -38,16 +43,16 @@
 <body>
 <div class="container">
     <header>
-        <h1>School library Web application</h1>
-        <h3>Create new class:</h3>
+        <h3><fmt:message key="allPages.header"/></h3>
+        <h3><fmt:message key="class.adding"/></h3>
     </header>
 
     <nav>
         <ul>
-            <li><a href="/index.jsp">Main page</a></li>
-            <li><a href="/library/employees">Employees</a></li>
-            <li><a href="/library/books">Books</a></li>
-            <li><a href="/library/classes">Classes</a></li>
+            <li><a href="/index.jsp"><fmt:message key="link.mainPage"/></a></li>
+            <li><a href="/library/employees"><fmt:message key="link.employees"/></a></li>
+            <li><a href="/library/books"><fmt:message key="link.books"/></a></li>
+            <li><a href="/library/classes"><fmt:message key="link.classes"/></a></li>
         </ul>
     </nav>
 
@@ -56,7 +61,7 @@
             <form id="form" class="form-horizontal" method="POST" action="/library/classes">
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label class="control-label" for="course">Course:</label>
+                        <label class="control-label" for="course"><fmt:message key="class.course"/>:</label>
                     </div>
                     <div class="col-sm-4">
                         <input class="form-control" id="course" name="course" type="text" autofocus/>
@@ -65,7 +70,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label class="control-label" for="letter">Letter:</label>
+                        <label class="control-label" for="letter"><fmt:message key="class.letter"/>:</label>
                     </div>
                     <div class="col-sm-4">
                         <input class="form-control" id="letter" name="letter" type="text"/>
@@ -74,11 +79,11 @@
 
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <label class="control-label" for="teacher">Teacher:</label>
+                        <label class="control-label" for="teacher"><fmt:message key="class.teacher"/>:</label>
                     </div>
                     <div class="col-sm-4">
                         <select id="teacher" name="teacher" class="form-control">
-                            <option selected disabled hidden>Choose from employees:</option>
+                            <option selected disabled hidden><fmt:message key="class.chooseEmployee"/>:</option>
                             <c:forEach var="employee" items="${it.teachers}">
                                 <option value=${employee.id}>${employee.position} ${employee.name} ${employee.surname}
                                 </option>
@@ -88,14 +93,14 @@
                 </div>
 
                 <button id="submit" class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-floppy-disk"></span> Save new class
+                    <span class="glyphicon glyphicon-floppy-disk"></span> <fmt:message key="class.saveNew"/>
                 </button>
             </form>
             <br>
 
             <form class="form-inline" action="/library/classes" method="GET">
                 <button class="btn btn-primary" type="submit">
-                    <span class="glyphicon glyphicon-triangle-left"></span> Return to school classes</button>
+                    <span class="glyphicon glyphicon-triangle-left"></span> <fmt:message key="link.back.classes"/></button>
             </form>
         </div>
     </article>

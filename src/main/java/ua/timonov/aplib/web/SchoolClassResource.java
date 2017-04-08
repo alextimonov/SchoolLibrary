@@ -163,6 +163,8 @@ public class SchoolClassResource {
         catch (NoItemInDatabaseException e) {
             SchoolClass schoolClass = new SchoolClass(id);
             map.put("schoolClass", schoolClass);
+            map.put("errorMessage", e.getMessage());
+            map.put("errorId",  NO_SCHOOLCLASS_IN_DB);
             return Response.ok(map).build();
         }
     }

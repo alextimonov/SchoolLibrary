@@ -111,6 +111,7 @@ public class EmployeeResource {
             Employee employee = new Employee(id);
             map.put("employee", employee);
             map.put("errorId", NO_EMPLOYEE_IN_DB);
+            map.put("errorMessage", e.getMessage());
             return Response.ok(map).build();
         }
     }
